@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<packageId>annoprofi.AnimaTech</packageId>
+	<name>Anima Tech</name>
+	<author>ANNOProfi</author>
+	<supportedVersions>
+		<li>1.4</li>
+	</supportedVersions>
+
+	<modDependencies>
+		<!-- <li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+			<downloadUrl>https://steamcommunity.com/workshop/filedetails/?id=2009463077</downloadUrl>
+			<steamWorkshopUrl>https://steamcommunity.com/workshop/filedetails/?id=2009463077</steamWorkshopUrl>
+		</li> -->
+		<!--<li>
+			<packageId>Ludeon.RimWorld.Ideology</packageId>
+			<displayName>Ideology</displayName>
+		</li>-->
+		<!--<li>
+			<packageId>Ludeon.RimWorld.Biotech</packageId>
+			<displayName>Biotech</displayName>
+		</li>-->
+		<li>
+			<packageId>Ludeon.RimWorld.Royalty</packageId>
+			<displayName>Royalty</displayName>
+		</li>
+	</modDependencies>
+
+	<incompatibleWith>
+		<!-- <li>arvkus.template</li> -->
+	</incompatibleWith>
+
+	<description>Template</description>
+</ModMetaData>
