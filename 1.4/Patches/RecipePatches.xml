@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationInsert">
+        <xpath>//recipeUsers/li[text()="FueledSmithy"]</xpath>
+        <order>Append</order>
+        <value>
+            <li>AT_RunicSmithy</li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationInsert">
+        <xpath>//fixedBillGiverDefs/li[text()="FueledSmithy"]</xpath>
+        <order>Append</order>
+        <value>
+            <li>AT_RunicSmithy</li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationInsert">
+        <xpath>//recipeUsers/li[text()="FueledStove"]</xpath>
+        <order>Append</order>
+        <value>
+            <li>AT_RunicStove</li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationInsert">
+        <xpath>//fixedBillGiverDefs/li[text()="FueledStove"]</xpath>
+        <order>Append</order>
+        <value>
+            <li>AT_RunicStove</li>
+        </value>
+    </Operation>
+</Patch>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+    <RecipeDef>
+        <defName>AT_CrystalizeAnimaShardSmall</defName>
+        <label>crystalize anima shard</label>
+        <description>Concentrate the local psychic forces to crystallize into a shard. Inefficient without proper tools.</description>
+        <jobString>Crystalizing anima shard.</jobString>
+        <workAmount>10000</workAmount>
+        <workSpeedStat>PsychicSensitivity</workSpeedStat>
+        <effectWorking>Smelt</effectWorking>
+        <soundWorking>Recipe_Smelt</soundWorking>
+        <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+        <products>
+            <AT_AnimaShard>1</AT_AnimaShard>
+        </products>
+        <workSkill>Intellectual</workSkill>
+        <skillRequirements>
+            <Intellectual>2</Intellectual>
+        </skillRequirements>
+        <recipeUsers>
+            <li>CraftingSpot</li>
+        </recipeUsers>
+    </RecipeDef>
+
+    <RecipeDef>
+        <defName>AT_CrystalizeAnimaShard</defName>
+        <label>crystalize anima shard</label>
+        <description>Concentrate the local psychic forces to crystallize into a shard.</description>
+        <jobString>Crystalizing anima shard.</jobString>
+        <workAmount>10000</workAmount>
+        <workSpeedStat>PsychicSensitivity</workSpeedStat>
+        <effectWorking>Smelt</effectWorking>
+        <soundWorking>Recipe_Smelt</soundWorking>
+        <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+        <products>
+            <AT_AnimaShard>3</AT_AnimaShard>
+        </products>
+        <workSkill>Intellectual</workSkill>
+        <skillRequirements>
+            <Intellectual>5</Intellectual>
+        </skillRequirements>
+        <recipeUsers>
+            <li>AT_TableCrystalShaper</li>
+        </recipeUsers>
+    </RecipeDef>
+</Defs>

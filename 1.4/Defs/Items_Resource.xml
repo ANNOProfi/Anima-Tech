@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+    <ThingDef ParentName="ResourceBase">
+        <defName>AT_AnimaShard</defName>
+        <label>anima shard</label>
+        <description>A piece of crystalised psychic power, this malleable rock can serve to power psychically gifted individuals, or their constructs.
+Known by many names, it is found on as many worlds, yet it always remains in limited supply, as those in power jealously guard both their stores of these shards and the secrets of their creation.</description>
+        <graphicData>
+            <texPath>Things/Item/Resource/Jade</texPath>
+            <graphicClass>Graphic_StackCount</graphicClass>
+        </graphicData>
+        <stackLimit>25</stackLimit>
+        <healthAffectsPrice>false</healthAffectsPrice>
+        <soundInteract>ChunkRock_Drop</soundInteract>
+        <soundDrop>ChunkRock_Drop</soundDrop>
+        <statBases>
+            <MaxHitPoints>50</MaxHitPoints>
+            <MarketValue>167</MarketValue>
+            <RoyalFavorValue>0.25</RoyalFavorValue>
+            <Mass>0.02</Mass>
+            <Flammability>0.4</Flammability>
+            <DeteriorationRate>1.0</DeteriorationRate>
+          </statBases>
+        <thingCategories>
+            <li>Manufactured</li>
+        </thingCategories>
+        <thingSetMakerTags>
+            <li>RewardStandardHighFreq</li>
+        </thingSetMakerTags>
+        <allowedArchonexusCount>25</allowedArchonexusCount>
+    </ThingDef>
+</Defs>
