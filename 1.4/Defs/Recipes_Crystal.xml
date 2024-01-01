@@ -10,7 +10,7 @@
         <workSpeedStat>PsychicSensitivity</workSpeedStat>
         <effectWorking>Smelt</effectWorking>
         <soundWorking>Recipe_Smelt</soundWorking>
-        <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+        <unfinishedThingDef>AT_UnfinishedShard</unfinishedThingDef>
         <products>
             <AT_AnimaShard>1</AT_AnimaShard>
         </products>
@@ -32,7 +32,7 @@
         <workSpeedStat>PsychicSensitivity</workSpeedStat>
         <effectWorking>Smelt</effectWorking>
         <soundWorking>Recipe_Smelt</soundWorking>
-        <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+        <unfinishedThingDef>AT_UnfinishedShard</unfinishedThingDef>
         <products>
             <AT_AnimaShard>3</AT_AnimaShard>
         </products>

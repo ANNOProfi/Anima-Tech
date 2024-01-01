@@ -30,4 +30,21 @@ Known by many names, it is found on as many worlds, yet it always remains in lim
         </thingSetMakerTags>
         <allowedArchonexusCount>25</allowedArchonexusCount>
     </ThingDef>
+
+    <ThingDef ParentName="UnfinishedBase">
+        <defName>AT_UnfinishedShard</defName>
+        <label>unfinished anima shard</label>
+        <description>An unfinished anima shard.</description>
+        <statBases>
+            <Flammability>0.4</Flammability>
+        </statBases>
+        <graphicData>
+            <texPath>Things/Item/Unfinished/UnfinishedComponent</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <stuffCategories Inherit="false" />
+        <comps Inherit="false">
+            <li Class="CompProperties_Forbiddable"/>
+        </comps>
+    </ThingDef>
 </Defs>
