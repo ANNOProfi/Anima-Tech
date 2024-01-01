@@ -10,7 +10,6 @@ namespace AnimaTech
     {
         public static Toil FinalizePsychicRefueling(TargetIndex refuelableInd)
         {
-            //Log.Message("Final Toil");
             Toil toil = ToilMaker.MakeToil("FinalizePsychicRefueling");
             toil.initAction = delegate
             {
@@ -18,7 +17,7 @@ namespace AnimaTech
 
                 Thing thing = curJob.GetTarget(refuelableInd).Thing;
 
-                float amount = thing.TryGetComp<CompRefuelable>().GetFuelCountToFullyRefuel()/thing.TryGetComp<CompRefuelable>().Props.FuelMultiplierCurrentDifficulty;
+                float amount = thing.TryGetComp<CompRefuelable>().GetFuelCountToFullyRefuel() / thing.TryGetComp<CompRefuelable>().Props.FuelMultiplierCurrentDifficulty;
 
                 if(toil.actor.CurJob.placedThings.NullOrEmpty())
                 {

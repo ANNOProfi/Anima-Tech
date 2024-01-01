@@ -28,27 +28,29 @@ namespace AnimaTech
         {
             float adjustedAmount = amount * refuelComp.Props.FuelMultiplierCurrentDifficulty;
 
-            if((pawn.psychicEntropy.CurrentPsyfocus * 100) >= adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(adjustedAmount*NeuralHeatFactor))
+            float psyfocus = pawn.psychicEntropy.CurrentPsyfocus;
+
+            if((psyfocus * 100) >= adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(adjustedAmount * NeuralHeatFactor))
             {
                 refuelComp.Refuel(amount);
-                pawn.psychicEntropy.OffsetPsyfocusDirectly(-((adjustedAmount))/100);
-                pawn.psychicEntropy.TryAddEntropy(adjustedAmount*NeuralHeatFactor);
+                pawn.psychicEntropy.OffsetPsyfocusDirectly(-(adjustedAmount) / 100);
+                pawn.psychicEntropy.TryAddEntropy(adjustedAmount * NeuralHeatFactor);
             }
-            else if((pawn.psychicEntropy.CurrentPsyfocus * 100) < adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(pawn.psychicEntropy.CurrentPsyfocus*NeuralHeatFactor))
+            else if((psyfocus * 100) < adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(pawn.psychicEntropy.CurrentPsyfocus * NeuralHeatFactor))
             {
-                refuelComp.Refuel(pawn.psychicEntropy.CurrentPsyfocus * 100);
-                pawn.psychicEntropy.OffsetPsyfocusDirectly(-pawn.psychicEntropy.CurrentPsyfocus);
-                pawn.psychicEntropy.TryAddEntropy((pawn.psychicEntropy.CurrentPsyfocus * 100)*NeuralHeatFactor);
+                refuelComp.Refuel(psyfocus * 100);
+                pawn.psychicEntropy.OffsetPsyfocusDirectly(-psyfocus);
+                pawn.psychicEntropy.TryAddEntropy((psyfocus * 100)*NeuralHeatFactor);
             }
             else
             {
                 for(int i=1; i<adjustedAmount; i++)
                 {
-                    if(!pawn.psychicEntropy.WouldOverflowEntropy(i*NeuralHeatFactor))
+                    if(!pawn.psychicEntropy.WouldOverflowEntropy(i * NeuralHeatFactor))
                     {
                         refuelComp.Refuel(i);
-                        pawn.psychicEntropy.OffsetPsyfocusDirectly(-i/100);
-                        pawn.psychicEntropy.TryAddEntropy(i*NeuralHeatFactor);
+                        pawn.psychicEntropy.OffsetPsyfocusDirectly(-i / 100);
+                        pawn.psychicEntropy.TryAddEntropy(i * NeuralHeatFactor);
                     }
                 }
             }

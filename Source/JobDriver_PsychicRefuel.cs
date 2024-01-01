@@ -22,7 +22,6 @@ namespace AnimaTech
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            //Log.Message("Making Toils");
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 
             AddEndCondition(() => (!RefuelableComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
@@ -35,10 +34,9 @@ namespace AnimaTech
             });
 
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-            yield return Toils_General.Wait(240).FailOnDestroyedNullOrForbidden(TargetIndex.A)
+            yield return Toils_General.Wait(RefuelingDuration).FailOnDestroyedNullOrForbidden(TargetIndex.A)
                 .FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch)
                 .WithProgressBarToilDelay(TargetIndex.A);
-            //Log.Message("Making final Toil");
             yield return Toils_PsychicRefuel.FinalizePsychicRefueling(TargetIndex.A);
         }
     }

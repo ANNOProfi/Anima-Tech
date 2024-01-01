@@ -63,13 +63,12 @@ namespace AnimaTech
 
         public static Job RefuelJob(Thing target, JobDef customRefuelJob = null)
         {
-            //Log.Message("Making new Job");
             return JobMaker.MakeJob(customRefuelJob ?? AT_DefOf.PsychicRefuel, target);
         }
 
         private static bool HasEnoughPsyfocus(Pawn pawn, Thing t)
         {
-            if(pawn.psychicEntropy.CurrentPsyfocus >= t.TryGetComp<CompPsychicFuel>().MinimumFuel)
+            if(pawn.psychicEntropy.CurrentPsyfocus >= t.TryGetComp<CompPsychicFuel>().MinimumFuel + 0.1)
             {
                 return true;
             }
