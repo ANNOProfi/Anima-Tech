@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+    <JobDef>
+        <defName>PsychicRefuel</defName>
+        <driverClass>AnimaTech.JobDriver_PsychicRefuel</driverClass>
+        <reportString>imbuing TargetA.</reportString>
+        <suspendable>false</suspendable>
+        <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+    </JobDef>
+</Defs>
