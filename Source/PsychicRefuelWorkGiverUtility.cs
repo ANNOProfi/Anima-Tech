@@ -11,7 +11,6 @@ namespace AnimaTech
     {
         public static bool CanRefuel(Pawn pawn, Thing t, bool forced = false)
         {
-            Log.Message("Checking for FailReasons");
             CompRefuelable compRefuelable = t.TryGetComp<CompRefuelable>();
 
             if(!pawn.HasPsylink)

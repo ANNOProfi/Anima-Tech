@@ -15,7 +15,7 @@ namespace AnimaTech
 
         public virtual bool CanRefuelThing(Thing t)
         {
-            return !(t is Building_Turret);
+            return !(t is Building_Turret) || t.TryGetComp<CompPsychicFuel> != null;
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
