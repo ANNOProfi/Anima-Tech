@@ -53,25 +53,37 @@
     </building>
     <tickerType>Normal</tickerType>
     <comps>
-      <li Class="CompProperties_Refuelable">
-        <fuelConsumptionRate>40.0</fuelConsumptionRate>
-        <fuelCapacity>10.0</fuelCapacity>
-        <fuelFilter>
-          <thingDefs>
-            <li>AT_AnimaShard</li>
-          </thingDefs>
-        </fuelFilter>
-        <initialFuelPercent>0.5</initialFuelPercent>
-        <autoRefuelPercent>0.25</autoRefuelPercent>
+      <li Class="CompProperties_UsesMeditationFocus"/>
+      <li Class="CompProperties_MeditationFocus">
+				<statDef>MeditationFocusStrength</statDef>
+				<focusTypes>
+					<li>Dignified</li>
+					<li>Natural</li>
+					<li>Artistic</li>
+					<li>Morbid</li>
+					<li>Minimal</li>
+					<li>Flame</li>
+				</focusTypes>
+			</li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="AnimaTech.CompProperties_PsychicStorage">
+        <minimumFueledThreshold>0.5</minimumFueledThreshold>
+        <fuelIconPath>Things/Item/Resource/Jade</fuelIconPath>
+      </li>
+      <li Class="CompProperties_AssignableToPawn">
+				<drawAssignmentOverlay>false</drawAssignmentOverlay>
+				<maxAssignedPawnsCount>10</maxAssignedPawnsCount>
+				<compClass>AnimaTech.CompAssignableToPawn_PsychicStorage</compClass>
+			</li>
+      <li Class="AnimaTech.CompProperties_PsychicFuel">
         <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
-        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <fuelConsumptionRate>1.0</fuelConsumptionRate>
       </li>
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>
           <li>ToolCabinet</li>
         </linkableFacilities>
       </li>
-      <li Class="AnimaTech.CompProperties_PsychicFuel"/>
     </comps>
     <placeWorkers>
       <li>PlaceWorker_ShowFacilitiesConnections</li>
@@ -113,6 +125,7 @@
       <WorkToBuild>2000</WorkToBuild>
       <MaxHitPoints>180</MaxHitPoints>
       <Flammability>1.0</Flammability>
+      <MeditationFocusStrength>2.0</MeditationFocusStrength>
     </statBases>
     <size>(3,1)</size>
     <designationCategory>Production</designationCategory>
@@ -148,33 +161,47 @@
       <li>ITab_Bills</li>
     </inspectorTabs>
     <comps>
-      <li Class="CompProperties_Refuelable">
-        <fuelConsumptionRate>80.0</fuelConsumptionRate>
-        <fuelCapacity>10.0</fuelCapacity>
-        <fuelFilter>
-          <thingDefs>
-            <li>AT_AnimaShard</li>
-          </thingDefs>
-        </fuelFilter>
-        <initialFuelPercent>0.5</initialFuelPercent>
-        <autoRefuelPercent>0.25</autoRefuelPercent>
-        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
-        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
-      </li>
       <li Class="CompProperties_HeatPusher">
         <compClass>CompHeatPusherPowered</compClass>
         <heatPerSecond>4</heatPerSecond>
       </li>
-      <li Class="AnimaTech.CompProperties_PsychicFuel"/>
+      <li Class="CompProperties_UsesMeditationFocus"/>
+      <li Class="CompProperties_MeditationFocus">
+				<statDef>MeditationFocusStrength</statDef>
+				<focusTypes>
+					<li>Dignified</li>
+					<li>Natural</li>
+					<li>Artistic</li>
+					<li>Morbid</li>
+					<li>Minimal</li>
+					<li>Flame</li>
+				</focusTypes>
+			</li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="AnimaTech.CompProperties_PsychicStorage">
+        <minimumFueledThreshold>0.5</minimumFueledThreshold>
+        <fuelIconPath>Things/Item/Resource/Jade</fuelIconPath>
+      </li>
+      <li Class="CompProperties_AssignableToPawn">
+				<drawAssignmentOverlay>false</drawAssignmentOverlay>
+				<maxAssignedPawnsCount>10</maxAssignedPawnsCount>
+				<compClass>AnimaTech.CompAssignableToPawn_PsychicStorage</compClass>
+			</li>
+      <li Class="AnimaTech.CompProperties_PsychicFuel">
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelConsumptionRate>1.0</fuelConsumptionRate>
+      </li>
     </comps>
     <placeWorkers>
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_MeditationSpot</li>
     </placeWorkers>
     <building>
       <isMealSource>true</isMealSource>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
       <heatPerTickWhileWorking>0.10</heatPerTickWhileWorking>
     </building>
+    <tickerType>Normal</tickerType>
   </ThingDef>
 
   <ThingDef ParentName="BenchBase">

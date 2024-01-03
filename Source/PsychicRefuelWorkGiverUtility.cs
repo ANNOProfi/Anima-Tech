@@ -7,7 +7,7 @@ using Verse.AI;
 
 namespace AnimaTech
 {
-    public static class PsychicRefuelWorkGiverUtility
+    /*public static class PsychicRefuelWorkGiverUtility
     {
         public static bool CanRefuel(Pawn pawn, Thing t, bool forced = false)
         {
@@ -74,5 +74,5 @@ namespace AnimaTech
 
             return false;
         }
-    }
+    }*/
 }

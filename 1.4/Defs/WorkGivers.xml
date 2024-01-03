@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-    <WorkGiverDef>
+    <!--<WorkGiverDef>
       <defName>PsychicRefuel</defName>
       <label>imbue fuelable buildings</label>
       <giverClass>AnimaTech.WorkGiver_PsychicRefuel</giverClass>
@@ -13,7 +13,7 @@
         <li>Manipulation</li>
       </requiredCapacities>
       <prioritizeSustains>true</prioritizeSustains>
-    </WorkGiverDef>
+    </WorkGiverDef>-->
 
     <WorkGiverDef>
       <defName>DoBillsCrystals</defName>

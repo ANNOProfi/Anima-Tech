@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace AnimaTech
 {
-    public class WorkGiver_PsychicRefuel : WorkGiver_Scanner
+    /*public class WorkGiver_PsychicRefuel : WorkGiver_Scanner
     {
         public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForGroup(ThingRequestGroup.Refuelable);
 
@@ -31,5 +31,5 @@ namespace AnimaTech
         {
             return PsychicRefuelWorkGiverUtility.RefuelJob(t, JobStandard);
         }
-    }
+    }*/
 }

@@ -6,7 +6,7 @@ using Verse.AI;
 
 namespace AnimaTech
 {
-    public class Toils_PsychicRefuel
+    /*public class Toils_PsychicRefuel
     {
         public static Toil FinalizePsychicRefueling(TargetIndex refuelableInd)
         {
@@ -21,7 +21,7 @@ namespace AnimaTech
 
                 if(toil.actor.CurJob.placedThings.NullOrEmpty())
                 {
-                    thing.TryGetComp<CompPsychicFuel>().Refuel(amount, toil.GetActor());
+                    //thing.TryGetComp<CompPsychicFuel>().Refuel(amount, toil.GetActor());
                 }
             };
 
@@ -29,5 +29,5 @@ namespace AnimaTech
 
             return toil;
         }
-    }
+    }*/
 }

@@ -11,9 +11,9 @@ namespace AnimaTech
 			DefOfHelper.EnsureInitializedInCtor(typeof(AT_DefOf));
 		}
 
-        public static ThingDef AT_RunicSmithy;
+        //public static ThingDef AT_RunicStove;
 
-        public static JobDef PsychicRefuel;
+        //public static JobDef PsychicRefuel;
 
         //public static WorkGiverDef PsychicRefuel;
     }
