@@ -13,48 +13,48 @@ namespace AnimaTech
 
         public float focusMax = 10;
 
-        public float minimumFueledThreshold;
+        public float minimumFocusThreshold;
 
         public float NeuralHeatFactor = 0.5f;
 
-        public bool drawOutOfFuelOverlay = true;
+        public bool drawOutOfFocusOverlay = true;
 
-        public string fuelIconPath;
+        public string focusIconPath;
 
-        private float fuelMultiplier = 1f;
+        private float focusMultiplier = 1f;
 
-        public float autoRefuelPercent = 0.3f;
+        public float imbue = 0.3f;
 
         public bool allowImbuement = true;
 
         public bool factorByDifficulty;
 
-        public float FuelMultiplierCurrentDifficulty
+        public float FocusMultiplierCurrentDifficulty
         {
             get
             {
                 if (factorByDifficulty && Find.Storyteller?.difficulty != null)
                 {
-                    return fuelMultiplier / Find.Storyteller.difficulty.maintenanceCostFactor;
+                    return focusMultiplier / Find.Storyteller.difficulty.maintenanceCostFactor;
                 }
-                return fuelMultiplier;
+                return focusMultiplier;
             }
         }
 
-        private Texture2D fuelIcon;
+        private Texture2D focusIcon;
 
-        public Texture2D FuelIcon
+        public Texture2D FocusIcon
         {
             get
             {
-                if (fuelIcon == null)
+                if (focusIcon == null)
                 {
-                    if (!fuelIconPath.NullOrEmpty())
+                    if (!focusIconPath.NullOrEmpty())
                     {
-                        fuelIcon = ContentFinder<Texture2D>.Get(fuelIconPath);
+                        focusIcon = ContentFinder<Texture2D>.Get(focusIconPath);
                     }
                 }
-                return fuelIcon;
+                return focusIcon;
             }
         }
     }

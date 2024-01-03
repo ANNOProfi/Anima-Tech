@@ -12,6 +12,8 @@ namespace AnimaTech
     {
         public CompProperties_PsychicStorage Props => (CompProperties_PsychicStorage)props;
 
+        private CompFlickable flickComp;
+
         public float focus;
 
         public int lastMeditationTick;
@@ -20,27 +22,27 @@ namespace AnimaTech
 
         public bool meditationActive = true;
 
-        public bool HasFuel
+        public bool HasFocus
         {
             get
             {
                 if (focus > 0f)
                 {
-                    return focus >= Props.minimumFueledThreshold;
+                    return focus >= Props.minimumFocusThreshold;
                 }
                 return false;
             }
         }
 
-        public float FuelPercentOfTarget => focus / Props.minimumFueledThreshold;
+        public float FocusPercentOfTarget => focus / Props.minimumFocusThreshold;
 
-        public float FuelPercentOfMax => focus / Props.focusMax;
+        public float FocusPercentOfMax => focus / Props.focusMax;
 
         public bool IsFull
         {
             get
             {
-                if (HasFuel)
+                if (HasFocus)
                 {
                     return focus < Props.focusMax;
                 }
@@ -52,24 +54,31 @@ namespace AnimaTech
         {
             get
             {
-                if (FuelPercentOfTarget <= Props.autoRefuelPercent && !IsFull && Props.minimumFueledThreshold > 0f)
+                if (FocusPercentOfTarget <= Props.imbue && !IsFull && Props.minimumFocusThreshold > 0f)
                 {
-                    return ShouldAutoRefuelNowIgnoringFuelPct;
+                    return ShouldImbueNowIgnoringFuelPct;
                 }
                 return false;
             }
         }
 
-        public bool ShouldAutoRefuelNowIgnoringFuelPct
+        public bool ShouldImbueNowIgnoringFuelPct
         {
             get
             {
-                if (!parent.IsBurning() && parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Flick) == null)
+                if (!parent.IsBurning() && (flickComp == null || flickComp.SwitchIsOn) && parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Flick) == null)
                 {
                     return parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Deconstruct) == null;
                 }
                 return false;
             }
+        }
+
+        public override void Initialize(CompProperties props)
+        {
+            base.Initialize(props);
+
+            flickComp = parent.GetComp<CompFlickable>();
         }
 
         public bool TryAddFocus(float focus, Pawn pawn, CompAssignableToPawn_PsychicStorage comp)
@@ -101,7 +110,7 @@ namespace AnimaTech
         public override void PostDraw()
         {
             base.PostDraw();
-            if (!HasFuel && Props.drawOutOfFuelOverlay)
+            if (!HasFocus && Props.drawOutOfFocusOverlay)
             {
                 parent.Map.overlayDrawer.DrawOverlay(parent, OverlayTypes.OutOfFuel);
             }
@@ -118,7 +127,7 @@ namespace AnimaTech
 
         public void Imbue(float amount, Pawn pawn)
         {
-            float adjustedAmount = amount * Props.FuelMultiplierCurrentDifficulty;
+            float adjustedAmount = amount * Props.FocusMultiplierCurrentDifficulty;
 
             float psyfocus = pawn.psychicEntropy.CurrentPsyfocus;
 
@@ -156,7 +165,7 @@ namespace AnimaTech
 
         public int GetFuelCountToFullyRefuel()
         {
-            return Mathf.Max(Mathf.CeilToInt((Props.focusMax - focus) / Props.FuelMultiplierCurrentDifficulty), 1);
+            return Mathf.Max(Mathf.CeilToInt((Props.focusMax - focus) / Props.FocusMultiplierCurrentDifficulty), 1);
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()

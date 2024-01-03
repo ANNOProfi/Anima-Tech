@@ -13,12 +13,10 @@ namespace AnimaTech
     {
         private static bool Prefix(ref JobDriver_Meditate __instance)
         {
-            Log.Message("Calling meditation prefix");
             Pawn pawn = __instance.pawn;
             List<Building> list = __instance.pawn.Map.listerBuildings.allBuildingsColonist.Where((Building x) => x.GetComp<CompAssignableToPawn_PsychicStorage>() != null && x.GetComp<CompPsychicStorage>() != null).ToList();
             if (list.NullOrEmpty())
             {
-                Log.Message("No building");
                 return true;
             }
 
@@ -35,10 +33,8 @@ namespace AnimaTech
                 Job curJob = pawn.jobs.curJob;
                 if (curJob.targetC.Thing != null && source.Contains(curJob.targetC.Thing))
                 {
-                    Log.Message("Building is already focus");
-                    if((pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus) && (result.GetComp<CompPsychicStorage>().focus < result.GetComp<CompPsychicStorage>().Props.minimumFueledThreshold))
+                    if((pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus) && (result.GetComp<CompPsychicStorage>().focus < result.GetComp<CompPsychicStorage>().Props.minimumFocusThreshold))
                     {
-                        Log.Message("New imbuing job");
                         pawn.jobs.ClearQueuedJobs();
                         pawn.jobs.TryTakeOrderedJob(new Job(AT_DefOf.PsychicRefuel, result), JobTag.Misc, requestQueueing: true);
                         pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
@@ -46,16 +42,13 @@ namespace AnimaTech
                     return false;
                 }
 
-                Log.Message((pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus).ToString());
                 if(pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus)
                 {
-                    Log.Message("New imbuing job");
                     pawn.jobs.ClearQueuedJobs();
                     pawn.jobs.TryTakeOrderedJob(new Job(AT_DefOf.PsychicRefuel, result), JobTag.Misc, requestQueueing: true);
                     pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
                 }
 
-                Log.Message("Switching focus");
                 (from x in GenRadial.RadialCellsAround(result.Position, 5f, useCenter: false)
                     where pawn.CanReach(x, PathEndMode.OnCell, Danger.None) && !(result.def.hasInteractionCell && (result.TrueCenter().ToIntVec3()-result.def.interactionCellOffset == x))
                     select x).TryRandomElement(out var result2);

@@ -12,55 +12,47 @@ namespace AnimaTech
             compClass = typeof(CompPsychicFuel);
         }
 
-        public bool consumeFuelOnlyWhenUsed;
+        public bool consumeFocusOnlyWhenUsed;
 
-        public float fuelConsumptionRate = 1f;
+        public float focusConsumptionRate = 1f;
 
-        public float fuelConsumptionPerTickInRain;
+        public float focusConsumptionPerTickInRain;
 
-        private float fuelMultiplier = 1f;
+        private float focusMultiplier = 1f;
 
         public bool factorByDifficulty;
 
-        public float FuelMultiplierCurrentDifficulty
+        public float FocusMultiplierCurrentDifficulty
         {
             get
             {
                 if (factorByDifficulty && Find.Storyteller?.difficulty != null)
                 {
-                    return fuelMultiplier / Find.Storyteller.difficulty.maintenanceCostFactor;
+                    return focusMultiplier / Find.Storyteller.difficulty.maintenanceCostFactor;
                 }
-                return fuelMultiplier;
+                return focusMultiplier;
             }
         }
 
         [MustTranslate]
-	    public string fuelLabel;
+	    public string focusLabel;
 
-        public string FuelLabel
+        public string FocusLabel
         {
             get
             {
-                if (fuelLabel.NullOrEmpty())
+                if (focusLabel.NullOrEmpty())
                 {
-                    return "Fuel".TranslateSimple();
+                    return "Focus".TranslateSimple();
                 }
-                return fuelLabel;
+                return focusLabel;
             }
         }
 
         [MustTranslate]
-	    public string outOfFuelMessage;
-
-        
+	    public string outOfFocusMessage;
 
         public bool externalTicking;
-
-        
-
-        
-
-        
 
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
@@ -68,9 +60,9 @@ namespace AnimaTech
             {
                 yield return item;
             }
-            if ((fuelConsumptionPerTickInRain > 0f) && parentDef.tickerType != TickerType.Normal)
+            if ((focusConsumptionPerTickInRain > 0f) && parentDef.tickerType != TickerType.Normal)
             {
-                yield return $"Refuelable component set to consume fuel per tick, but parent tickertype is {parentDef.tickerType} instead of {TickerType.Normal}";
+                yield return $"Refocusable component set to consume focus per tick, but parent tickertype is {parentDef.tickerType} instead of {TickerType.Normal}";
             }
             if(parentDef.GetCompProperties<CompProperties_PsychicStorage>()==null)
             {

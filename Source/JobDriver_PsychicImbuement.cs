@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace AnimaTech
 {
-    public class JobDriver_PsychicRefuel : JobDriver
+    public class JobDriver_PsychicImbuement : JobDriver
     {
         private const TargetIndex RefuelableInd = TargetIndex.A;
 
@@ -25,7 +25,7 @@ namespace AnimaTech
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 
             AddEndCondition(() => (!StorageComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
-            AddFailCondition(() => !job.playerForced && !StorageComp.ShouldAutoRefuelNowIgnoringFuelPct);
+            AddFailCondition(() => !job.playerForced && !StorageComp.ShouldImbueNowIgnoringFuelPct);
             AddFailCondition(() => !StorageComp.Props.allowImbuement && !job.playerForced);
 
             yield return Toils_General.DoAtomic(delegate
@@ -37,7 +37,7 @@ namespace AnimaTech
             yield return Toils_General.Wait(RefuelingDuration).FailOnDestroyedNullOrForbidden(TargetIndex.A)
                 .FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch)
                 .WithProgressBarToilDelay(TargetIndex.A);
-            yield return Toils_PsychicRefuel.FinalizePsychicRefueling(TargetIndex.A);
+            yield return Toils_PsychicImbuement.FinalizePsychicImbuing(TargetIndex.A);
         }
     }
 }

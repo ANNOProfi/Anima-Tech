@@ -13,7 +13,7 @@ namespace AnimaTech
 
         //public static ThingDef AT_RunicStove;
 
-        public static JobDef PsychicRefuel;
+        public static JobDef PsychicImbuement;
 
         //public static WorkGiverDef PsychicRefuel;
     }

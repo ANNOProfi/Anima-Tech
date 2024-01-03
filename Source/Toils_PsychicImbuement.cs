@@ -6,9 +6,9 @@ using Verse.AI;
 
 namespace AnimaTech
 {
-    public class Toils_PsychicRefuel
+    public class Toils_PsychicImbuement
     {
-        public static Toil FinalizePsychicRefueling(TargetIndex refuelableInd)
+        public static Toil FinalizePsychicImbuing(TargetIndex refuelableInd)
         {
             Toil toil = ToilMaker.MakeToil("FinalizePsychicRefueling");
             toil.initAction = delegate
@@ -17,7 +17,7 @@ namespace AnimaTech
 
                 Thing thing = curJob.GetTarget(refuelableInd).Thing;
 
-                float amount = thing.TryGetComp<CompPsychicStorage>().GetFuelCountToFullyRefuel() / thing.TryGetComp<CompPsychicStorage>().Props.FuelMultiplierCurrentDifficulty;
+                float amount = thing.TryGetComp<CompPsychicStorage>().GetFuelCountToFullyRefuel() / thing.TryGetComp<CompPsychicStorage>().Props.FocusMultiplierCurrentDifficulty;
 
                 if(toil.actor.CurJob.placedThings.NullOrEmpty())
                 {

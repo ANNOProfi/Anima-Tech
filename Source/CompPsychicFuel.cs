@@ -19,7 +19,7 @@ namespace AnimaTech
 
 	    public const string RanOutOfFuelSignal = "RanOutOfFuel";
 
-        private float ConsumptionRatePerTick => Props.fuelConsumptionRate / 60000f;
+        private float ConsumptionRatePerTick => Props.focusConsumptionRate / 60000f;
         
         public override void Initialize(CompProperties props)
         {
@@ -34,17 +34,15 @@ namespace AnimaTech
         {
             base.CompTick();
 
-            if (!Props.consumeFuelOnlyWhenUsed && (flickComp == null || flickComp.SwitchIsOn) && !Props.externalTicking)
+            if (!Props.consumeFocusOnlyWhenUsed && (flickComp == null || flickComp.SwitchIsOn) && !Props.externalTicking)
             {
                 ConsumeFuel(ConsumptionRatePerTick);
             }
-            if (Props.fuelConsumptionPerTickInRain > 0f && parent.Spawned && parent.Map.weatherManager.RainRate > 0.4f && !parent.Map.roofGrid.Roofed(parent.Position) && !Props.externalTicking)
+            if (Props.focusConsumptionPerTickInRain > 0f && parent.Spawned && parent.Map.weatherManager.RainRate > 0.4f && !parent.Map.roofGrid.Roofed(parent.Position) && !Props.externalTicking)
             {
-                ConsumeFuel(Props.fuelConsumptionPerTickInRain);
+                ConsumeFuel(Props.focusConsumptionPerTickInRain);
             }
         }
-
-        /**/
 
         public void Notify_UsedThisTick()
         {
