@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace AnimaTech
 {
-    /*public class JobDriver_PsychicRefuel : JobDriver
+    public class JobDriver_PsychicRefuel : JobDriver
     {
         private const TargetIndex RefuelableInd = TargetIndex.A;
 
@@ -13,7 +13,7 @@ namespace AnimaTech
 
         protected Thing Refuelable => job.GetTarget(TargetIndex.A).Thing;
 
-        protected CompRefuelable RefuelableComp => Refuelable.TryGetComp<CompRefuelable>();
+        protected CompPsychicStorage StorageComp => Refuelable.TryGetComp<CompPsychicStorage>();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -24,13 +24,13 @@ namespace AnimaTech
         {
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 
-            AddEndCondition(() => (!RefuelableComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
-            AddFailCondition(() => !job.playerForced && !RefuelableComp.ShouldAutoRefuelNowIgnoringFuelPct);
-            AddFailCondition(() => !RefuelableComp.allowAutoRefuel && !job.playerForced);
+            AddEndCondition(() => (!StorageComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
+            AddFailCondition(() => !job.playerForced && !StorageComp.ShouldAutoRefuelNowIgnoringFuelPct);
+            AddFailCondition(() => !StorageComp.Props.allowImbuement && !job.playerForced);
 
             yield return Toils_General.DoAtomic(delegate
             {
-                job.count = RefuelableComp.GetFuelCountToFullyRefuel();
+                job.count = StorageComp.GetFuelCountToFullyRefuel();
             });
 
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
@@ -39,5 +39,5 @@ namespace AnimaTech
                 .WithProgressBarToilDelay(TargetIndex.A);
             yield return Toils_PsychicRefuel.FinalizePsychicRefueling(TargetIndex.A);
         }
-    }*/
+    }
 }

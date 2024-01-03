@@ -20,10 +20,6 @@ namespace AnimaTech
 	    public const string RanOutOfFuelSignal = "RanOutOfFuel";
 
         private float ConsumptionRatePerTick => Props.fuelConsumptionRate / 60000f;
-
-        public float NeuralHeatFactor = 0.5f;
-
-        
         
         public override void Initialize(CompProperties props)
         {
@@ -48,43 +44,7 @@ namespace AnimaTech
             }
         }
 
-        /*public void Refuel(float amount, Pawn pawn)
-        {
-            float adjustedAmount = amount * Props.FuelMultiplierCurrentDifficulty;
-
-            float psyfocus = pawn.psychicEntropy.CurrentPsyfocus;
-
-            if((psyfocus * 100) >= adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(adjustedAmount * NeuralHeatFactor))
-            {
-                refuelComp.Refuel(amount);
-                pawn.psychicEntropy.OffsetPsyfocusDirectly(-(adjustedAmount) / 100);
-                pawn.psychicEntropy.TryAddEntropy(adjustedAmount * NeuralHeatFactor);
-
-                parent.BroadcastCompSignal("Refueled");
-            }
-            else if((psyfocus * 100) < adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(pawn.psychicEntropy.CurrentPsyfocus * NeuralHeatFactor))
-            {
-                refuelComp.Refuel(psyfocus * 100);
-                pawn.psychicEntropy.OffsetPsyfocusDirectly(-psyfocus);
-                pawn.psychicEntropy.TryAddEntropy((psyfocus * 100)*NeuralHeatFactor);
-
-                parent.BroadcastCompSignal("Refueled");
-            }
-            else
-            {
-                for(int i=1; i<adjustedAmount; i++)
-                {
-                    if(!pawn.psychicEntropy.WouldOverflowEntropy(i * NeuralHeatFactor))
-                    {
-                        refuelComp.Refuel(i);
-                        pawn.psychicEntropy.OffsetPsyfocusDirectly(-i / 100);
-                        pawn.psychicEntropy.TryAddEntropy(i * NeuralHeatFactor);
-
-                        parent.BroadcastCompSignal("Refueled");
-                    }
-                }
-            }
-        }*/
+        /**/
 
         public void Notify_UsedThisTick()
         {

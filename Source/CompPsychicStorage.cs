@@ -32,6 +32,46 @@ namespace AnimaTech
             }
         }
 
+        public float FuelPercentOfTarget => focus / Props.minimumFueledThreshold;
+
+        public float FuelPercentOfMax => focus / Props.focusMax;
+
+        public bool IsFull
+        {
+            get
+            {
+                if (HasFuel)
+                {
+                    return focus < Props.focusMax;
+                }
+                return false;
+            }
+        }
+
+        public bool ShouldAutoRefuelNow
+        {
+            get
+            {
+                if (FuelPercentOfTarget <= Props.autoRefuelPercent && !IsFull && Props.minimumFueledThreshold > 0f)
+                {
+                    return ShouldAutoRefuelNowIgnoringFuelPct;
+                }
+                return false;
+            }
+        }
+
+        public bool ShouldAutoRefuelNowIgnoringFuelPct
+        {
+            get
+            {
+                if (!parent.IsBurning() && parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Flick) == null)
+                {
+                    return parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Deconstruct) == null;
+                }
+                return false;
+            }
+        }
+
         public bool TryAddFocus(float focus, Pawn pawn, CompAssignableToPawn_PsychicStorage comp)
         {
             if (!comp.AssignedPawns.Contains(pawn) || this.focus + focus >= Props.focusMax)
@@ -43,6 +83,11 @@ namespace AnimaTech
             parent.BroadcastCompSignal("Refueled");
             //lastMeditationTick = Tick;
             return true;
+        }
+
+        public void TryAddFocus(float amount)
+        {
+            this.focus = Mathf.Clamp(this.focus + amount, 0f, Props.focusMax);
         }
 
         public override void PostExposeData()
@@ -69,6 +114,49 @@ namespace AnimaTech
             stringBuilder.AppendLineIfNotEmpty();
             stringBuilder.AppendLine("AnimaObelisk.GUI.FocusLevel".Translate(Math.Round(focus, 3), Props.focusMax));
             return stringBuilder.ToString();
+        }
+
+        public void Imbue(float amount, Pawn pawn)
+        {
+            float adjustedAmount = amount * Props.FuelMultiplierCurrentDifficulty;
+
+            float psyfocus = pawn.psychicEntropy.CurrentPsyfocus;
+
+            if((psyfocus * 100) >= adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(adjustedAmount * Props.NeuralHeatFactor))
+            {
+                TryAddFocus(amount);
+                pawn.psychicEntropy.OffsetPsyfocusDirectly(-(adjustedAmount) / 100);
+                pawn.psychicEntropy.TryAddEntropy(adjustedAmount * Props.NeuralHeatFactor);
+
+                parent.BroadcastCompSignal("Refueled");
+            }
+            else if((psyfocus * 100) < adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(pawn.psychicEntropy.CurrentPsyfocus * Props.NeuralHeatFactor))
+            {
+                TryAddFocus(psyfocus * 100);
+                pawn.psychicEntropy.OffsetPsyfocusDirectly(-psyfocus);
+                pawn.psychicEntropy.TryAddEntropy((psyfocus * 100) * Props.NeuralHeatFactor);
+
+                parent.BroadcastCompSignal("Refueled");
+            }
+            else
+            {
+                for(int i=1; i<adjustedAmount; i++)
+                {
+                    if(!pawn.psychicEntropy.WouldOverflowEntropy(i * Props.NeuralHeatFactor))
+                    {
+                        TryAddFocus(i);
+                        pawn.psychicEntropy.OffsetPsyfocusDirectly(-i / 100);
+                        pawn.psychicEntropy.TryAddEntropy(i * Props.NeuralHeatFactor);
+
+                        parent.BroadcastCompSignal("Refueled");
+                    }
+                }
+            }
+        }
+
+        public int GetFuelCountToFullyRefuel()
+        {
+            return Mathf.Max(Mathf.CeilToInt((Props.focusMax - focus) / Props.FuelMultiplierCurrentDifficulty), 1);
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
