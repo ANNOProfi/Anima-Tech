@@ -21,11 +21,24 @@ namespace AnimaTech
 
         public string focusIconPath;
 
+        [MustTranslate]
+	    public string focusLabel;
+
+        public string FocusLabel
+        {
+            get
+            {
+                if (focusLabel.NullOrEmpty())
+                {
+                    return "Focus".TranslateSimple();
+                }
+                return focusLabel;
+            }
+        }
+
         private float focusMultiplier = 1f;
 
         public float imbue = 0.3f;
-
-        public bool allowImbuement = true;
 
         public bool factorByDifficulty;
 

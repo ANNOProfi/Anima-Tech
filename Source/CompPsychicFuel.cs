@@ -36,32 +36,30 @@ namespace AnimaTech
 
             if (!Props.consumeFocusOnlyWhenUsed && (flickComp == null || flickComp.SwitchIsOn) && !Props.externalTicking)
             {
-                ConsumeFuel(ConsumptionRatePerTick);
+                storageComp.TryAddFocus(-ConsumptionRatePerTick);
             }
             if (Props.focusConsumptionPerTickInRain > 0f && parent.Spawned && parent.Map.weatherManager.RainRate > 0.4f && !parent.Map.roofGrid.Roofed(parent.Position) && !Props.externalTicking)
             {
-                ConsumeFuel(Props.focusConsumptionPerTickInRain);
+                storageComp.TryAddFocus(-Props.focusConsumptionPerTickInRain);
             }
+        }
+
+        public override string CompInspectStringExtra()
+        {
+            string text = "";
+
+            if (!Props.consumeFocusOnlyWhenUsed && storageComp.HasFocus)
+            {
+                int numTicks = (int)(storageComp.focus / Props.focusConsumptionRate * 60000f);
+                text = "(" + numTicks.ToStringTicksToPeriod() + ")";
+            }
+
+            return text;
         }
 
         public void Notify_UsedThisTick()
         {
-            ConsumeFuel(ConsumptionRatePerTick);
-        }
-
-        public void ConsumeFuel(float amount)
-        {
-            if(storageComp.focus <= 0f)
-            {
-                return;
-            }
-            storageComp.focus -= amount;
-
-            if (storageComp.focus <= 0f)
-            {
-                storageComp.focus = 0f;
-                parent.BroadcastCompSignal("RanOutOfFuel");
-            }
+            storageComp.TryAddFocus(-ConsumptionRatePerTick);
         }
     }
 }

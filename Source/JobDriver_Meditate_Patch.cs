@@ -36,7 +36,7 @@ namespace AnimaTech
                     if((pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus) && (result.GetComp<CompPsychicStorage>().focus < result.GetComp<CompPsychicStorage>().Props.minimumFocusThreshold))
                     {
                         pawn.jobs.ClearQueuedJobs();
-                        pawn.jobs.TryTakeOrderedJob(new Job(AT_DefOf.PsychicRefuel, result), JobTag.Misc, requestQueueing: true);
+                        pawn.jobs.TryTakeOrderedJob(new Job(AT_DefOf.PsychicImbuement, result), JobTag.Misc, requestQueueing: true);
                         pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
                     }
                     return false;
@@ -45,7 +45,7 @@ namespace AnimaTech
                 if(pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus)
                 {
                     pawn.jobs.ClearQueuedJobs();
-                    pawn.jobs.TryTakeOrderedJob(new Job(AT_DefOf.PsychicRefuel, result), JobTag.Misc, requestQueueing: true);
+                    pawn.jobs.TryTakeOrderedJob(new Job(AT_DefOf.PsychicImbuement, result), JobTag.Misc, requestQueueing: true);
                     pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
                 }
 

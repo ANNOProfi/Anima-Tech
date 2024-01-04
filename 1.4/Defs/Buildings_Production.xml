@@ -67,8 +67,8 @@
 			</li>
       <li Class="CompProperties_Flickable"/>
       <li Class="AnimaTech.CompProperties_PsychicStorage">
-        <minimumFueledThreshold>0.5</minimumFueledThreshold>
-        <fuelIconPath>Things/Item/Resource/Jade</fuelIconPath>
+        <minimumFocusThreshold>0.5</minimumFocusThreshold>
+        <focusIconPath>Things/Item/Resource/Jade</focusIconPath>
       </li>
       <li Class="CompProperties_AssignableToPawn">
 				<drawAssignmentOverlay>false</drawAssignmentOverlay>
@@ -76,8 +76,8 @@
 				<compClass>AnimaTech.CompAssignableToPawn_PsychicStorage</compClass>
 			</li>
       <li Class="AnimaTech.CompProperties_PsychicFuel">
-        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
-        <fuelConsumptionRate>1.0</fuelConsumptionRate>
+        <consumeFocusOnlyWhenUsed>false</consumeFocusOnlyWhenUsed>
+        <focusConsumptionRate>1.0</focusConsumptionRate>
       </li>
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>
@@ -179,8 +179,8 @@
 			</li>
       <li Class="CompProperties_Flickable"/>
       <li Class="AnimaTech.CompProperties_PsychicStorage">
-        <minimumFueledThreshold>0.5</minimumFueledThreshold>
-        <fuelIconPath>Things/Item/Resource/Jade</fuelIconPath>
+        <minimumFocusThreshold>0.5</minimumFocusThreshold>
+        <focusIconPath>Things/Item/Resource/Jade</focusIconPath>
       </li>
       <li Class="CompProperties_AssignableToPawn">
 				<drawAssignmentOverlay>false</drawAssignmentOverlay>
@@ -188,8 +188,8 @@
 				<compClass>AnimaTech.CompAssignableToPawn_PsychicStorage</compClass>
 			</li>
       <li Class="AnimaTech.CompProperties_PsychicFuel">
-        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
-        <fuelConsumptionRate>1.0</fuelConsumptionRate>
+        <consumeFocusOnlyWhenUsed>true</consumeFocusOnlyWhenUsed>
+        <focusConsumptionRate>1.0</focusConsumptionRate>
       </li>
     </comps>
     <placeWorkers>

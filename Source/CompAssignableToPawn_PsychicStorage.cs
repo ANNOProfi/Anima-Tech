@@ -66,6 +66,16 @@ namespace AnimaTech
             return false;
         }
 
+        protected override string GetAssignmentGizmoLabel()
+        {
+            return "AnimaTech.GUI.SetPsycastersToMeditation_Label".Translate();
+        }
+
+        protected override string GetAssignmentGizmoDesc()
+        {
+            return "AnimaTech.GUI.SetPsycastersToMeditation_Desc".Translate();
+        }
+
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             Command_Action command_Action = new Command_Action();

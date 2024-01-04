@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LanguageData>
+    <AnimaTech.GUI.MeditationActiveSwitch_Label>Allow meditation</AnimaTech.GUI.MeditationActiveSwitch_Label>
+	
+	<AnimaTech.GUI.MeditationActiveSwitch_Desc>Whether pawns will meditate to refuel this object.</AnimaTech.GUI.MeditationActiveSwitch_Desc>
+
+    <AnimaTech.GUI.SetPsycastersToMeditation_Label>Set pawns to meditation</AnimaTech.GUI.SetPsycastersToMeditation_Label>
+	
+	<AnimaTech.GUI.SetPsycastersToMeditation_Desc>Set up pawns that will accumulate psyfocus in storage.</AnimaTech.GUI.SetPsycastersToMeditation_Desc>
+
+    <AnimaTech.GUI.ImbuementActiveSwitch_Label>Allow imbuement</AnimaTech.GUI.ImbuementActiveSwitch_Label>
+	
+	<AnimaTech.GUI.ImbuementActiveSwitch_Desc>Whether pawns will put their excess psyfocus into this object.</AnimaTech.GUI.ImbuementActiveSwitch_Desc>
+</LanguageData>

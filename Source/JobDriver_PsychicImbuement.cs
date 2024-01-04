@@ -26,7 +26,7 @@ namespace AnimaTech
 
             AddEndCondition(() => (!StorageComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
             AddFailCondition(() => !job.playerForced && !StorageComp.ShouldImbueNowIgnoringFuelPct);
-            AddFailCondition(() => !StorageComp.Props.allowImbuement && !job.playerForced);
+            AddFailCondition(() => !StorageComp.allowImbuement && !job.playerForced);
 
             yield return Toils_General.DoAtomic(delegate
             {
