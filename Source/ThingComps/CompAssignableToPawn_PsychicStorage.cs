@@ -78,13 +78,15 @@ namespace AnimaTech
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            Command_Action command_Action = new Command_Action();
-            command_Action.defaultLabel = GetAssignmentGizmoLabel();
-            command_Action.icon = ContentFinder<Texture2D>.Get("UI/Commands/AssignOwner");
-            command_Action.defaultDesc = GetAssignmentGizmoDesc();
-            command_Action.action = delegate
+            Command_Action command_Action = new()
             {
-                Find.WindowStack.Add(new Dialog_AssignBuildingOwner(this));
+                defaultLabel = GetAssignmentGizmoLabel(),
+                icon = ContentFinder<Texture2D>.Get("UI/Commands/AssignOwner"),
+                defaultDesc = GetAssignmentGizmoDesc(),
+                action = delegate
+                {
+                    Find.WindowStack.Add(new Dialog_AssignBuildingOwner(this));
+                }
             };
             yield return command_Action;
         }
