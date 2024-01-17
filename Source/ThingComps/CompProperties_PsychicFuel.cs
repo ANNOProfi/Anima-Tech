@@ -5,7 +5,7 @@ using Verse;
 
 namespace AnimaTech
 {
-    public class CompProperties_PsychicFuel : CompProperties
+    /*public class CompProperties_PsychicFuel : CompProperties
     {
         public CompProperties_PsychicFuel()
         {
@@ -69,5 +69,5 @@ namespace AnimaTech
                 yield return $"PsychicFuel comp without PsychicStorage comp";
             }
         }
-    }
+    }*/
 }

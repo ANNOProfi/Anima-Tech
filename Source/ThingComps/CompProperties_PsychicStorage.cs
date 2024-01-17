@@ -1,6 +1,7 @@
 using Verse;
 using RimWorld;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace AnimaTech
 {
@@ -11,7 +12,27 @@ namespace AnimaTech
             compClass = typeof(CompPsychicStorage);
         }
 
-        public float focusMax = 10;
+        public float minimumFocusThreshold;
+
+        public float focusCapacity = 100f;
+
+        public bool canBeTransmitted;
+
+        public bool canAcceptTransmitted;
+
+        public bool canBeEmptied;
+
+        public bool canBeFilled = true;
+
+        public bool disableInteractionIfPylonAvailableOnSpawn;
+
+        public bool canOnlyChangeAspectWhileEmpty = true;
+
+        public ThingDef fuelThingDef;
+
+        public List<ThingDef> fuelThingDefs;
+
+        /*public float focuCapacity = 10;
 
         public float minimumFocusThreshold;
 
@@ -69,6 +90,6 @@ namespace AnimaTech
                 }
                 return focusIcon;
             }
-        }
+        }*/
     }
 }

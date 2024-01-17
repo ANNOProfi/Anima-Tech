@@ -14,7 +14,7 @@ namespace AnimaTech
         private static bool Prefix(ref JobDriver_Meditate __instance)
         {
             Pawn pawn = __instance.pawn;
-            List<Building> list = __instance.pawn.Map.listerBuildings.allBuildingsColonist.Where((Building x) => x.GetComp<CompAssignableToPawn_PsychicStorage>() != null && x.GetComp<CompPsychicStorage>() != null).ToList();
+            List<Building> list = __instance.pawn.Map.listerBuildings.allBuildingsColonist.Where((Building x) => x.GetComp<CompAssignableToPawn_PsychicStorage>() != null && x.GetComp<CompPsychicStorage>() != null && x.GetComp<CompPsychicGenerator>() != null).ToList();
             if (list.NullOrEmpty())
             {
                 return true;
@@ -23,7 +23,9 @@ namespace AnimaTech
             List<Building> source = list.Where(delegate(Building x)
             {
                 CompPsychicStorage comp = x.GetComp<CompPsychicStorage>();
-                return comp != null && comp.meditationActive && x.GetComp<CompAssignableToPawn_PsychicStorage>().AssignedPawns.Contains(pawn) && pawn.CanReach(x, PathEndMode.Touch, Danger.None);
+                CompPsychicGenerator comp2 = x.GetComp<CompPsychicGenerator>();
+
+                return comp != null && (comp2.Props.isMeditatable || comp2.Props.allowImbuement) && x.GetComp<CompAssignableToPawn_PsychicStorage>().AssignedPawns.Contains(pawn) && pawn.CanReach(x, PathEndMode.Touch, Danger.None);
             }).ToList();
 
             source.TryRandomElement(out var result);
@@ -33,7 +35,7 @@ namespace AnimaTech
                 Job curJob = pawn.jobs.curJob;
                 if (curJob.targetC.Thing != null && source.Contains(curJob.targetC.Thing))
                 {
-                    if((pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus) && (result.GetComp<CompPsychicStorage>().focus < result.GetComp<CompPsychicStorage>().Props.minimumFocusThreshold))
+                    if((pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus) && (result.GetComp<CompPsychicStorage>().focusStored < result.GetComp<CompPsychicStorage>().Props.minimumFocusThreshold) && result.GetComp<CompPsychicGenerator>().Props.allowImbuement)
                     {
                         pawn.jobs.ClearQueuedJobs();
                         pawn.jobs.TryTakeOrderedJob(new Job(AT_DefOf.PsychicImbuement, result), JobTag.Misc, requestQueueing: true);
@@ -42,11 +44,16 @@ namespace AnimaTech
                     return false;
                 }
 
-                if(pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus)
+                if((pawn.psychicEntropy.CurrentPsyfocus > pawn.psychicEntropy.TargetPsyfocus) && (result.GetComp<CompPsychicStorage>().focusStored < result.GetComp<CompPsychicStorage>().Props.minimumFocusThreshold) && result.GetComp<CompPsychicGenerator>().Props.allowImbuement)
                 {
                     pawn.jobs.ClearQueuedJobs();
                     pawn.jobs.TryTakeOrderedJob(new Job(AT_DefOf.PsychicImbuement, result), JobTag.Misc, requestQueueing: true);
                     pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
+                }
+
+                if(!result.GetComp<CompPsychicGenerator>().Props.isMeditatable)
+                {
+                    return true;
                 }
 
                 (from x in GenRadial.RadialCellsAround(result.Position, 5f, useCenter: false)

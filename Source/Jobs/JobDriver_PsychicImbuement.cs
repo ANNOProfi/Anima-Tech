@@ -15,6 +15,8 @@ namespace AnimaTech
 
         protected CompPsychicStorage StorageComp => Refuelable.TryGetComp<CompPsychicStorage>();
 
+        protected CompPsychicGenerator GeneratorComp => Refuelable.TryGetComp<CompPsychicGenerator>();
+
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             return pawn.Reserve(Refuelable, job, 1, -1, null, errorOnFailed);
@@ -25,12 +27,12 @@ namespace AnimaTech
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 
             AddEndCondition(() => (!StorageComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
-            AddFailCondition(() => !job.playerForced && !StorageComp.ShouldImbueNowIgnoringFuelPct);
-            AddFailCondition(() => !StorageComp.allowImbuement && !job.playerForced);
+            AddFailCondition(() => !job.playerForced && !GeneratorComp.ShouldImbueNowIgnoringFuelPct);
+            AddFailCondition(() => !GeneratorComp.Props.allowImbuement && !job.playerForced);
 
             yield return Toils_General.DoAtomic(delegate
             {
-                job.count = StorageComp.GetFuelCountToFullyRefuel();
+                job.count = StorageComp.AmountToFill;
             });
 
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);

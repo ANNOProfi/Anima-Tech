@@ -6,7 +6,7 @@ using Verse;
 
 namespace AnimaTech
 {
-    [StaticConstructorOnStartup]
+    /*[StaticConstructorOnStartup]
     public class CompPsychicFuel : ThingComp
     {
         public CompProperties_PsychicFuel Props => (CompProperties_PsychicFuel)props;
@@ -61,5 +61,5 @@ namespace AnimaTech
         {
             storageComp.TryAddFocus(-ConsumptionRatePerTick);
         }
-    }
+    }*/
 }

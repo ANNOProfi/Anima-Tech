@@ -17,11 +17,13 @@ namespace AnimaTech
 
                 Thing thing = curJob.GetTarget(refuelableInd).Thing;
 
-                float amount = thing.TryGetComp<CompPsychicStorage>().GetFuelCountToFullyRefuel() / thing.TryGetComp<CompPsychicStorage>().Props.FocusMultiplierCurrentDifficulty;
+                CompPsychicGenerator generatorComp = thing.TryGetComp<CompPsychicGenerator>();
+
+                float amount = thing.TryGetComp<CompPsychicStorage>().AmountToFill / generatorComp.Props.FocusMultiplierCurrentDifficulty;
 
                 if(toil.actor.CurJob.placedThings.NullOrEmpty())
                 {
-                    thing.TryGetComp<CompPsychicStorage>().Imbue(amount, toil.GetActor());
+                    generatorComp.Imbue(amount, toil.GetActor());
                 }
             };
 

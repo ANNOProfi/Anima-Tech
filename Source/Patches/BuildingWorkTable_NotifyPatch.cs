@@ -11,8 +11,8 @@ namespace AnimaTech
     {
         private static void Postfix(ref Building_WorkTable __instance)
         {
-            CompPsychicFuel compPsychicFuel = __instance.GetComp<CompPsychicFuel>();
-            compPsychicFuel?.Notify_UsedThisTick();
+            CompPsychicUser compPsychicUser = __instance.GetComp<CompPsychicUser>();
+            compPsychicUser?.Notify_UsedThisTick();
         }
     }
 }

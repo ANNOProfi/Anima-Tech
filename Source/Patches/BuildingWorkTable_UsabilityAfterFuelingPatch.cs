@@ -12,7 +12,9 @@ namespace AnimaTech
         private static bool Postfix(bool result, ref Building_WorkTable __instance)
         {
             CompPsychicStorage compPsychicStorage = __instance.GetComp<CompPsychicStorage>();
-            if (!(compPsychicStorage == null) && (compPsychicStorage == null || !compPsychicStorage.HasFocus))
+            CompPsychicUser compPsychicUser = __instance.GetComp<CompPsychicUser>();
+
+            if ((!(compPsychicStorage == null) && (compPsychicStorage == null || !compPsychicStorage.HasMinimumFocus)) || (!(compPsychicUser == null) && (compPsychicUser == null || !compPsychicUser.IsUsingNetWorkPower)))
             {
                 return false;
             }

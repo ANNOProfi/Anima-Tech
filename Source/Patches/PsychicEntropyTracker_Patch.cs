@@ -14,13 +14,18 @@ namespace AnimaTech
             if (focus != null && !focus.Destroyed)
             {
                 float focus2 = Mathf.Clamp(MeditationUtility.PsyfocusGainPerTick(__instance.Pawn, focus), 0f, 1f);
+
                 CompPsychicStorage compPsychicStorage = focus.TryGetComp<CompPsychicStorage>();
+
+                CompPsychicGenerator compPsychicGenerator = focus.TryGetComp<CompPsychicGenerator>();
+
                 CompAssignableToPawn_PsychicStorage compAssignableToPawn_PsychicStorage = focus.TryGetComp<CompAssignableToPawn_PsychicStorage>();
-                if (compPsychicStorage == null || compAssignableToPawn_PsychicStorage == null)
+
+                if (compPsychicStorage == null || compAssignableToPawn_PsychicStorage == null || compPsychicGenerator == null)
                 {
                     return true;
                 }
-                if (!compPsychicStorage.TryAddFocus(focus2, __instance.Pawn, compAssignableToPawn_PsychicStorage))
+                if (!compPsychicGenerator.TryStoreFocus(focus2, __instance.Pawn, compAssignableToPawn_PsychicStorage))
                 {
                     return true;
                 }

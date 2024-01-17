@@ -68,17 +68,30 @@
       <li Class="CompProperties_Flickable"/>
       <li Class="AnimaTech.CompProperties_PsychicStorage">
         <minimumFocusThreshold>0.5</minimumFocusThreshold>
-        <focusIconPath>Things/Item/Resource/Jade</focusIconPath>
+        <!--<focusIconPath>Things/Item/Resource/Jade</focusIconPath>-->
+        <canBeTransmitted>false</canBeTransmitted>
+        <canAcceptTransmitted>true</canAcceptTransmitted>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicPylon">
+        <pylonRadius>0</pylonRadius>
       </li>
       <li Class="CompProperties_AssignableToPawn">
 				<drawAssignmentOverlay>false</drawAssignmentOverlay>
 				<maxAssignedPawnsCount>10</maxAssignedPawnsCount>
 				<compClass>AnimaTech.CompAssignableToPawn_PsychicStorage</compClass>
 			</li>
-      <li Class="AnimaTech.CompProperties_PsychicFuel">
-        <consumeFocusOnlyWhenUsed>false</consumeFocusOnlyWhenUsed>
-        <focusConsumptionRate>1.0</focusConsumptionRate>
+      <li Class="AnimaTech.CompProperties_PsychicGenerator">
+        <isMeditatable>false</isMeditatable>
+        <canTransmitToNetwork>false</canTransmitToNetwork>
       </li>
+      <li Class="AnimaTech.CompProperties_PsychicUser">
+        <baseFocusConsumption>1</baseFocusConsumption>
+        <canUsePsychicPylon>true</canUsePsychicPylon>
+      </li>
+      <!--<li Class="AnimaTech.CompProperties_PsychicFuel">
+        <consumeFocusOnlyWhenUsed>true</consumeFocusOnlyWhenUsed>
+        <focusConsumptionRate>1.0</focusConsumptionRate>
+      </li>-->
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>
           <li>ToolCabinet</li>
@@ -88,6 +101,8 @@
     <placeWorkers>
       <li>PlaceWorker_ShowFacilitiesConnections</li>
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_MeditationSpot</li>
+      <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
     </placeWorkers>
     <researchPrerequisites>
       <li>Smithing</li>
@@ -180,21 +195,34 @@
       <li Class="CompProperties_Flickable"/>
       <li Class="AnimaTech.CompProperties_PsychicStorage">
         <minimumFocusThreshold>0.5</minimumFocusThreshold>
-        <focusIconPath>Things/Item/Resource/Jade</focusIconPath>
+        <!--<focusIconPath>Things/Item/Resource/Jade</focusIconPath>-->
+        <canBeTransmitted>true</canBeTransmitted>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicPylon">
+        <pylonRadius>20.9</pylonRadius>
       </li>
       <li Class="CompProperties_AssignableToPawn">
 				<drawAssignmentOverlay>false</drawAssignmentOverlay>
 				<maxAssignedPawnsCount>10</maxAssignedPawnsCount>
 				<compClass>AnimaTech.CompAssignableToPawn_PsychicStorage</compClass>
 			</li>
-      <li Class="AnimaTech.CompProperties_PsychicFuel">
+      <li Class="AnimaTech.CompProperties_PsychicGenerator">
+        <isMeditatable>true</isMeditatable>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicUser">
+        <baseFocusConsumption>1</baseFocusConsumption>
+        <canUsePsychicPylon>true</canUsePsychicPylon>
+      </li>
+      <!--<li Class="AnimaTech.CompProperties_PsychicFuel">
         <consumeFocusOnlyWhenUsed>true</consumeFocusOnlyWhenUsed>
         <focusConsumptionRate>1.0</focusConsumptionRate>
-      </li>
+      </li>-->
     </comps>
     <placeWorkers>
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
       <li>PlaceWorker_MeditationSpot</li>
+      <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
     </placeWorkers>
     <building>
       <isMealSource>true</isMealSource>
