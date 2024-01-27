@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using Verse;
 
 namespace AnimaTech
@@ -17,6 +18,8 @@ namespace AnimaTech
         public List<CompPsychicPylon> pylonCache = new List<CompPsychicPylon>();
 
         public List<CompPsychicStorage> storageCache = new List<CompPsychicStorage>();
+
+        public List<Thing> imbuementCache = new List<Thing>();
 
         public Dictionary<IntVec3, CompPsychicPylon> pylonsByLocation = new Dictionary<IntVec3, CompPsychicPylon>();
 
@@ -240,7 +243,7 @@ namespace AnimaTech
         {
             if (pylonCache.Contains(pylon) && !onlyEnable)
             {
-                Log.Error($"ARR: Attempted to register a new aether link at {pylon.parent.Position}, but it was already in the cache.");
+                Log.Error($"AT: Attempted to register a new psychic pylon at {pylon.parent.Position}, but it was already in the cache.");
                 return;
             }
             if (!pylonCache.Contains(pylon))
@@ -254,7 +257,7 @@ namespace AnimaTech
         {
             if (!pylonCache.Contains(pylon))
             {
-                Log.Error($"ARR: Attempted to deregister an aether link at {pylon.parent.Position}, but it wasn't in the cache.");
+                Log.Error($"AT: Attempted to deregister a psychic pylon at {pylon.parent.Position}, but it wasn't in the cache.");
                 return;
             }
             RemoveLink(pylon, onlyDisable);
@@ -268,7 +271,7 @@ namespace AnimaTech
         {
             if (storageCache.Contains(storage))
             {
-                Log.Error($"ARR: Attempted to register a new aether capacitor at {storage.parent.Position}, but it was already in the cache.");
+                Log.Error($"AT: Attempted to register a new psychic storage at {storage.parent.Position}, but it was already in the cache.");
             }
             else
             {
@@ -284,7 +287,34 @@ namespace AnimaTech
             }
             else
             {
-                Log.Error($"ARR: Attempted to deregister an aether capacitor at {storage.parent.Position}, but it wasn't in the cache.");
+                Log.Error($"AT: Attempted to deregister a psychic storage at {storage.parent.Position}, but it wasn't in the cache.");
+            }
+        }
+
+        public void RegisterGenerator(Thing generator)
+        {
+            if(imbuementCache.Contains(generator))
+            {
+                Log.Error($"AT: Attempted to register a new psychic generator at {generator.Position}, but it was already in the cache.");
+            }
+            else
+            {
+                if(generator.TryGetComp<CompPsychicGenerator>().AllowImbuement)
+                {
+                    imbuementCache.Add(generator);
+                }
+            }
+        }
+
+        public void DeregisterGenerator(Thing generator)
+        {
+            if (imbuementCache.Contains(generator))
+            {
+                imbuementCache.Remove(generator);
+            }
+            else
+            {
+                Log.Error($"AT: Attempted to deregister a psychic generator at {generator.Position}, but it wasn't in the cache.");
             }
         }
 

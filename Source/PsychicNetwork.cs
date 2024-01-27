@@ -149,7 +149,7 @@ namespace AnimaTech
         {
             if (networkedThings.Contains(thing))
             {
-                Log.Error($"ARR: Attempted to add {thing.def.LabelCap} at {thing.Position} to network {networkId}, but it was already there.");
+                Log.Error($"AT: Attempted to add {thing.def.LabelCap} at {thing.Position} to network {networkId}, but it was already there.");
                 return null;
             }
             networkedThings.Add(thing);
@@ -167,8 +167,23 @@ namespace AnimaTech
             }
             else
             {
-                Log.Error($"ARR: Attempted to remove {thing.def.LabelCap} at {thing.Position} from network {networkId}, but it wasn't there to begin with.");
+                Log.Error($"AT: Attempted to remove {thing.def.LabelCap} at {thing.Position} from network {networkId}, but it wasn't there to begin with.");
             }
+        }
+
+        public bool IsFull()
+        {
+            return focusTotal == focusCapacity;
+        }
+
+        public bool IsEmpty()
+        {
+            return focusTotal == 0f;
+        }
+
+        public float AmountToFill()
+        {
+            return focusCapacity - focusTotal;
         }
 
         public bool HasFocus(float amount)
@@ -197,7 +212,7 @@ namespace AnimaTech
                 if (float.IsNaN(shuffledCapacitor.focusStored))
                 {
                     shuffledCapacitor.focusStored = 0f;
-                    Log.Error("ARR: NAN generated when attempting to draw aether from capacitor");
+                    Log.Error("AT: NAN generated when attempting to draw aether from capacitor");
                 }
                 num -= num2;
                 if (num <= 0f)
@@ -238,13 +253,13 @@ namespace AnimaTech
                     if (float.IsNaN(item.focusStored))
                     {
                         item.focusStored = 0f;
-                        Log.Error("ARR: NaN generated while attempting to store aether to capacitors");
+                        Log.Error("AT: NaN generated while attempting to store aether to capacitors");
                     }
                     num -= num3;
                 }
                 if (num2 > 1000)
                 {
-                    Log.Warning("ARR: Aborting aether capacitor storage attempt due to too many attempts");
+                    Log.Warning("AT: Aborting aether capacitor storage attempt due to too many attempts");
                     return num;
                 }
             }

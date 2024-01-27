@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -19,11 +20,15 @@ namespace AnimaTech
 
                 CompPsychicGenerator generatorComp = thing.TryGetComp<CompPsychicGenerator>();
 
+                CompPsychicPylon pylonComp = thing.TryGetComp<CompPsychicPylon>();
+
                 float amount = thing.TryGetComp<CompPsychicStorage>().AmountToFill / generatorComp.Props.FocusMultiplierCurrentDifficulty;
+
+                float amount2 = pylonComp.networkRef.AmountToFill() / generatorComp.Props.FocusMultiplierCurrentDifficulty;
 
                 if(toil.actor.CurJob.placedThings.NullOrEmpty())
                 {
-                    generatorComp.Imbue(amount, toil.GetActor());
+                    generatorComp.Imbue(Math.Max(amount, amount2), toil.GetActor());
                 }
             };
 

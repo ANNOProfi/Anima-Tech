@@ -1,15 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LanguageData>
+    <AT_PsychicUserRatePerDay>Focus Usage: {0} / d</AT_PsychicUserRatePerDay>
+    <AT_PsychicUserRatePerDayInactive>Focus Usage: {0} / d (Inactive)</AT_PsychicUserRatePerDayInactive>
+    <AT_PsychicUserAdjustRate>Strength</AT_PsychicUserAdjustRate>
+    <AT_PsychicUserAdjustRateDesc>Adjust the rate at which this device consumes aether.</AT_PsychicUserAdjustRateDesc>
+    <AT_PsychicUserAdjustRateLabel>Strength: {0}%</AT_PsychicUserAdjustRateLabel>
+
+    <AT_GeneratorProgress>Focus Storage: {0}</AT_GeneratorProgress>
+    <AT_GeneratorMustBeUnroofed>Cannot function while under a roof.</AT_GeneratorMustBeUnroofed>
+    <AT_GeneratorCannotBeAdjacent>Cannot be placed adjacent to other accumulators.</AT_GeneratorCannotBeAdjacent>
+    <AT_GeneratorTooClose>Cannot place there, too close to an existing accumulator.</AT_GeneratorTooClose>
+
+    <AT_GeneratorToggleImbuement>Toggle Imbuement</AT_GeneratorToggleImbuement>
+    <AT_GeneratorToggleImbuementDesc>Toggle, whether pawns can directly imbue the runes with their psyfocus.</AT_GeneratorToggleImbuementDesc>
+    <AT_GeneratorToggleMeditation>Toggle Meditation</AT_GeneratorToggleMeditation>
+    <AT_GeneratorToggleMeditationDesc>Toggle, whether pawns are allowed to meditate at this device to power it.</AT_GeneratorToggleMeditationDesc>
+    <AT_GeneratorToggleTransmission>Toggle Transmission</AT_GeneratorToggleTransmission>
+    <AT_GeneratorToggleTransmissionDesc>Toggle, whether the device will push directly into the network. If disabled, this device will fill only itself, disregarding the network.</AT_GeneratorToggleTransmissionDesc>
+
+    <AT_StorageAutoFill>Auto Fill</AT_StorageAutoFill>
+    <AT_StorageAutoFillDesc>Allows colonists to automatically refill this device with aether crystals.</AT_StorageAutoFillDesc>
+    <AT_StorageFillMax>Fill Max</AT_StorageFillMax>
+    <AT_StorageFillMaxLabel>Fill Max: {0}%</AT_StorageFillMaxLabel>
+    <AT_StorageFillMaxDesc>Sets the maximum level to which this device should be auto-filled.</AT_StorageFillMaxDesc>
+    <AT_StorageFillMin>Fill Level</AT_StorageFillMin>
+    <AT_StorageFillMinLabel>Fill Level: {0}%</AT_StorageFillMinLabel>
+    <AT_StorageFillMinDesc>Colonists will automatically fill this device below this charge level.</AT_StorageFillMinDesc>
+    <AT_StorageAutoEmpty>Auto Empty</AT_StorageAutoEmpty>
+    <AT_StorageAutoEmptyDesc>Allows colonists to automatically retrieve aether crystals from this device.</AT_StorageAutoEmptyDesc>
+    <AT_StorageEmptyMax>Empty Level</AT_StorageEmptyMax>
+    <AT_StorageEmptyMaxLabel>Empty Level: {0}%</AT_StorageEmptyMaxLabel>
+    <AT_StorageEmptyMaxDesc>Colonists will automatically empty this device above this charge level.</AT_StorageEmptyMaxDesc>
+    <AT_StorageEmptyMin>Empty Min</AT_StorageEmptyMin>
+    <AT_StorageEmptyMinLevel>Empty Min: {0}%</AT_StorageEmptyMinLevel>
+    <AT_StorageEmptyMinDesc>Sets the minimum level to which this device should be auto-emptied.</AT_StorageEmptyMinDesc>
+
+    <AT_StorageDebugFill>Debug Fill</AT_StorageDebugFill>
+    <AT_StorageDebugFillDesc>Fills this capacitor.</AT_StorageDebugFillDesc>
+    <AT_StorageDebugEmpty>Debug Empty</AT_StorageDebugEmpty>
+    <AT_StorageDebugEmptyDesc>Empties this capacitor.</AT_StorageDebugEmptyDesc>
+
+    <AT_PsychicGeneratorGenerationRate>Generation Rate: {0} / d</AT_PsychicGeneratorGenerationRate>
+    <AT_PsychicStorage>Focus Storage: {0} / {1}</AT_PsychicStorage>
+    <AT_PsychicNetworkStorage>Psychic Pylon Network: {0} / {1} (+{2} / {3})</AT_PsychicNetworkStorage>
+    <AT_PsychicPylonDisconnected>No Active Pylons</AT_PsychicPylonDisconnected>
+    <AT_PsychicPylonEnabled>Pylon Enabled</AT_PsychicPylonEnabled>
+    <AT_PsychicPylonEnabledDesc>This device has it's transmission runes enabled and can be linked to the pylon network. Click this to disable the runes.</AT_PsychicPylonEnabledDesc>
+    <AT_PsychicPylonDisabled>Pylon Disabled</AT_PsychicPylonDisabled>
+    <AT_PsychicPylonDisabledDesc>This device has it's transmission runes disabled and cannot be linked to the pylon network. Click this to enable the runes.</AT_PsychicPylonDisabledDesc>
+
     <AnimaTech.GUI.MeditationActiveSwitch_Label>Allow meditation</AnimaTech.GUI.MeditationActiveSwitch_Label>
-	
 	<AnimaTech.GUI.MeditationActiveSwitch_Desc>Whether pawns will meditate to refuel this object.</AnimaTech.GUI.MeditationActiveSwitch_Desc>
-
     <AnimaTech.GUI.SetPsycastersToMeditation_Label>Set pawns to meditation</AnimaTech.GUI.SetPsycastersToMeditation_Label>
-	
 	<AnimaTech.GUI.SetPsycastersToMeditation_Desc>Set up pawns that will accumulate psyfocus in storage.</AnimaTech.GUI.SetPsycastersToMeditation_Desc>
-
     <AnimaTech.GUI.ImbuementActiveSwitch_Label>Allow imbuement</AnimaTech.GUI.ImbuementActiveSwitch_Label>
-	
 	<AnimaTech.GUI.ImbuementActiveSwitch_Desc>Whether pawns will put their excess psyfocus into this object.</AnimaTech.GUI.ImbuementActiveSwitch_Desc>
 </LanguageData>

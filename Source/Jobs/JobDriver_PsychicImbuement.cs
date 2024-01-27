@@ -17,6 +17,8 @@ namespace AnimaTech
 
         protected CompPsychicGenerator GeneratorComp => Refuelable.TryGetComp<CompPsychicGenerator>();
 
+        protected CompPsychicPylon PylonComp => Refuelable.TryGetComp<CompPsychicPylon>();
+
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             return pawn.Reserve(Refuelable, job, 1, -1, null, errorOnFailed);
@@ -26,9 +28,9 @@ namespace AnimaTech
         {
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 
-            AddEndCondition(() => (!StorageComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
+            AddEndCondition(() => (!StorageComp.IsFull || !PylonComp.networkRef.IsFull()) ? JobCondition.Ongoing : JobCondition.Succeeded);
             AddFailCondition(() => !job.playerForced && !GeneratorComp.ShouldImbueNowIgnoringFuelPct);
-            AddFailCondition(() => !GeneratorComp.Props.allowImbuement && !job.playerForced);
+            AddFailCondition(() => !GeneratorComp.AllowImbuement && !job.playerForced);
 
             yield return Toils_General.DoAtomic(delegate
             {
