@@ -1,6 +1,7 @@
 using Verse;
 using RimWorld;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace AnimaTech
 {
@@ -17,6 +18,8 @@ namespace AnimaTech
         public float focusGenerationFactor = 1f;
 
         public bool allowTransmission = true;
+
+        private bool canImbue = false;
 
         public CompProperties_PsychicGenerator Props => (CompProperties_PsychicGenerator)props;
 
@@ -48,29 +51,73 @@ namespace AnimaTech
             }
         }
 
+        public bool AllowImbuement
+        {
+            get
+            {
+                if(Props.allowImbuement)
+                {
+                    if(Props.canToggleImbuement)
+                    {
+                        return canImbue;
+                    }
+                }
+                return false;
+            }
+        }
+
+        public PsychicMapComponent mapComponentRef;
+
+        public PsychicMapComponent MapComponent
+        {
+            get
+            {
+                if (mapComponentRef == null)
+                {
+                    mapComponentRef = parent.Map.PsychicComp();
+                }
+                return mapComponentRef;
+            }
+        }
+
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
             pylonComp = parent.GetComp<CompPsychicPylon>();
             storageComp = parent.GetComp<CompPsychicStorage>();
+            flickComp = parent.GetComp<CompFlickable>();
             reportedFocusGeneration = Props.baseGenerationRate;
+
+            MapComponent.RegisterGenerator(this.parent);
+        }
+
+        public override void PostDeSpawn(Map map)
+        {
+            base.PostDeSpawn(map);
+            MapComponent.DeregisterGenerator(this.parent);
         }
 
         public override string CompInspectStringExtra()
         {
-            if (DebugSettings.godMode)
+            if (DebugSettings.godMode && Props.baseGenerationRate > 0)
             {
-                return "ARR_AetherAccumulatorGenerationRate".Translate(reportedFocusGeneration.ToString("F1")) + $", Rate: {focusGenerationFactor}";
+                return "AT_PsychicGeneratorGenerationRate".Translate(Props.baseGenerationRate.ToString("F")) + $", Efficiency: {focusGenerationFactor.ToString("P")}";
             }
-            return "ARR_AetherAccumulatorGenerationRate".Translate(reportedFocusGeneration.ToString("F1"));
+
+            if(Props.baseGenerationRate > 0)
+            {
+                return "AT_PsychicGeneratorGenerationRate".Translate(reportedFocusGeneration.ToString("F"));
+            }
+            return "";
         }
 
         public override void CompTick()
         {
-            if (!(focusGenerationFactor > 0f))
+            if (!(focusGenerationFactor > 0f) || !flickComp.SwitchIsOn)
             {
                 return;
             }
+
             float num = focusGenerationFactor * Props.baseGenerationRate / 60000f;
             if (num > 0f)
             {
@@ -86,6 +133,50 @@ namespace AnimaTech
             }
         }
 
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo item in base.CompGetGizmosExtra())
+            {
+                yield return item;
+            }
+            if(Props.canToggleImbuement)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "AT_GeneratorToggleDebugImbuement".Translate(),
+                    defaultDesc = "AT_GeneratorToggleDebugImbuementDesc".Translate(),
+                    action = delegate
+                    {
+                        Props.allowImbuement = !AllowImbuement;
+                    }
+                };
+            }
+            if(Props.canToggleMeditation)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "AT_GeneratorToggleDebugMeditation".Translate(),
+                    defaultDesc = "AT_GeneratorToggleDebugMeditationDesc".Translate(),
+                    action = delegate
+                    {
+                        Props.isMeditatable = !Props.isMeditatable;
+                    }
+                };
+            }
+            if(Props.canToggleTransmission)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "AT_GeneratorToggleDebugTransmission".Translate(),
+                    defaultDesc = "AT_GeneratorToggleDebugTransmissionDesc".Translate(),
+                    action = delegate
+                    {
+                        allowTransmission = !allowTransmission;
+                    }
+                };
+            }
+        }
+
         public void Imbue(float amount, Pawn pawn)
         {
             float adjustedAmount = amount * Props.FocusMultiplierCurrentDifficulty;
@@ -94,13 +185,15 @@ namespace AnimaTech
 
             if((psyfocus * 100) >= adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(adjustedAmount * Props.NeuralHeatFactor))
             {
+                float amount2 = adjustedAmount;
+
                 if (CanTransmit && pylonComp != null && pylonComp.networkRef != null)
                 {
-                    adjustedAmount = pylonComp.networkRef.PushFocus(adjustedAmount);
+                    amount2 = pylonComp.networkRef.PushFocus(adjustedAmount);
                 }
-                if (storageComp != null && adjustedAmount > 0f && storageComp.FocusSpace > 0f)
+                if (storageComp != null && amount2 > 0f && storageComp.FocusSpace > 0f)
                 {
-                    storageComp.StoreFocus(adjustedAmount);
+                    storageComp.StoreFocus(amount2);
                 }
                 
                 pawn.psychicEntropy.OffsetPsyfocusDirectly(-adjustedAmount / 100);
@@ -110,13 +203,15 @@ namespace AnimaTech
             }
             else if((psyfocus * 100) < adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(pawn.psychicEntropy.CurrentPsyfocus * Props.NeuralHeatFactor))
             {
+                float amount2 = psyfocus * 100;
+
                 if (CanTransmit && pylonComp != null && pylonComp.networkRef != null)
                 {
-                    psyfocus = pylonComp.networkRef.PushFocus(psyfocus * 100)/100;
+                    amount2 = pylonComp.networkRef.PushFocus(amount2)/100;
                 }
-                if (storageComp != null && (psyfocus * 100) > 0f && storageComp.FocusSpace > 0f)
+                if (storageComp != null && amount2 > 0f && storageComp.FocusSpace > 0f)
                 {
-                    storageComp.StoreFocus(psyfocus * 100);
+                    storageComp.StoreFocus(amount2);
                 }
 
                 pawn.psychicEntropy.OffsetPsyfocusDirectly(-psyfocus);
@@ -130,13 +225,15 @@ namespace AnimaTech
                 {
                     if(!pawn.psychicEntropy.WouldOverflowEntropy(i * Props.NeuralHeatFactor))
                     {
+                        float amount2 = i;
+
                         if (CanTransmit && pylonComp != null && pylonComp.networkRef != null)
                         {
-                            i = pylonComp.networkRef.PushFocus(i);
+                            amount2 = pylonComp.networkRef.PushFocus(i);
                         }
-                        if (storageComp != null && i > 0f && storageComp.FocusSpace > 0f)
+                        if (storageComp != null && amount2 > 0f && storageComp.FocusSpace > 0f)
                         {
-                            storageComp.StoreFocus(i);
+                            storageComp.StoreFocus(amount2);
                         }
 
                         pawn.psychicEntropy.OffsetPsyfocusDirectly(-i / 100);
@@ -150,21 +247,24 @@ namespace AnimaTech
 
         public bool TryStoreFocus(float amount, Pawn pawn, CompAssignableToPawn_PsychicStorage comp)
         {
-            if (!Props.isMeditatable || !comp.AssignedPawns.Contains(pawn) || storageComp.focusStored + amount >= storageComp.Props.focusCapacity)
+            if ((!Props.isMeditatable && !comp.AssignedPawns.Contains(pawn)) || ((storageComp?.focusStored + amount >= storageComp?.Props.focusCapacity) && storageComp?.Props.focusCapacity > 0) || ((pylonComp?.networkRef.focusTotal + amount >= pylonComp?.networkRef.focusCapacity) && pylonComp?.networkRef.focusCapacity > 0))
             {
                 return false;
             }
 
-            /*if (CanTransmit && pylonComp != null && pylonComp.networkRef != null)
+            float num = focusGenerationFactor * amount;
+            if (num > 0f)
             {
-                amount = pylonComp.networkRef.PushFocus(amount);
+                float num2 = num;
+                if (CanTransmit && pylonComp != null && pylonComp.networkRef != null)
+                {
+                    num2 = pylonComp.networkRef.PushFocus(num);
+                }
+                if (storageComp != null && num2 > 0f && storageComp.FocusSpace > 0f)
+                {
+                    storageComp.StoreFocus(num);
+                }
             }
-            if (storageComp != null && amount > 0f && storageComp.FocusSpace > 0f)
-            {
-                storageComp.StoreFocus(amount);
-            }*/
-
-            focusGenerationFactor += amount;
 
             return true;
         }

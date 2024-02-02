@@ -124,9 +124,9 @@ namespace AnimaTech
             {
                 if (IsConsideredDisconnected)
                 {
-                    return "ARR_AetherLinkDisconnected".Translate();
+                    return "AT_PsychicPylonDisconnected".Translate();
                 }
-                string text = "ARR_AetherNetworkStorage".Translate(networkRef.focusTotal.ToString("F1"), networkRef.focusCapacity.ToString("F1"), networkRef.generationTotal.ToString("F1"), (0f - networkRef.consumptionTotal).ToString("F1"));
+                string text = "AT_PsychicNetworkStorage".Translate(networkRef.focusTotal.ToString("F"), networkRef.focusCapacity.ToString("F"), networkRef.generationTotal.ToString("F"), (0f - networkRef.consumptionTotal).ToString("F"));
                 if (DebugSettings.godMode)
                 {
                     return text + $"\nDebug: Network ID #{((networkRef == null) ? (-1) : networkRef.networkId)}";
@@ -149,13 +149,13 @@ namespace AnimaTech
             Command_Toggle command_Toggle = new Command_Toggle();
             if (isToggledOn)
             {
-                command_Toggle.defaultLabel = "ARR_AetherLinkEnabled".Translate();
-                command_Toggle.defaultDesc = "ARR_AetherLinkEnabledDesc".Translate();
+                command_Toggle.defaultLabel = "AT_PsychicPylonEnabled".Translate();
+                command_Toggle.defaultDesc = "AT_PsychicPylonEnabledDesc".Translate();
             }
             else
             {
-                command_Toggle.defaultLabel = "ARR_AetherLinkDisabled".Translate();
-                command_Toggle.defaultDesc = "ARR_AetherLinkDisabledDesc".Translate();
+                command_Toggle.defaultLabel = "AT_PsychicPylonDisabled".Translate();
+                command_Toggle.defaultDesc = "AT_PsychicPylonDisabledDesc".Translate();
             }
             command_Toggle.hotKey = KeyBindingDefOf.Command_ItemForbid;
             //command_Toggle.icon = UIAssets.ButtonFocusLink;

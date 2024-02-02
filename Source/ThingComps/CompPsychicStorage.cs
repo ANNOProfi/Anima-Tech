@@ -16,6 +16,8 @@ namespace AnimaTech
 
         private CompFlickable flickComp;
 
+        public CompPsychicGenerator generatorComp;
+
         public CompPsychicPylon pylonComp;
 
         //public bool allowImbuement = true;
@@ -166,6 +168,31 @@ namespace AnimaTech
 
         public bool HasMinimumFocus => focusStored >= Props.minimumFocusThreshold;
 
+        public int Tick => Find.TickManager.TicksGame;
+
+        /*public void RuneGlow()
+        {
+            if (!((double)focusStored <= 0.01))
+            {
+                float x = focusStored / Props.focusCapacity * 100f;
+                SimpleCurve simpleCurve = new SimpleCurve(new List<CurvePoint>
+                {
+                    new CurvePoint(0f, 70f),
+                    new CurvePoint(100f, 20f)
+                });
+
+                if (Tick % (int)simpleCurve.Evaluate(x) == 0)
+                {
+                    MoteMaker.MakeStaticMote(parent.TrueCenter(), parent.Map, AT_DefOf.AT_RunesGlow);
+                }
+            }
+        }*/
+
+        public override void CompTick()
+        {
+            //RuneGlow();
+        }
+
         public virtual void SetFuel(int index)
         {
             selectedFuelIndex = Mathf.Clamp(index, 0, Props.fuelThingDefs.Count - 1);
@@ -205,6 +232,7 @@ namespace AnimaTech
         {
             base.PostSpawnSetup(respawningAfterLoad);
             pylonComp = parent.GetComp<CompPsychicPylon>();
+            //generatorComp = parent.GetComp<CompPsychicGenerator>();
             if (!respawningAfterLoad && (!Props.disableInteractionIfPylonAvailableOnSpawn || !MapComponent.NetworkPresentAt(parent.Position)))
             {
                 allowFill = Props.canBeFilled;
@@ -234,7 +262,7 @@ namespace AnimaTech
 
         public override string CompInspectStringExtra()
         {
-            return "ARR_AetherStorage".Translate(focusStored.ToString("F1"), Props.focusCapacity.ToString("F1"));
+            return "AT_PsychicStorage".Translate(focusStored.ToString("F"), Props.focusCapacity.ToString("F"));
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -253,8 +281,8 @@ namespace AnimaTech
                 {
                     yield return new Command_Toggle
                     {
-                        defaultLabel = "ARR_CapacitorAutoFill".Translate(),
-                        defaultDesc = "ARR_CapacitorAutoFillDesc".Translate(),
+                        defaultLabel = "AT_StorageAutoFill".Translate(),
+                        defaultDesc = "AT_StorageAutoFillDesc".Translate(),
                         icon = UIAssets.ButtonChargeFill,
                         isActive = () => allowFill,
                         toggleAction = delegate
@@ -264,13 +292,13 @@ namespace AnimaTech
                     };
                     yield return new Command_ShowPercentage
                     {
-                        defaultLabel = "ARR_CapacitorFillMin".Translate(),
-                        defaultDesc = "ARR_CapacitorFillMinDesc".Translate(),
+                        defaultLabel = "AT_StorageFillMin".Translate(),
+                        defaultDesc = "AT_StorageFillMinDesc".Translate(),
                         icon = UIAssets.ButtonChargeFillMin,
                         getPercent = () => (100f * autoFillThreshold).ToString("F0"),
                         action = delegate
                         {
-                            Dialog_Slider window4 = new Dialog_Slider((int x) => "ARR_CapacitorFillMinLabel".Translate(x), 0, 100, delegate(int value)
+                            Dialog_Slider window4 = new Dialog_Slider((int x) => "AT_StorageFillMinLabel".Translate(x), 0, 100, delegate(int value)
                             {
                                 autoFillThreshold = (float)value / 100f;
                             }, Mathf.RoundToInt(100f * autoFillThreshold));
@@ -279,13 +307,13 @@ namespace AnimaTech
                     };
                     yield return new Command_ShowPercentage
                     {
-                        defaultLabel = "ARR_CapacitorFillMax".Translate(),
-                        defaultDesc = "ARR_CapacitorFillMaxDesc".Translate(),
+                        defaultLabel = "AT_StorageFillMax".Translate(),
+                        defaultDesc = "AT_StorageFillMaxDesc".Translate(),
                         icon = UIAssets.ButtonChargeFillMax,
                         getPercent = () => (100f * autoFillMaximum).ToString("F0"),
                         action = delegate
                         {
-                            Dialog_Slider window3 = new Dialog_Slider((int x) => "ARR_CapacitorFillMaxLabel".Translate(x), 0, 100, delegate(int value)
+                            Dialog_Slider window3 = new Dialog_Slider((int x) => "AT_StorageFillMaxLabel".Translate(x), 0, 100, delegate(int value)
                             {
                                 autoFillMaximum = (float)value / 100f;
                             }, Mathf.RoundToInt(100f * autoFillMaximum));
@@ -297,8 +325,8 @@ namespace AnimaTech
                 {
                     yield return new Command_Toggle
                     {
-                        defaultLabel = "ARR_CapacitorAutoEmpty".Translate(),
-                        defaultDesc = "ARR_CapacitorAutoEmptyDesc".Translate(),
+                        defaultLabel = "AT_StorageAutoEmpty".Translate(),
+                        defaultDesc = "AT_StorageAutoEmptyDesc".Translate(),
                         icon = UIAssets.ButtonChargeEmpty,
                         isActive = () => allowEmpty,
                         toggleAction = delegate
@@ -308,13 +336,13 @@ namespace AnimaTech
                     };
                     yield return new Command_ShowPercentage
                     {
-                        defaultLabel = "ARR_CapacitorEmptyMax".Translate(),
-                        defaultDesc = "ARR_CapacitorEmptyMaxDesc".Translate(),
+                        defaultLabel = "AT_StorageEmptyMax".Translate(),
+                        defaultDesc = "AT_StorageEmptyMaxDesc".Translate(),
                         icon = UIAssets.ButtonChargeEmptyMax,
                         getPercent = () => (100f * autoEmptyThreshold).ToString("F0"),
                         action = delegate
                         {
-                            Dialog_Slider window2 = new Dialog_Slider((int x) => "ARR_CapacitorEmptyMaxLabel".Translate(x), 0, 100, delegate(int value)
+                            Dialog_Slider window2 = new Dialog_Slider((int x) => "AT_StorageEmptyMaxLabel".Translate(x), 0, 100, delegate(int value)
                             {
                                 autoEmptyThreshold = (float)value / 100f;
                             }, Mathf.RoundToInt(100f * autoEmptyThreshold));
@@ -323,13 +351,13 @@ namespace AnimaTech
                     };
                     yield return new Command_ShowPercentage
                     {
-                        defaultLabel = "ARR_CapacitorEmptyMin".Translate(),
-                        defaultDesc = "ARR_CapacitorEmptyMinDesc".Translate(),
+                        defaultLabel = "AT_StorageEmptyMin".Translate(),
+                        defaultDesc = "AT_StorageEmptyMinDesc".Translate(),
                         icon = UIAssets.ButtonChargeEmptyMin,
                         getPercent = () => (100f * autoEmptyMinimum).ToString("F0"),
                         action = delegate
                         {
-                            Dialog_Slider window = new Dialog_Slider((int x) => "ARR_CapacitorEmptyMinLevel".Translate(x), 0, 100, delegate(int value)
+                            Dialog_Slider window = new Dialog_Slider((int x) => "AT_StorageEmptyMinLevel".Translate(x), 0, 100, delegate(int value)
                             {
                                 autoEmptyMinimum = (float)value / 100f;
                             }, Mathf.RoundToInt(100f * autoEmptyMinimum));
@@ -342,8 +370,8 @@ namespace AnimaTech
             {
                 yield return new Command_Action
                 {
-                    defaultLabel = "ARR_CapacitorDebugFill".Translate(),
-                    defaultDesc = "ARR_CapacitorDebugFillDesc".Translate(),
+                    defaultLabel = "AT_StorageDebugFill".Translate(),
+                    defaultDesc = "AT_StorageDebugFillDesc".Translate(),
                     action = delegate
                     {
                         FillFocus();
@@ -351,8 +379,8 @@ namespace AnimaTech
                 };
                 yield return new Command_Action
                 {
-                    defaultLabel = "ARR_CapacitorDebugEmpty".Translate(),
-                    defaultDesc = "ARR_CapacitorDebugEmptyDesc".Translate(),
+                    defaultLabel = "AT_StorageDebugEmpty".Translate(),
+                    defaultDesc = "AT_StorageDebugEmptyDesc".Translate(),
                     action = delegate
                     {
                         DrainFocus();
@@ -360,260 +388,5 @@ namespace AnimaTech
                 };
             }
         }
-
-        /*public int lastMeditationTick;
-
-        public int Tick => Find.TickManager.TicksGame;
-
-        public bool meditationActive = true;
-
-        public bool HasFocus
-        {
-            get
-            {
-                if (focus > 0f)
-                {
-                    return focus >= Props.minimumFocusThreshold;
-                }
-                return false;
-            }
-        }
-
-        public float FocusPercentOfTarget => focus / Props.minimumFocusThreshold;
-
-        public float FocusPercentOfMax => focus / Props.focusMax;
-
-        public bool IsFull
-        {
-            get
-            {
-                if (HasFocus)
-                {
-                    return focus < Props.focusMax;
-                }
-                return false;
-            }
-        }
-
-        public bool ShouldAutoRefuelNow
-        {
-            get
-            {
-                if (FocusPercentOfTarget <= Props.imbue && !IsFull && Props.minimumFocusThreshold > 0f)
-                {
-                    return ShouldImbueNowIgnoringFuelPct;
-                }
-                return false;
-            }
-        }
-
-        public bool ShouldImbueNowIgnoringFuelPct
-        {
-            get
-            {
-                if (!parent.IsBurning() && (flickComp == null || flickComp.SwitchIsOn) && parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Flick) == null)
-                {
-                    return parent.Map.designationManager.DesignationOn(parent, DesignationDefOf.Deconstruct) == null;
-                }
-                return false;
-            }
-        }
-
-        public override void Initialize(CompProperties props)
-        {
-            base.Initialize(props);
-
-            flickComp = parent.GetComp<CompFlickable>();
-        }
-
-        public bool TryAddFocus(float focus, Pawn pawn, CompAssignableToPawn_PsychicStorage comp)
-        {
-            if (!meditationActive || !comp.AssignedPawns.Contains(pawn) || this.focus + focus >= Props.focusMax)
-            {
-                return false;
-            }
-            this.focus = Mathf.Clamp(this.focus + focus, 0f, Props.focusMax);
-            
-            parent.BroadcastCompSignal("Refueled");
-            //lastMeditationTick = Tick;
-            return true;
-        }
-
-        public void TryAddFocus(float amount)
-        {
-            this.focus = Mathf.Clamp(this.focus + amount, 0f, Props.focusMax);
-        }
-
-        public override void PostExposeData()
-        {
-            base.PostExposeData();
-
-		    Scribe_Values.Look(ref focus, "focus", 0f);
-            Scribe_Values.Look(ref allowImbuement, "allowImbuement", defaultValue: true);
-            Scribe_Values.Look(ref meditationActive, "meditationActive", defaultValue: true);
-        }
-
-        public override void PostDraw()
-        {
-            base.PostDraw();
-
-            if (!allowImbuement)
-            {
-                parent.Map.overlayDrawer.DrawOverlay(parent, OverlayTypes.ForbiddenRefuel);
-            }
-            else if (!HasFocus && Props.drawOutOfFocusOverlay)
-            {
-                parent.Map.overlayDrawer.DrawOverlay(parent, OverlayTypes.OutOfFuel);
-            }
-        }
-
-        public override string CompInspectStringExtra()
-        {*/
-            /*StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(base.CompInspectStringExtra());
-            stringBuilder.AppendLineIfNotEmpty();
-            stringBuilder.AppendLine("AnimaObelisk.GUI.FocusLevel".Translate(Math.Round(focus, 3), Props.focusMax));
-            return stringBuilder.ToString();*/
-
-            /*string text = Props.FocusLabel + ": " + focus.ToStringDecimalIfSmall() + " / " + Props.focusMax.ToStringDecimalIfSmall();
-
-            return text;
-        }
-
-        public void Imbue(float amount, Pawn pawn)
-        {
-            float adjustedAmount = amount * Props.FocusMultiplierCurrentDifficulty;
-
-            float psyfocus = pawn.psychicEntropy.CurrentPsyfocus;
-
-            if((psyfocus * 100) >= adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(adjustedAmount * Props.NeuralHeatFactor))
-            {
-                TryAddFocus(amount);
-                pawn.psychicEntropy.OffsetPsyfocusDirectly(-(adjustedAmount) / 100);
-                pawn.psychicEntropy.TryAddEntropy(adjustedAmount * Props.NeuralHeatFactor);
-
-                parent.BroadcastCompSignal("Refueled");
-            }
-            else if((psyfocus * 100) < adjustedAmount && !pawn.psychicEntropy.WouldOverflowEntropy(pawn.psychicEntropy.CurrentPsyfocus * Props.NeuralHeatFactor))
-            {
-                TryAddFocus(psyfocus * 100);
-                pawn.psychicEntropy.OffsetPsyfocusDirectly(-psyfocus);
-                pawn.psychicEntropy.TryAddEntropy((psyfocus * 100) * Props.NeuralHeatFactor);
-
-                parent.BroadcastCompSignal("Refueled");
-            }
-            else
-            {
-                for(int i=1; i<adjustedAmount; i++)
-                {
-                    if(!pawn.psychicEntropy.WouldOverflowEntropy(i * Props.NeuralHeatFactor))
-                    {
-                        TryAddFocus(i);
-                        pawn.psychicEntropy.OffsetPsyfocusDirectly(-i / 100);
-                        pawn.psychicEntropy.TryAddEntropy(i * Props.NeuralHeatFactor);
-
-                        parent.BroadcastCompSignal("Refueled");
-                    }
-                }
-            }
-        }
-
-        public int GetFuelCountToFullyRefuel()
-        {
-            return Mathf.Max(Mathf.CeilToInt((Props.focusMax - focus) / Props.FocusMultiplierCurrentDifficulty), 1);
-        }
-
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            foreach (Gizmo item in base.CompGetGizmosExtra())
-            {
-                yield return item;
-            }
-            if (Prefs.DevMode)
-            {
-                Command_Action command_Action = new()
-                {
-                    defaultLabel = "Debug: fill psyfocus (100%)",
-                    action = delegate
-                    {
-                        focus = Props.focusMax;
-                    }
-                };
-                yield return command_Action;
-
-                Command_Action command_Action2 = new()
-                {
-                    defaultLabel = "Debug: fill psyfocus (80%)",
-                    action = delegate
-                    {
-                        focus = Props.focusMax / 100f * 80f;
-                    }
-                };
-                yield return command_Action2;
-
-                Command_Action command_Action3 = new()
-                {
-                    defaultLabel = "Debug: fill psyfocus (60%)",
-                    action = delegate
-                    {
-                        focus = Props.focusMax / 100f * 60f;
-                    }
-                };
-                yield return command_Action3;
-
-                Command_Action command_Action4 = new()
-                {
-                    defaultLabel = "Debug: fill psyfocus (40%)",
-                    action = delegate
-                    {
-                        focus = Props.focusMax / 100f * 40f;
-                    }
-                };
-                yield return command_Action4;
-
-                Command_Action command_Action5 = new()
-                {
-                    defaultLabel = "Debug: fill psyfocus (20%)",
-                    action = delegate
-                    {
-                        focus = Props.focusMax / 100f * 20f;
-                    }
-                };
-                yield return command_Action5;
-
-                Command_Action command_Action6 = new()
-                {
-                    defaultLabel = "Debug: fill psyfocus (0%)",
-                    action = delegate
-                    {
-                        focus = 0f;
-                    }
-                };
-                yield return command_Action6;
-            }
-            Command_Action command_Action7 = new()
-            {
-                defaultLabel = "AnimaTech.GUI.MeditationActiveSwitch_Label".Translate(),
-                defaultDesc = "AnimaTech.GUI.MeditationActiveSwitch_Desc".Translate(),
-                icon = (meditationActive ? ContentFinder<Texture2D>.Get("UI/Commands/AnimaObelisk_ModeMeditate") : ContentFinder<Texture2D>.Get("UI/Commands/AnimaObelisk_ModeMeditateDisable")),
-                action = delegate
-                {
-                    meditationActive = !meditationActive;
-                }
-            };
-            yield return command_Action7;
-
-            Command_Action command_Action8 = new()
-            {
-                defaultLabel = "AnimaTech.GUI.ImbuementActiveSwitch_Label".Translate(),
-                defaultDesc = "AnimaTech.GUI.ImbuementActiveSwitch_Desc".Translate(),
-                icon = (meditationActive ? ContentFinder<Texture2D>.Get("UI/Commands/AnimaObelisk_ModeMeditate") : ContentFinder<Texture2D>.Get("UI/Commands/AnimaObelisk_ModeMeditateDisable")),
-                action = delegate
-                {
-                    allowImbuement = !allowImbuement;
-                }
-            };
-            yield return command_Action8;
-        }*/
     }
 }

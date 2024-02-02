@@ -48,6 +48,7 @@ namespace AnimaTech
             base.PostSpawnSetup(respawningAfterLoad);
             pylonComp = parent.GetComp<CompPsychicPylon>();
             storageComp = parent.GetComp<CompPsychicStorage>();
+            flickableComp = parent.GetComp<CompFlickable>();
         }
 
         public override void PostExposeData()
@@ -61,7 +62,7 @@ namespace AnimaTech
 
         public override void CompTick()
         {
-            if(Props.consumeOnlyWhenUsed && !usedThisTick)
+            if(Props.consumeOnlyWhenUsed && !usedThisTick || !flickableComp.SwitchIsOn)
             {
                 return;
             }
@@ -71,7 +72,7 @@ namespace AnimaTech
                 return;
             }
             float num = FocusConsumptionPerCheck;
-            if (Props.canUsePsychicPylon && pylonComp != null && pylonComp.isToggledOn)
+            if (Props.canUsePsychicPylon && pylonComp != null && pylonComp.isToggledOn && !pylonComp.networkRef.IsEmpty())
             {
                 num = pylonComp.TryDrawFocus(num);
                 if (num <= 0f && !isConsumingNetworkPower)
@@ -122,9 +123,9 @@ namespace AnimaTech
         {
             if (IsPoweredOn)
             {
-                return "ARR_AetherUserRatePerDay".Translate(FocusConsumptionPerDay.ToString("F1"));
+                return "AT_PsychicUserRatePerDay".Translate(FocusConsumptionPerDay.ToString("F"));
             }
-            return "ARR_AetherUserRatePerDayInactive".Translate(FocusConsumptionPerDay.ToString("F1"));
+            return "AT_PsychicUserRatePerDayInactive".Translate(FocusConsumptionPerDay.ToString("F"));
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
