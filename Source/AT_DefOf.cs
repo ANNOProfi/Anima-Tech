@@ -11,7 +11,7 @@ namespace AnimaTech
 			DefOfHelper.EnsureInitializedInCtor(typeof(AT_DefOf));
 		}
 
-        public static ThingDef AT_RunesGlow;
+        //public static ThingDef AT_RunesGlow;
 
         public static JobDef PsychicImbuement;
 
