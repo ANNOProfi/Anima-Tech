@@ -55,9 +55,21 @@
         <effectWorking>Smelt</effectWorking>
         <soundWorking>Recipe_Smelt</soundWorking>
         <unfinishedThingDef>AT_UnfinishedLargeShard</unfinishedThingDef>
-        <costList>
-            <AT_AnimaShard>6</AT_AnimaShard>
-        </costList>
+        <ingredients>
+            <li>
+                <filter>
+                <thingDefs>
+                    <li>AT_AnimaShard</li>
+                </thingDefs>
+                </filter>
+                <count>6</count>
+            </li>
+        </ingredients>
+        <fixedIngredientFilter>
+            <thingDefs>
+                <li>AT_AnimaShard</li>
+            </thingDefs>
+        </fixedIngredientFilter>
         <products>
             <AT_LargeAnimaShard>1</AT_LargeAnimaShard>
         </products>
