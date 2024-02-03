@@ -219,6 +219,11 @@ namespace AnimaTech
                 Vector3 pos = DrawPos + extension.overlayDrawOffset;
                 pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
                 Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+                if(base.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeFireMaterial, 0);
+                    return;
+                }
                 Graphics.DrawMesh(MeshPool.plane10, matrix, runeFireMaterial, 0);
             }
         }
@@ -230,6 +235,11 @@ namespace AnimaTech
                 Vector3 pos = DrawPos + extension.overlayDrawOffset;
                 pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
                 Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+                if(base.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeMeditationMaterial, 0);
+                    return;
+                }
                 Graphics.DrawMesh(MeshPool.plane10, matrix, runeMeditationMaterial, 0);
             }
         }
@@ -241,6 +251,11 @@ namespace AnimaTech
                 Vector3 pos = DrawPos + extension.overlayDrawOffset;
                 pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
                 Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+                if(base.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeNetworkMaterial, 0);
+                    return;
+                }
                 Graphics.DrawMesh(MeshPool.plane10, matrix, runeNetworkMaterial, 0);
             }
         }
@@ -256,23 +271,48 @@ namespace AnimaTech
 
                 if(0<storageComp.focusStored && storageComp.focusStored<=(storageComp.Props.focusCapacity*0.25))
                 {
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[0], 0);
+                        return;
+                    }
                     Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[0], 0);
                 }
                 else if((storageComp.Props.focusCapacity*0.25)<storageComp.focusStored && storageComp.focusStored<=(storageComp.Props.focusCapacity*0.5))
                 {
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[1], 0);
+                        return;
+                    }
                     Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[1], 0);
                 }
                 else if((storageComp.Props.focusCapacity*0.5)<storageComp.focusStored && storageComp.focusStored<=(storageComp.Props.focusCapacity*0.75))
                 {
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[2], 0);
+                        return;
+                    }
                     Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[2], 0);
                 }
                 else if((storageComp.Props.focusCapacity*0.75)<storageComp.focusStored && storageComp.focusStored<storageComp.Props.focusCapacity)
                 {
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[3], 0);
+                        return;
+                    }
                     Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[3], 0);
                 }
                 else
-                {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[4], 0);                    
+                {  
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[4], 0);
+                        return;
+                    } 
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[4], 0);                 
                 }
             }
         }

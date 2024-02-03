@@ -38,7 +38,7 @@
             <ComponentIndustrial>2</ComponentIndustrial>
         </costList>
         <researchPrerequisites>
-            <li>Machining</li>
+            <li>AT_PsychicRunes</li>
         </researchPrerequisites>
         <tickerType>Normal</tickerType>
         <surfaceType>Item</surfaceType>

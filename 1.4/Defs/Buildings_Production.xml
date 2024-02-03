@@ -8,7 +8,7 @@
     <thingClass>AnimaTech.Building_PsychicWorkTable</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
-      <texPath>Things/Building/Production/TableSmithingFueled</texPath>
+      <texPath>Things/Buildings/Production/RunicSmithy</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3.5,1.5)</drawSize>
       <shadowData>
@@ -99,7 +99,18 @@
     </placeWorkers>
     <researchPrerequisites>
       <li>Smithing</li>
+      <li>AT_PsychicRunes</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="AnimaTech.ModExtension_PsychicRune">
+        <overlayDrawSize>(3.5,0,1.5)</overlayDrawSize>
+        <!--<projectionDrawSize>(1.5,0,1.5)</projectionDrawSize>-->
+        <rotatedRuneFirePath>Things/Buildings/Production/RunicSmithyRunes/RunicSmithyRuneFire</rotatedRuneFirePath>
+        <rotatedRuneNetworkPath>Things/Buildings/Production/RunicSmithyRunes/RunicSmithyRuneNetwork</rotatedRuneNetworkPath>
+        <rotatedRuneMeditationPath>Things/Buildings/Production/RunicSmithyRunes/RunicSmithyRuneMeditation</rotatedRuneMeditationPath>
+        <rotatedRuneStoragePath>Things/Buildings/Production/RunicSmithyRunes/RunicSmithyRuneStorage</rotatedRuneStoragePath>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BenchBase">
@@ -212,6 +223,10 @@
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
       <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
     </placeWorkers>
+    <researchPrerequisites>
+      <li>Smithing</li>
+      <li>AT_PsychicRunes</li>
+    </researchPrerequisites>
     <building>
       <isMealSource>true</isMealSource>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
@@ -222,10 +237,10 @@
       <li Class="AnimaTech.ModExtension_PsychicRune">
         <overlayDrawSize>(3.5,0,1.5)</overlayDrawSize>
         <!--<projectionDrawSize>(1.5,0,1.5)</projectionDrawSize>-->
-        <rotatedRuneFirePath>Things/Buildings/Production/RunicStoveRunes/RuneFire</rotatedRuneFirePath>
-        <rotatedRuneNetworkPath>Things/Buildings/Production/RunicStoveRunes/RuneNetwork</rotatedRuneNetworkPath>
-        <rotatedRuneMeditationPath>Things/Buildings/Production/RunicStoveRunes/RuneMeditation</rotatedRuneMeditationPath>
-        <rotatedRuneStoragePath>Things/Buildings/Production/RunicStoveRunes/RuneStorage</rotatedRuneStoragePath>
+        <rotatedRuneFirePath>Things/Buildings/Production/RunicStoveRunes/RunicStoveRuneFire</rotatedRuneFirePath>
+        <rotatedRuneNetworkPath>Things/Buildings/Production/RunicStoveRunes/RunicStoveRuneNetwork</rotatedRuneNetworkPath>
+        <rotatedRuneMeditationPath>Things/Buildings/Production/RunicStoveRunes/RunicStoveRuneMeditation</rotatedRuneMeditationPath>
+        <rotatedRuneStoragePath>Things/Buildings/Production/RunicStoveRunes/RunicStoveRuneStorage</rotatedRuneStoragePath>
       </li>
     </modExtensions>
   </ThingDef>
@@ -233,17 +248,13 @@
   <ThingDef ParentName="BenchBase">
     <defName>AT_TableCrystalShaper</defName>
     <label>crystal shaper's table</label>
-    <description>A work table, equipped with the tools, containers and reagents, to shape anima shards into something more.</description>
+    <description>A basic work table, equipped with the tools, containers and reagents, to shape anima shards into something more.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
-      <texPath>Things/Building/Production/TableStonecutter</texPath>
+      <texPath>Things/Buildings/Production/TableCrystalShaper</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3.5,1.5)</drawSize>
       <shaderType>CutoutComplex</shaderType>
-      <shadowData>
-        <volume>(2.85, 0.3, 0.62)</volume>
-        <offset>(0, 0, 0.20)</offset>
-      </shadowData>
       <damageData>
         <cornerTL>Damage/Corner</cornerTL>
         <cornerTR>Damage/Corner</cornerTR>
@@ -293,7 +304,7 @@
       </li>
     </comps>
     <researchPrerequisites>
-      <li>Stonecutting</li>
+      <li>AT_AnimaCrystalizing</li>
     </researchPrerequisites>
     <placeWorkers>
       <li>PlaceWorker_ShowFacilitiesConnections</li>
