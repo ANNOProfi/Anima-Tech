@@ -21,6 +21,9 @@
         <recipeUsers>
             <li>CraftingSpot</li>
         </recipeUsers>
+        <researchPrerequisites>
+            <li>AT_BasicAnimaCrystalizing</li>
+        </researchPrerequisites>
     </RecipeDef>
 
     <RecipeDef>
@@ -43,6 +46,9 @@
         <recipeUsers>
             <li>AT_TableCrystalShaper</li>
         </recipeUsers>
+        <researchPrerequisites>
+            <li>AT_BasicAnimaCrystalizing</li>
+        </researchPrerequisites>
     </RecipeDef>
 
     <RecipeDef>
@@ -80,5 +86,8 @@
         <recipeUsers>
             <li>AT_TableCrystalShaper</li>
         </recipeUsers>
+        <researchPrerequisites>
+            <li>AT_AnimaCrystalizing</li>
+        </researchPrerequisites>
     </RecipeDef>
 </Defs>
