@@ -10,12 +10,12 @@ This then went out of hand very quickly and now it sits as an alternate tech-pat
 Instead of going into electricity for power, the player will have the choice to go for psychic runes and imbuements, which will hopefully offer an increasingly different approach, than the standard Rimworld playthrough.
 
 ## Progression
-As stated above, the tech-progression is intended to diverge somewhere late-medieval, where, instead of going for an electric stove to replace a fueled one, the player can research a runic stove, that requires no traditional fuel, but has to be fueled by either a psycaster's psyfocus.
+As stated above, the tech-progression is intended to diverge somewhere late-medieval, where, instead of going for an electric stove to replace a fueled one, the player can research a runic stove, that requires no traditional fuel, but has to be fueled by a psycaster's psyfocus.
 
 The technology then diverges further from vanilla, with machines, that fill the same niches as vanilla ones, but are different in their design/operation, with a focus on psychic powers fueling everything, developing ever more efficient ways to fuel the machines, replacing the need to manually refuel, by developing a psychic power grid. 
 
 This then extends to prosthetics too, starting with runic prosthetics, which are more efficient than regular prosthetics, but their effectiveness depends on their user's psychic sensitivity.
 
 ## Aesthetic
-The general aesthetic that I have in mind is a heavy focus on crystals, think Starcraft's Protoss, or Destiny's Awoken, with visible runes inscribed on machines.
+The general aesthetic that I have in mind is a heavy focus on crystals, think Starcraft's Protoss, or Destiny 2's Dreaming City, with visible runes inscribed on machines. The crystals colors are seperated into "low-tech" and "high-tech", with low-tech being a standard anima tree blue and high-tech being a more deep purple, signifying the density of the crystals increasing.
  
