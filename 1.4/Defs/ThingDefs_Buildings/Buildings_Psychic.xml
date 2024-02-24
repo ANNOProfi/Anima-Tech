@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>AT_PsychicPylon</defName>
+    <label>psychic pylon</label>
+    <description>An aetheric link tower that connects aether accumulators, capacitors, and devices within range. Additional link towers within range of each other will extend the aetheric grid.</description>
+    <thingClass>AnimaTech.Building_Psychic</thingClass>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>AnimaTech/Things/Buildings/Psychic/PsychicPylon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <rotatable>false</rotatable>
+    <designationCategory>AT_Psychic</designationCategory>
+    <statBases>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.4</Flammability>
+      <MeditationFocusStrength>1.0</MeditationFocusStrength>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>50</costStuffCount>
+    <costList>
+      <Steel>10</Steel>
+      <AT_AnimaShard>2</AT_AnimaShard>
+    </costList>
+    <researchPrerequisites>
+      <li>AT_PsychicNetwork</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <surfaceType>Item</surfaceType>
+    <comps>
+      <li Class="CompProperties_MeditationFocus">
+        <statDef>MeditationFocusStrength</statDef>
+        <focusTypes>
+          <li>Dignified</li>
+          <li>Natural</li>
+          <li>Artistic</li>
+          <li>Morbid</li>
+          <li>Minimal</li>
+          <li>Flame</li>
+        </focusTypes>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="AnimaTech.CompProperties_PsychicStorage">
+        <minimumFocusThreshold>0</minimumFocusThreshold>
+        <focusCapacity>0</focusCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicPylon">
+        <pylonRadius>4</pylonRadius>
+        <canBeToggled>false</canBeToggled>
+      </li>
+      <li Class="CompProperties_AssignableToPawn">
+          <drawAssignmentOverlay>false</drawAssignmentOverlay>
+          <maxAssignedPawnsCount>10</maxAssignedPawnsCount>
+          <compClass>AnimaTech.CompAssignableToPawn_PsychicStorage</compClass>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicGenerator">
+        <isMeditatable>true</isMeditatable>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicGlower">
+        <glowRadius>1.9</glowRadius>
+        <glowColor>(131,155,140,0)</glowColor>
+        <conditionalOnNonEmptyStorage>true</conditionalOnNonEmptyStorage>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <!--<modExtensions>
+      <li Class="AnimaTech.ModExtension_PsychicRune">
+        <overlayDrawSize>(2,0,2)</overlayDrawSize>
+        <projectionDrawSize>(1.5,0,1.5)</projectionDrawSize>
+        <staticOverlayPath>AnimaTech/Things/Buildings/Psychic/PsychicPylon_Glow</staticOverlayPath>
+      </li>
+    </modExtensions>-->
+  </ThingDef>
+</Defs>

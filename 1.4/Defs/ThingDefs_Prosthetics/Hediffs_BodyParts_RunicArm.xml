@@ -21,7 +21,7 @@
                 </tools>
             </li>
             <li Class="AnimaTech.HediffCompProperties_PsychicScale">
-                <minimumEfficiency>0.1</minimumEfficiency>
+                <minimumEfficiency>0.25</minimumEfficiency>
             </li>
         </comps>
         <spawnThingOnRemoved>AT_RunicArm</spawnThingOnRemoved>
