@@ -1,5 +1,7 @@
 using RimWorld;
 using Verse;
+using UnityEngine;
+using System;
 
 namespace AnimaTech
 {
@@ -12,6 +14,8 @@ namespace AnimaTech
                 return (HediffCompProperties_PsychicScale)this.props;
             }
         }
+
+        private int ticksUntilNextCheck = 0;
 
         private float psychicSensitivityCached;
 
@@ -34,34 +38,22 @@ namespace AnimaTech
 
         public override void CompPostPostAdd(DamageInfo? dinfo)
         {
-            partEfficiencyCached = this.parent.def.addedPartProps.partEfficiency;
+            partEfficiencyCached = this.Def.addedPartProps.partEfficiency;
 
-            if(Props.minimumEfficiency < partEfficiencyCached * PsychicSensitivity)
-            {
-                this.parent.def.addedPartProps.partEfficiency = partEfficiencyCached * PsychicSensitivity;
-            }
-            else
-            {
-                this.parent.def.addedPartProps.partEfficiency = Props.minimumEfficiency;
-            }
-            
+            this.Def.addedPartProps.partEfficiency = Math.Max(Props.minimumEfficiency, partEfficiencyCached * PsychicSensitivity);
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
-            base.CompPostTick(ref severityAdjustment);
-
-            if(psychicSensitivityCached != Pawn.GetStatValue(StatDefOf.PsychicSensitivity))
+            if(ticksUntilNextCheck <= 0)
             {
-                if(Props.minimumEfficiency < partEfficiencyCached * PsychicSensitivity)
+                if(psychicSensitivityCached != Pawn.GetStatValue(StatDefOf.PsychicSensitivity))
                 {
-                    this.parent.def.addedPartProps.partEfficiency = partEfficiencyCached * PsychicSensitivity;
+                    this.Def.addedPartProps.partEfficiency = Math.Max(Props.minimumEfficiency, partEfficiencyCached * PsychicSensitivity);
                 }
-                else
-                {
-                    this.parent.def.addedPartProps.partEfficiency = Props.minimumEfficiency;
-                }
+                ticksUntilNextCheck = 60;
             }
+            ticksUntilNextCheck--;
         }
     }
 }
