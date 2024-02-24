@@ -7,7 +7,7 @@ using Verse.AI;
 
 namespace AnimaTech
 {
-    [HarmonyPatch(typeof(JobDriver_Meditate))]
+    /*[HarmonyPatch(typeof(JobDriver_Meditate))]
     [HarmonyPatch("Notify_Starting")]
     public class JobDriver_Meditate_Patch
     {
@@ -51,7 +51,7 @@ namespace AnimaTech
                             cells.Remove(cell);
                         }
                     }
-                }*/
+                }
 
                 //Log.Message("Selecting target");
                 (from x in GenRadial.RadialCellsAround(result.Position, 5f, false)
@@ -64,5 +64,5 @@ namespace AnimaTech
             Log.Message("No building found");
             return true;
         }
-    }
+    }*/
 }
