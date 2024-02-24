@@ -1,10 +1,13 @@
 using Verse;
+using System.Collections.Generic;
+using RimWorld;
+using System.Text;
 
 namespace AnimaTech
 {
     public class CompProperties_PsychicGenerator : CompProperties
     {
-        public float baseGenerationRate;
+        public float baseGenerationRate = 0;
 
         public bool canTransmitToNetwork;
 
@@ -35,10 +38,22 @@ namespace AnimaTech
 
         public bool canToggleImbuement;
 
-        public float NeuralHeatFactor = 0.5f;
+        public float neuralHeatFactor = 0.5f;
 
         public bool isMeditatable = false;
 
         public bool canToggleMeditation;
+
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry item in base.SpecialDisplayStats(req))
+            {
+                yield return item;
+            }
+            if(baseGenerationRate > 0)
+            {
+                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicGeneratorStat".Translate(), baseGenerationRate.ToString("F"), "AT_PsychicGeneratorGenerationStatDesc".Translate(), 5000);
+            }
+        }
     }
 }

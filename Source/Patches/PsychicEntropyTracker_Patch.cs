@@ -25,12 +25,14 @@ namespace AnimaTech
                 {
                     return true;
                 }
+                if(!compPsychicStorage.CanBeAutoFilled)
+                {
+                    return true;
+                }
                 if (!compPsychicGenerator.TryStoreFocus(focus2, __instance.Pawn, compAssignableToPawn_PsychicStorage))
                 {
                     return true;
                 }
-                //compPsychicStorage.GlowAround();
-                //compPsychicStorage.GlowPawn(__instance.Pawn);
                 return false;
             }
             return true;

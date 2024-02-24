@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Verse;
+using RimWorld;
 
 namespace AnimaTech
 {
@@ -25,5 +26,17 @@ namespace AnimaTech
         public int resetTickPeriod = 120; // = 2sec
 
         public bool consumeOnlyWhenUsed;
+
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry item in base.SpecialDisplayStats(req))
+            {
+                yield return item;
+            }
+            if(baseFocusConsumption > 0)
+            {
+                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicUserStat".Translate(), baseFocusConsumption.ToString("F"), "AT_PsychicUserConsumptionStatDesc".Translate(), 5000);
+            }
+        }
     }
 }

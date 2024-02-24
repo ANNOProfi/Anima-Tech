@@ -119,13 +119,19 @@ namespace AnimaTech
         }
 
         public override string CompInspectStringExtra()
-        {
+        {   
+            if (IsConsideredDisconnected)
+            {
+                return "AT_PsychicPylonDisconnected".Translate();
+            }
+
+            if(!ShouldFormLinks)
+            {
+                return "AT_PsychicPylonToggledOff".Translate();
+            }
+
             if (networkRef != null)
             {
-                if (IsConsideredDisconnected)
-                {
-                    return "AT_PsychicPylonDisconnected".Translate();
-                }
                 string text = "AT_PsychicNetworkStorage".Translate(networkRef.focusTotal.ToString("F"), networkRef.focusCapacity.ToString("F"), networkRef.generationTotal.ToString("F"), (0f - networkRef.consumptionTotal).ToString("F"));
                 if (DebugSettings.godMode)
                 {
@@ -158,7 +164,7 @@ namespace AnimaTech
                 command_Toggle.defaultDesc = "AT_PsychicPylonDisabledDesc".Translate();
             }
             command_Toggle.hotKey = KeyBindingDefOf.Command_ItemForbid;
-            //command_Toggle.icon = UIAssets.ButtonFocusLink;
+            //command_Toggle.icon = UIAssets.ButtonPsychicPylon;
             command_Toggle.isActive = () => isToggledOn;
             command_Toggle.toggleAction = delegate
             {
@@ -166,12 +172,12 @@ namespace AnimaTech
                 if (isToggledOn)
                 {
                     MapComponent.RegisterPylon(this, onlyEnable: true);
-                    //parent.BroadcastCompSignal("ARR.AethericLinkActivated");
+                    parent.BroadcastCompSignal("AT.PsychicPylonActivated");
                 }
                 else
                 {
                     MapComponent.DeregisterPylon(this, onlyDisable: true);
-                    //parent.BroadcastCompSignal("ARR.AethericLinkDeactivated");
+                    parent.BroadcastCompSignal("AT.PsychicPylonDeactivated");
                 }
             };
             yield return command_Toggle;

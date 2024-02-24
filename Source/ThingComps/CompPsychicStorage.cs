@@ -14,7 +14,7 @@ namespace AnimaTech
 
         public PsychicMapComponent mapComponentRef;
 
-        private CompFlickable flickComp;
+        //private CompFlickable flickComp;
 
         public CompPsychicGenerator generatorComp;
 
@@ -30,11 +30,11 @@ namespace AnimaTech
 
         public bool allowEmpty;
 
-        public float autoFillThreshold;
+        public float autoFillThreshold = 0.75f;
 
         public float autoFillMaximum = 1f;
 
-        public bool allowFill;
+        public bool allowFill = true;
 
         public int selectedFuelIndex;
 
@@ -50,7 +50,9 @@ namespace AnimaTech
             }
         }
 
-        public float FocusSpace => Math.Max(0f, Props.focusCapacity - focusStored);
+        public float FocusCapacity => Props.focusCapacity;
+
+        public float FocusSpace => Math.Max(0f, FocusCapacity - focusStored);
 
         public bool IsEmpty => focusStored <= 0f;
 
@@ -58,7 +60,7 @@ namespace AnimaTech
         {
             get
             {
-                if (Props.canBeEmptied && allowEmpty && CanBeInteractedWith)
+                if (Props.canBeEmptied && allowEmpty )
                 {
                     return AmountToEmpty > 0;
                 }
@@ -70,9 +72,9 @@ namespace AnimaTech
         {
             get
             {
-                if (Props.canBeEmptied && allowEmpty && CanBeInteractedWith && AmountToAutoEmpty > 0)
+                if (Props.canBeEmptied && allowEmpty && AmountToAutoEmpty > 0)
                 {
-                    return focusStored >= Props.focusCapacity * autoEmptyThreshold;
+                    return focusStored >= FocusCapacity * autoEmptyThreshold;
                 }
                 return false;
             }
@@ -80,13 +82,13 @@ namespace AnimaTech
 
         public int AmountToEmpty => Mathf.FloorToInt(focusStored);
 
-        public int AmountToAutoEmpty => Mathf.FloorToInt(focusStored - Props.focusCapacity * autoEmptyMinimum);
+        public int AmountToAutoEmpty => Mathf.FloorToInt(focusStored - FocusCapacity * autoEmptyMinimum);
 
         public bool CanBeFilled
         {
             get
             {
-                if (Props.canBeFilled && allowFill && CanBeInteractedWith)
+                if (Props.canBeFilled && allowFill)
                 {
                     return AmountToFill > 0;
                 }
@@ -98,19 +100,19 @@ namespace AnimaTech
         {
             get
             {
-                if (Props.canBeFilled && allowFill && CanBeInteractedWith && AmountToAutoFill > 0)
+                if (Props.canBeFilled && allowFill && AmountToAutoFill > 0)
                 {
-                    return focusStored <= Props.focusCapacity * autoFillThreshold;
+                    return focusStored <= FocusCapacity * autoFillThreshold;
                 }
                 return false;
             }
         }
 
-        public int AmountToFill => Mathf.CeilToInt(Props.focusCapacity - focusStored);
+        public int AmountToFill => Mathf.CeilToInt(FocusCapacity - focusStored);
 
-        public int AmountToAutoFill => Mathf.CeilToInt(Props.focusCapacity * autoFillMaximum - focusStored);
+        public int AmountToAutoFill => Mathf.CeilToInt(FocusCapacity * autoFillMaximum - focusStored);
 
-        public bool IsFull => focusStored < Props.focusCapacity;
+        public bool IsFull => focusStored < FocusCapacity;
 
         public bool AcceptsTransmittedFocus => Props.canAcceptTransmitted;
 
@@ -170,29 +172,6 @@ namespace AnimaTech
 
         public int Tick => Find.TickManager.TicksGame;
 
-        /*public void RuneGlow()
-        {
-            if (!((double)focusStored <= 0.01))
-            {
-                float x = focusStored / Props.focusCapacity * 100f;
-                SimpleCurve simpleCurve = new SimpleCurve(new List<CurvePoint>
-                {
-                    new CurvePoint(0f, 70f),
-                    new CurvePoint(100f, 20f)
-                });
-
-                if (Tick % (int)simpleCurve.Evaluate(x) == 0)
-                {
-                    MoteMaker.MakeStaticMote(parent.TrueCenter(), parent.Map, AT_DefOf.AT_RunesGlow);
-                }
-            }
-        }*/
-
-        public override void CompTick()
-        {
-            //RuneGlow();
-        }
-
         public virtual void SetFuel(int index)
         {
             selectedFuelIndex = Mathf.Clamp(index, 0, Props.fuelThingDefs.Count - 1);
@@ -201,12 +180,16 @@ namespace AnimaTech
 
         public void FillFocus()
         {
-            focusStored = Props.focusCapacity;
+            focusStored = FocusCapacity;
         }
 
         public void StoreFocus(float amount)
         {
-            focusStored = Mathf.Min(focusStored + amount, Props.focusCapacity);
+            focusStored = Mathf.Min(focusStored + amount, FocusCapacity);
+            if(IsFull)
+            {
+                allowFill = false;
+            }
         }
 
         public bool HasFocus(float amount)
@@ -225,6 +208,11 @@ namespace AnimaTech
         {
             float num = Mathf.Min(focusStored, amount);
             focusStored = Mathf.Max(0f, focusStored - num);
+
+            if(AmountToFill >= FocusCapacity*0.25)
+            {
+                allowFill = true;
+            }
             return amount - num;
         }
 
@@ -262,7 +250,11 @@ namespace AnimaTech
 
         public override string CompInspectStringExtra()
         {
-            return "AT_PsychicStorage".Translate(focusStored.ToString("F"), Props.focusCapacity.ToString("F"));
+            if(FocusCapacity > 0)
+            {
+                return "AT_PsychicStorage".Translate(focusStored.ToString("F"), FocusCapacity.ToString("F"));
+            }
+            return "";
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()

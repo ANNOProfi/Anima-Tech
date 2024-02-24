@@ -24,7 +24,7 @@ namespace AnimaTech
 
                 float amount = thing.TryGetComp<CompPsychicStorage>().AmountToFill / generatorComp.Props.FocusMultiplierCurrentDifficulty;
 
-                float amount2 = pylonComp.networkRef.AmountToFill() / generatorComp.Props.FocusMultiplierCurrentDifficulty;
+                float amount2 = pylonComp.Network.AmountToFill() / generatorComp.Props.FocusMultiplierCurrentDifficulty;
 
                 if(toil.actor.CurJob.placedThings.NullOrEmpty())
                 {

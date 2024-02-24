@@ -14,7 +14,7 @@ namespace AnimaTech
             CompPsychicStorage compPsychicStorage = __instance.GetComp<CompPsychicStorage>();
             CompPsychicUser compPsychicUser = __instance.GetComp<CompPsychicUser>();
 
-            if ((!(compPsychicStorage == null) && (compPsychicStorage == null || !compPsychicStorage.HasMinimumFocus)) || (!(compPsychicUser == null) && (compPsychicUser == null || !compPsychicUser.IsUsingNetWorkPower)))
+            if ((!(compPsychicStorage == null) && (!compPsychicStorage.HasMinimumFocus)) || (!(compPsychicUser == null) && (!compPsychicUser.IsUsingNetWorkPower)))
             {
                 return false;
             }

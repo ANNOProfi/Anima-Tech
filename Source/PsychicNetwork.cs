@@ -42,6 +42,8 @@ namespace AnimaTech
 
         public List<CompPsychicStorage> shuffledStorages = new List<CompPsychicStorage>();
 
+        private bool isEmpty = true;
+
         public void Clear()
         {
             networkedThings.Clear();
@@ -124,8 +126,25 @@ namespace AnimaTech
                 consumptionTotal = 0f;
                 foreach (CompPsychicStorage capacitor in storages)
                 {
-                    focusCapacity += capacitor.Props.focusCapacity;
+                    focusCapacity += capacitor.FocusCapacity;
                     focusTotal += capacitor.focusStored;
+                    if(isEmpty && focusTotal > 0f)
+                    {
+                        isEmpty = false;
+                        foreach(CompPsychicPylon pylon in pylons)
+                        {
+                            pylon.parent.BroadcastCompSignal("AT.PsychicNetworkNotEmpty");
+                        }
+                    }
+
+                    if(!isEmpty && focusTotal == 0f)
+                    {
+                        isEmpty = true;
+                        foreach(CompPsychicPylon pylon in pylons)
+                        {
+                            pylon.parent.BroadcastCompSignal("AT.PsychicNetworkEmpty");
+                        }
+                    }
                 }
                 foreach (CompPsychicGenerator generator in generators)
                 {
@@ -176,10 +195,7 @@ namespace AnimaTech
             return focusTotal == focusCapacity;
         }
 
-        public bool IsEmpty()
-        {
-            return focusTotal == 0f;
-        }
+        public bool IsEmpty => isEmpty;
 
         public float AmountToFill()
         {

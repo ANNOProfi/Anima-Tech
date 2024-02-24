@@ -28,9 +28,9 @@ namespace AnimaTech
         {
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 
-            AddEndCondition(() => (!StorageComp.IsFull || !PylonComp.networkRef.IsFull()) ? JobCondition.Ongoing : JobCondition.Succeeded);
+            AddEndCondition(() => (StorageComp.IsFull || PylonComp.Network.IsFull()) ? JobCondition.Ongoing : JobCondition.Succeeded);
             AddFailCondition(() => !job.playerForced && !GeneratorComp.ShouldImbueNowIgnoringFuelPct);
-            AddFailCondition(() => !GeneratorComp.AllowImbuement && !job.playerForced);
+            AddFailCondition(() => !GeneratorComp.canImbue && !job.playerForced);
 
             yield return Toils_General.DoAtomic(delegate
             {

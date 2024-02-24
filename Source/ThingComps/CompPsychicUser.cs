@@ -62,7 +62,7 @@ namespace AnimaTech
 
         public override void CompTick()
         {
-            if(Props.consumeOnlyWhenUsed && !usedThisTick || !flickableComp.SwitchIsOn)
+            if(Props.consumeOnlyWhenUsed && !usedThisTick || !flickableComp.SwitchIsOn || Props.baseFocusConsumption == 0f)
             {
                 return;
             }
@@ -72,7 +72,7 @@ namespace AnimaTech
                 return;
             }
             float num = FocusConsumptionPerCheck;
-            if (Props.canUsePsychicPylon && pylonComp != null && pylonComp.isToggledOn && !pylonComp.networkRef.IsEmpty())
+            if (Props.canUsePsychicPylon && pylonComp != null && pylonComp.isToggledOn && !pylonComp.Network.IsEmpty)
             {
                 num = pylonComp.TryDrawFocus(num);
                 if (num <= 0f && !isConsumingNetworkPower)
@@ -97,7 +97,7 @@ namespace AnimaTech
                 if (isConsumingPower)
                 {
                     isConsumingPower = false;
-                    //parent.BroadcastCompSignal("ARR.AethericDeviceDeactivated");
+                    parent.BroadcastCompSignal("AT.PsychicDeviceDectivated");
                 }
                 ticksUntilNextCheck = Props.resetTickPeriod;
                 usedThisTick = false;
@@ -107,7 +107,7 @@ namespace AnimaTech
                 if (!isConsumingPower)
                 {
                     isConsumingPower = true;
-                    //parent.BroadcastCompSignal("ARR.AethericDeviceActivated");
+                    parent.BroadcastCompSignal("AT.PsychicDeviceActivated");
                 }
                 ticksUntilNextCheck = Props.useTickPeriod;
                 usedThisTick = false;
@@ -123,7 +123,8 @@ namespace AnimaTech
         {
             if (IsPoweredOn)
             {
-                return "AT_PsychicUserRatePerDay".Translate(FocusConsumptionPerDay.ToString("F"));
+                int numTicks = (int)(storageComp.focusStored/FocusConsumptionPerDay*60000);
+                return "AT_PsychicUserRatePerDay".Translate(FocusConsumptionPerDay.ToString("F"), numTicks.ToStringTicksToPeriod());
             }
             return "AT_PsychicUserRatePerDayInactive".Translate(FocusConsumptionPerDay.ToString("F"));
         }

@@ -19,7 +19,9 @@ namespace AnimaTech
 
         public List<CompPsychicStorage> storageCache = new List<CompPsychicStorage>();
 
-        public List<Thing> imbuementCache = new List<Thing>();
+        public List<ThingWithComps> imbuementCache = new List<ThingWithComps>();
+
+        public List<ThingWithComps> meditationCache = new List<ThingWithComps>();
 
         public Dictionary<IntVec3, CompPsychicPylon> pylonsByLocation = new Dictionary<IntVec3, CompPsychicPylon>();
 
@@ -291,9 +293,9 @@ namespace AnimaTech
             }
         }
 
-        public void RegisterGenerator(Thing generator)
+        public void RegisterGenerator(ThingWithComps generator)
         {
-            if(imbuementCache.Contains(generator))
+            if(imbuementCache.Contains(generator) || meditationCache.Contains(generator))
             {
                 Log.Error($"AT: Attempted to register a new psychic generator at {generator.Position}, but it was already in the cache.");
             }
@@ -303,18 +305,38 @@ namespace AnimaTech
                 {
                     imbuementCache.Add(generator);
                 }
+
+                if(generator.TryGetComp<CompPsychicGenerator>().AllowMeditation)
+                {
+                    meditationCache.Add(generator);
+                }
             }
         }
 
-        public void DeregisterGenerator(Thing generator)
+        public void DeregisterGenerator(ThingWithComps generator)
         {
-            if (imbuementCache.Contains(generator))
+            if(generator.TryGetComp<CompPsychicGenerator>().AllowImbuement)
             {
-                imbuementCache.Remove(generator);
+                if (imbuementCache.Contains(generator))
+                {
+                    imbuementCache.Remove(generator);
+                }
+                else
+                {
+                    Log.Error($"AT: Attempted to deregister a psychic imbuement generator at {generator.Position}, but it wasn't in the cache.");
+                }
             }
-            else
+
+            if(generator.TryGetComp<CompPsychicGenerator>().AllowMeditation)
             {
-                Log.Error($"AT: Attempted to deregister a psychic generator at {generator.Position}, but it wasn't in the cache.");
+                if (meditationCache.Contains(generator))
+                {
+                    meditationCache.Remove(generator);
+                }
+                else
+                {
+                    Log.Error($"AT: Attempted to deregister a psychic meditation generator at {generator.Position}, but it wasn't in the cache.");
+                }
             }
         }
 

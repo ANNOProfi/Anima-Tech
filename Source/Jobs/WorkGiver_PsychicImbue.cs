@@ -24,7 +24,7 @@ namespace AnimaTech
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if(!pawn.HasPsylink || pawn.psychicEntropy.CurrentPsyfocus <= pawn.psychicEntropy.TargetPsyfocus || !pawn.CanReserve(t))
+            if(!pawn.HasPsylink || pawn.psychicEntropy.CurrentPsyfocus <= pawn.psychicEntropy.TargetPsyfocus || !pawn.CanReserve(t) || t.TryGetComp<CompPsychicStorage>().IsFull || t.Faction != pawn.Faction)
             {
                 return false;
             }

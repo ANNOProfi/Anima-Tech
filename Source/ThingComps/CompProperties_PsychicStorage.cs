@@ -32,6 +32,18 @@ namespace AnimaTech
 
         public List<ThingDef> fuelThingDefs;
 
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry item in base.SpecialDisplayStats(req))
+            {
+                yield return item;
+            }
+            if(focusCapacity > 0)
+            {
+                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicStorageStat".Translate(), focusCapacity.ToString("F"), "AT_PsychicStorageStatDesc".Translate(), 5000);
+            }
+        }
+
         /*public float focuCapacity = 10;
 
         public float minimumFocusThreshold;

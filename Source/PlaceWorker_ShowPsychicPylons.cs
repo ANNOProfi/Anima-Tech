@@ -34,9 +34,9 @@ namespace AnimaTech
                 if (value.ShouldFormLinks)
                 {
                     //directEdges.Add(new AetherLinkEdge(value, GenThing.TrueCenter(center, rot, def.size, def.Altitude)));
-                    if (value.networkRef != null)
+                    if (value.Network != null)
                     {
-                        linkableNetworks.Add(value.networkRef);
+                        linkableNetworks.Add(value.Network);
                     }
                 }
                 /*else
