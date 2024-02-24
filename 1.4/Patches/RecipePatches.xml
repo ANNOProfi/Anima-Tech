@@ -2,7 +2,7 @@
 
 <Patch>
     <Operation Class="PatchOperationInsert">
-        <xpath>//recipeUsers/li[text()="FueledSmithy"]</xpath>
+        <xpath>//recipeUsers/li[text()="ElectricSmithy"]</xpath>
         <order>Append</order>
         <value>
             <li>AT_RunicSmithy</li>
@@ -10,7 +10,7 @@
     </Operation>
 
     <Operation Class="PatchOperationInsert">
-        <xpath>//fixedBillGiverDefs/li[text()="FueledSmithy"]</xpath>
+        <xpath>//fixedBillGiverDefs/li[text()="ElectricSmithy"]</xpath>
         <order>Append</order>
         <value>
             <li>AT_RunicSmithy</li>
@@ -18,7 +18,7 @@
     </Operation>
 
     <Operation Class="PatchOperationInsert">
-        <xpath>//recipeUsers/li[text()="FueledStove"]</xpath>
+        <xpath>//recipeUsers/li[text()="ElectricStove"]</xpath>
         <order>Append</order>
         <value>
             <li>AT_RunicStove</li>
@@ -26,10 +26,42 @@
     </Operation>
 
     <Operation Class="PatchOperationInsert">
-        <xpath>//fixedBillGiverDefs/li[text()="FueledStove"]</xpath>
+        <xpath>//fixedBillGiverDefs/li[text()="ElectricStove"]</xpath>
         <order>Append</order>
         <value>
             <li>AT_RunicStove</li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationInsert">
+        <xpath>//recipeUsers/li[text()="TableMachining"]</xpath>
+        <order>Append</order>
+        <value>
+            <li>AT_RunicLathe</li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationInsert">
+        <xpath>//fixedBillGiverDefs/li[text()="TableMachining"]</xpath>
+        <order>Append</order>
+        <value>
+            <li>AT_RunicLathe</li>
+        </value>
+    </Operation>
+
+    <!--<Operation Class="PatchOperationInsert">
+        <xpath>//recipeUsers/li[text()="ElectricSmelter"]</xpath>
+        <order>Append</order>
+        <value>
+            <li>AT_RunicSmelter</li>
+        </value>
+    </Operation>-->
+
+    <Operation Class="PatchOperationInsert">
+        <xpath>//fixedBillGiverDefs/li[text()="ElectricSmelter"]</xpath>
+        <order>Append</order>
+        <value>
+            <li>AT_RunicSmelter</li>
         </value>
     </Operation>
 </Patch>
