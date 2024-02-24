@@ -13,6 +13,8 @@ namespace AnimaTech
 
         protected CompFlickable flickComp;
 
+        protected CompPsychicGenerator generatorComp;
+
         protected CompAssignableToPawn_PsychicStorage pawnComp;
 
         protected ModExtension_PsychicRune extension;
@@ -85,11 +87,11 @@ namespace AnimaTech
                 {
                     return false;
                 }
-                if(pawnComp != null && pawnComp.AssignedPawnsForReading.NullOrEmpty())
+                if(pawnComp != null && !pawnComp.AssignedPawnsForReading.NullOrEmpty() && generatorComp != null && generatorComp.canMeditate)
                 {
-                    return false;
+                    return true;
                 }
-                return true;
+                return false;
             }
         }
 
@@ -116,12 +118,13 @@ namespace AnimaTech
             pylonComp = GetComp<CompPsychicPylon>();
             pawnComp = GetComp<CompAssignableToPawn_PsychicStorage>();
             flickComp = GetComp<CompFlickable>();
+            generatorComp = GetComp<CompPsychicGenerator>();
             extension = def.GetModExtension<ModExtension_PsychicRune>() ?? new ModExtension_PsychicRune();
             InitializeOverlay();
             //projectionMaterial = UIAssets.GetTableProjectionMaterial(ref projectionIndex);
         }
 
-        public override void Tick()
+        /*public override void Tick()
         {
             base.Tick();
             if (isForcedOn || usedThisTick || IsConnected || HasFocusStored || IsMeditated)
@@ -135,14 +138,14 @@ namespace AnimaTech
                     /*if (storageComp != null && storageComp.Props.idlePowerDraw != storageComp.Props.PowerConsumption)
                     {
                         storageComp.PowerOutput = 0f - storageComp.Props.PowerConsumption;
-                    }*/
+                    }
                     InitializeOverlay();
                     //UpdateProjection();
                 }
                 /*else if (ticksUntilProjectionChange < 1)
                 {
                     UpdateProjection();
-                }*/
+                }
             }
             else if (isInUse)
             {
@@ -151,9 +154,9 @@ namespace AnimaTech
                 /*if (storageComp != null && storageComp.Props.idlePowerDraw != storageComp.Props.PowerConsumption)
                 {
                     storageComp.PowerOutput = 0f - storageComp.Props.idlePowerDraw;
-                }*/
+                }
             }
-        }
+        }*/
 
         public override void ExposeData()
         {
@@ -269,7 +272,7 @@ namespace AnimaTech
                 pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
                 Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
 
-                if(0<storageComp.focusStored && storageComp.focusStored<=(storageComp.Props.focusCapacity*0.25))
+                if(0<storageComp.focusStored && storageComp.focusStored<=(storageComp.FocusCapacity*0.25))
                 {
                     if(base.Rotation == Rot4.West)
                     {
@@ -278,7 +281,7 @@ namespace AnimaTech
                     }
                     Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[0], 0);
                 }
-                else if((storageComp.Props.focusCapacity*0.25)<storageComp.focusStored && storageComp.focusStored<=(storageComp.Props.focusCapacity*0.5))
+                else if((storageComp.FocusCapacity*0.25)<storageComp.focusStored && storageComp.focusStored<=(storageComp.FocusCapacity*0.5))
                 {
                     if(base.Rotation == Rot4.West)
                     {
@@ -287,7 +290,7 @@ namespace AnimaTech
                     }
                     Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[1], 0);
                 }
-                else if((storageComp.Props.focusCapacity*0.5)<storageComp.focusStored && storageComp.focusStored<=(storageComp.Props.focusCapacity*0.75))
+                else if((storageComp.FocusCapacity*0.5)<storageComp.focusStored && storageComp.focusStored<=(storageComp.FocusCapacity*0.75))
                 {
                     if(base.Rotation == Rot4.West)
                     {
@@ -296,7 +299,7 @@ namespace AnimaTech
                     }
                     Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[2], 0);
                 }
-                else if((storageComp.Props.focusCapacity*0.75)<storageComp.focusStored && storageComp.focusStored<storageComp.Props.focusCapacity)
+                else if((storageComp.FocusCapacity*0.75)<storageComp.focusStored && storageComp.focusStored<(storageComp.FocusCapacity*0.995))
                 {
                     if(base.Rotation == Rot4.West)
                     {

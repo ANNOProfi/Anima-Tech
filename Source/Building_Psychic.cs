@@ -40,7 +40,7 @@ namespace AnimaTech
                 {
                     return false;
                 }
-                if ((storageComp != null && !storageComp.HasMinimumFocus) || (pylonComp != null && pylonComp.networkRef.IsEmpty() && pylonComp.networkRef != null))
+                if ((storageComp != null && !storageComp.HasMinimumFocus) || (pylonComp != null && pylonComp.Network != null && pylonComp.Network.IsEmpty))
                 {
                     return false;
                 }
@@ -58,7 +58,7 @@ namespace AnimaTech
             //projectionMaterial = UIAssets.GetTableProjectionMaterial(ref projectionIndex);
         }
 
-        public override void Tick()
+        /*public override void Tick()
         {
             base.Tick();
             if ((isForcedOn || usedThisTick) && IsActive)
@@ -72,7 +72,7 @@ namespace AnimaTech
                     /*if (storageComp != null && storageComp.Props.idlePowerDraw != storageComp.Props.PowerConsumption)
                     {
                         storageComp.PowerOutput = 0f - storageComp.Props.PowerConsumption;
-                    }*/
+                    }
                     InitializeOverlay();
                     //RandomizeProjection();
                 }
@@ -88,9 +88,9 @@ namespace AnimaTech
                 /*if (storageComp != null && storageComp.Props.idlePowerDraw != storageComp.Props.PowerConsumption)
                 {
                     storageComp.PowerOutput = 0f - storageComp.Props.idlePowerDraw;
-                }*/
+                }
             }
-        }
+        }*/
 
         public override void ExposeData()
         {
