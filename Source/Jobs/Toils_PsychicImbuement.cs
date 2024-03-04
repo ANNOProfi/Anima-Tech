@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using Steamworks;
 using Verse;
 using Verse.AI;
 
@@ -22,9 +23,22 @@ namespace AnimaTech
 
                 CompPsychicPylon pylonComp = thing.TryGetComp<CompPsychicPylon>();
 
-                float amount = thing.TryGetComp<CompPsychicStorage>().AmountToFill / generatorComp.Props.FocusMultiplierCurrentDifficulty;
+                CompPsychicStorage storageComp = thing.TryGetComp<CompPsychicStorage>();
 
-                float amount2 = pylonComp.Network.AmountToFill() / generatorComp.Props.FocusMultiplierCurrentDifficulty;
+                float amount = 0f;
+
+                float amount2 = 0f;
+
+                if(storageComp != null)
+                {
+                    amount = storageComp.AmountToFill / generatorComp.Props.FocusMultiplierCurrentDifficulty;
+                }
+
+                if(pylonComp != null)
+                {
+                    amount2 = pylonComp.Network.AmountToFill() / generatorComp.Props.FocusMultiplierCurrentDifficulty;
+                }
+                 
 
                 if(toil.actor.CurJob.placedThings.NullOrEmpty())
                 {

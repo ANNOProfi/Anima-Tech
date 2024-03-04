@@ -17,15 +17,17 @@ namespace AnimaTech
 
                 CompPsychicStorage compPsychicStorage = focus.TryGetComp<CompPsychicStorage>();
 
+                CompPsychicPylon compPsychicPylon = focus.TryGetComp<CompPsychicPylon>();
+
                 CompPsychicGenerator compPsychicGenerator = focus.TryGetComp<CompPsychicGenerator>();
 
                 CompAssignableToPawn_PsychicStorage compAssignableToPawn_PsychicStorage = focus.TryGetComp<CompAssignableToPawn_PsychicStorage>();
 
-                if (compPsychicStorage == null || compAssignableToPawn_PsychicStorage == null || compPsychicGenerator == null)
+                if ((compPsychicStorage == null && compPsychicPylon == null) || compAssignableToPawn_PsychicStorage == null || compPsychicGenerator == null)
                 {
                     return true;
                 }
-                if(!compPsychicStorage.CanBeAutoFilled)
+                if((bool)compPsychicPylon?.Network.IsFull() && !compPsychicStorage.CanBeFilled)
                 {
                     return true;
                 }
@@ -33,6 +35,8 @@ namespace AnimaTech
                 {
                     return true;
                 }
+
+                focus.TryGetComp<CompMeditationFocus>()?.Used(__instance.Pawn);
                 return false;
             }
             return true;

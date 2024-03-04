@@ -21,14 +21,15 @@ namespace AnimaTech
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(Refuelable, job, 1, -1, null, errorOnFailed);
+            return pawn.Reserve(Refuelable, job);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 
-            AddEndCondition(() => (StorageComp.IsFull || PylonComp.Network.IsFull()) ? JobCondition.Ongoing : JobCondition.Succeeded);
+            AddEndCondition(() => (PylonComp != null && !PylonComp.Network.IsFull()) ? JobCondition.Ongoing : JobCondition.Succeeded);
+            AddEndCondition(() => (StorageComp != null && !StorageComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
             AddFailCondition(() => !job.playerForced && !GeneratorComp.ShouldImbueNowIgnoringFuelPct);
             AddFailCondition(() => !GeneratorComp.canImbue && !job.playerForced);
 
