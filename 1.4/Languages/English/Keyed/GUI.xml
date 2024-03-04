@@ -4,13 +4,14 @@
     <AT_PsychicUserRatePerDay>Focus usage: {0} / d ({1})</AT_PsychicUserRatePerDay>
     <AT_PsychicUserRatePerDayInactive>Focus usage: {0} / d (Inactive)</AT_PsychicUserRatePerDayInactive>
     <AT_PsychicUserAdjustRate>Strength</AT_PsychicUserAdjustRate>
-    <AT_PsychicUserAdjustRateDesc>Adjust the rate at which this device consumes aether.</AT_PsychicUserAdjustRateDesc>
+    <AT_PsychicUserAdjustRateDesc>Adjust the rate at which this device consumes focus.</AT_PsychicUserAdjustRateDesc>
     <AT_PsychicUserAdjustRateLabel>Strength: {0}%</AT_PsychicUserAdjustRateLabel>
     <AT_PsychicUserStat>Psyfocus consumption</AT_PsychicUserStat>
     <AT_PsychicUserConsumptionStatDesc>How much psyfocus is being consumed, per day</AT_PsychicUserConsumptionStatDesc>
 
     <AT_PsychicGeneratorStat>Psyfocus generation</AT_PsychicGeneratorStat>
     <AT_PsychicGeneratorGenerationStatDesc>How much psyfocus is being generated inside, per day</AT_PsychicGeneratorGenerationStatDesc>
+    <AT_PsychicGeneratorGenerationRate>Focus generation: {0} / d</AT_PsychicGeneratorGenerationRate>
 
     <AT_GeneratorToggleImbuement>Toggle Imbuement</AT_GeneratorToggleImbuement>
     <AT_GeneratorToggleImbuementDesc>Toggle, whether pawns can directly imbue the runes with their psyfocus.</AT_GeneratorToggleImbuementDesc>

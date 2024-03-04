@@ -44,6 +44,10 @@ namespace AnimaTech
 
         public bool canToggleMeditation;
 
+        public bool isDayTimeGenerator = false;
+
+        public bool isNightTimeGenerator = false;
+
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
         {
             foreach (StatDrawEntry item in base.SpecialDisplayStats(req))
@@ -52,7 +56,7 @@ namespace AnimaTech
             }
             if(baseGenerationRate > 0)
             {
-                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicGeneratorStat".Translate(), baseGenerationRate.ToString("F"), "AT_PsychicGeneratorGenerationStatDesc".Translate(), 5000);
+                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicGeneratorStat".Translate(), baseGenerationRate.ToString("F1"), "AT_PsychicGeneratorGenerationStatDesc".Translate(), 5000);
             }
         }
     }

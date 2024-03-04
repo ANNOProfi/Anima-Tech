@@ -335,4 +335,68 @@
       </li>
     </modExtensions>-->
   </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>AT_CelestialEngine</defName>
+    <label>celestial engine</label>
+    <description>A crystaline structure, uniquely tuned to the storing of psyfocus from a network and distributing it back when needed.</description>
+    <thingClass>AnimaTech.Building_Psychic</thingClass>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>AnimaTech/Things/Buildings/Psychic/PsychicPylon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <rotatable>false</rotatable>
+    <designationCategory>AT_Psychic</designationCategory>
+    <statBases>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.4</Flammability>
+    </statBases>
+    <costList>
+      <Steel>10</Steel>
+      <AT_AnimaShard>2</AT_AnimaShard>
+    </costList>
+    <researchPrerequisites>
+      <li>AT_PsychicNetwork</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <surfaceType>Item</surfaceType>
+    <comps>
+      <li Class="AnimaTech.CompProperties_PsychicStorage">
+        <focusCapacity>800</focusCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+        <canAcceptTransmitted>true</canAcceptTransmitted>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicPylon">
+        <pylonRadius>0</pylonRadius>
+        <canBeToggled>false</canBeToggled>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicGenerator">
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <isDayTimeGenerator>true</isDayTimeGenerator>
+        <baseGenerationRate>240</baseGenerationRate>
+        <compClass>AnimaTech.CompPsychicGeneratorSky</compClass>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <!--<modExtensions>
+      <li Class="AnimaTech.ModExtension_PsychicRune">
+        <overlayDrawSize>(2,0,2)</overlayDrawSize>
+        <projectionDrawSize>(1.5,0,1.5)</projectionDrawSize>
+        <staticOverlayPath>AnimaTech/Things/Buildings/Psychic/PsychicPylon_Glow</staticOverlayPath>
+      </li>
+    </modExtensions>-->
+  </ThingDef>
 </Defs>

@@ -2,6 +2,7 @@ using Verse;
 using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace AnimaTech
 {
@@ -12,6 +13,8 @@ namespace AnimaTech
         public CompPsychicStorage storageComp;
 
         public CompFlickable flickComp;
+
+        protected virtual float DesiredFocusGeneration => Props.baseGenerationRate;
 
         public float reportedFocusGeneration;
 
@@ -105,7 +108,6 @@ namespace AnimaTech
             pylonComp = parent.GetComp<CompPsychicPylon>();
             storageComp = parent.GetComp<CompPsychicStorage>();
             flickComp = parent.GetComp<CompFlickable>();
-            reportedFocusGeneration = Props.baseGenerationRate;
 
             MapComponent.RegisterGenerator(this.parent);
         }
@@ -116,30 +118,52 @@ namespace AnimaTech
             MapComponent.DeregisterGenerator(this.parent);
         }
 
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_Values.Look(ref allowTransmission, "allowTransmission", defaultValue: true);
+            Scribe_Values.Look(ref canImbue, "canImbue", defaultValue: true);
+            Scribe_Values.Look(ref canMeditate, "canMeditate", defaultValue: true);
+        }
+
         public override string CompInspectStringExtra()
         {
-            if (DebugSettings.godMode && reportedFocusGeneration > 0)
+            if (DebugSettings.godMode && reportedFocusGeneration > 0f)
             {
-                return "AT_PsychicGeneratorGenerationRate".Translate(Props.baseGenerationRate.ToString("F")) + $", Efficiency: {Props.FocusMultiplierCurrentDifficulty.ToString("P")}";
+                return "AT_PsychicGeneratorGenerationRate".Translate(reportedFocusGeneration.ToString("F1")) + $", Meditation efficiency: {Props.FocusMultiplierCurrentDifficulty.ToString("P")}";
             }
 
-            if(reportedFocusGeneration > 0)
+            if(reportedFocusGeneration > 0f)
             {
-                return "AT_PsychicGeneratorGenerationRate".Translate(reportedFocusGeneration.ToString("F"));
+                return "AT_PsychicGeneratorGenerationRate".Translate(reportedFocusGeneration.ToString("F1"));
             }
             return "";
         }
 
+        public virtual void UpdateGenerationRate()
+        {
+            if(flickComp != null &&!flickComp.SwitchIsOn)
+            {
+                reportedFocusGeneration = 0f;
+            }
+            else
+            {
+                reportedFocusGeneration = DesiredFocusGeneration;
+            }
+        }
+
         public override void CompTick()
         {
-            if (!flickComp.SwitchIsOn || Props.baseGenerationRate == 0f)
+            UpdateGenerationRate();
+
+            if (reportedFocusGeneration == 0f)
             {
                 return;
             }
 
             if(ticksUntilNextGeneration < 1)
             {
-                float num = Props.baseGenerationRate / 1000f;
+                float num = reportedFocusGeneration / 1000f;
 
                 if (num > 0f)
                 {
@@ -160,8 +184,6 @@ namespace AnimaTech
             {
                 ticksUntilNextGeneration--;
             }
-
-            
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -291,7 +313,7 @@ namespace AnimaTech
                 }
                 if (storageComp != null && num2 > 0f && storageComp.FocusSpace > 0f)
                 {
-                    storageComp.StoreFocus(num);
+                    storageComp.StoreFocus(num2);
                 }
             }
 
