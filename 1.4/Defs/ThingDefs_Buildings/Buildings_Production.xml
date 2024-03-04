@@ -35,10 +35,10 @@
       <MaxHitPoints>180</MaxHitPoints>
       <Flammability>1.0</Flammability>
       <Cleanliness>-3</Cleanliness>
+      <MeditationFocusStrength>0.01</MeditationFocusStrength>
     </statBases>
     <size>(3,1)</size>
     <designationCategory>Production</designationCategory>
-    <uiOrder>2500</uiOrder>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
     <hasInteractionCell>True</hasInteractionCell>
@@ -54,10 +54,17 @@
     <tickerType>Normal</tickerType>
     <comps>
       <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_MeditationFocus">
+				<statDef>MeditationFocusStrength</statDef>
+				<focusTypes>
+          <li>AT_Universal</li>
+        </focusTypes>
+			</li>
       <li Class="AnimaTech.CompProperties_PsychicStorage">
         <minimumFocusThreshold>1</minimumFocusThreshold>
         <canBeTransmitted>true</canBeTransmitted>
         <canAcceptTransmitted>true</canAcceptTransmitted>
+        <focusCapacity>50</focusCapacity>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicPylon">
         <pylonRadius>0</pylonRadius>
@@ -68,15 +75,20 @@
 				<compClass>AnimaTech.CompAssignableToPawn_PsychicStorage</compClass>
 			</li>
       <li Class="AnimaTech.CompProperties_PsychicGenerator">
-        <isMeditatable>false</isMeditatable>
-        <canTransmitToNetwork>false</canTransmitToNetwork>
+        <isMeditatable>true</isMeditatable>
+        <canToggleMeditation>true</canToggleMeditation>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <canToggleTransmission>true</canToggleTransmission>
+        <allowImbuement>true</allowImbuement>
+        <canToggleImbuement>true</canToggleImbuement>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicUser">
-        <baseFocusConsumption>1</baseFocusConsumption>
+        <baseFocusConsumption>50</baseFocusConsumption>
         <canUsePsychicPylon>true</canUsePsychicPylon>
+        <consumeOnlyWhenUsed>true</consumeOnlyWhenUsed>
       </li>
       <li Class="CompProperties_HeatPusher">
-        <compClass>CompHeatPusherPowered</compClass>
+        <compClass>AnimaTech.CompHeatPusherPysychic</compClass>
         <heatPerSecond>4</heatPerSecond>
       </li>
       <li Class="CompProperties_AffectedByFacilities">
@@ -137,11 +149,10 @@
       <WorkToBuild>2000</WorkToBuild>
       <MaxHitPoints>180</MaxHitPoints>
       <Flammability>1.0</Flammability>
-      <MeditationFocusStrength>0.5</MeditationFocusStrength>
+      <MeditationFocusStrength>0.01</MeditationFocusStrength>
     </statBases>
     <size>(3,1)</size>
     <designationCategory>Production</designationCategory>
-    <uiOrder>2120</uiOrder>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
     <hasInteractionCell>True</hasInteractionCell>
@@ -173,26 +184,17 @@
       <li>ITab_Bills</li>
     </inspectorTabs>
     <comps>
-      <li Class="CompProperties_HeatPusher">
-        <compClass>CompHeatPusherPowered</compClass>
-        <heatPerSecond>3</heatPerSecond>
-      </li>
       <li Class="CompProperties_MeditationFocus">
 				<statDef>MeditationFocusStrength</statDef>
 				<focusTypes>
-					<li>Dignified</li>
-					<li>Natural</li>
-					<li>Artistic</li>
-					<li>Morbid</li>
-					<li>Minimal</li>
-					<li>Flame</li>
-				</focusTypes>
+          <li>AT_Universal</li>
+        </focusTypes>
 			</li>
       <li Class="CompProperties_Flickable"/>
       <li Class="AnimaTech.CompProperties_PsychicStorage">
-        <minimumFocusThreshold>1</minimumFocusThreshold>
         <canBeTransmitted>true</canBeTransmitted>
         <canAcceptTransmitted>true</canAcceptTransmitted>
+        <focusCapacity>50</focusCapacity>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicPylon">
         <pylonRadius>0</pylonRadius>
@@ -204,14 +206,20 @@
 			</li>
       <li Class="AnimaTech.CompProperties_PsychicGenerator">
         <isMeditatable>true</isMeditatable>
+        <canToggleMeditation>true</canToggleMeditation>
         <canTransmitToNetwork>true</canTransmitToNetwork>
         <canToggleTransmission>true</canToggleTransmission>
         <allowImbuement>true</allowImbuement>
         <canToggleImbuement>true</canToggleImbuement>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicUser">
-        <baseFocusConsumption>10</baseFocusConsumption>
+        <baseFocusConsumption>50</baseFocusConsumption>
         <canUsePsychicPylon>true</canUsePsychicPylon>
+        <consumeOnlyWhenUsed>true</consumeOnlyWhenUsed>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>AnimaTech.CompHeatPusherPysychic</compClass>
+        <heatPerSecond>3</heatPerSecond>
       </li>
     </comps>
     <placeWorkers>
@@ -246,7 +254,7 @@
     <description>A work station for assembling machinery like guns and ammunition, or breaking down dead mechanoids.</description>
     <thingClass>AnimaTech.Building_PsychicWorkTable</thingClass>
     <graphicData>
-      <texPath>AnimaTech/Things/Building/Production/TableMachining</texPath>
+      <texPath>AnimaTech/Things/Buildings/Production/TableMachining</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3.5,1.5)</drawSize>
       <damageData>
@@ -273,7 +281,6 @@
     </statBases>
     <size>(3,1)</size>
     <designationCategory>Production</designationCategory>
-    <uiOrder>2520</uiOrder>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
     <hasInteractionCell>True</hasInteractionCell>
@@ -288,11 +295,6 @@
     </inspectorTabs>
     <comps>
       <li Class="CompProperties_Flickable"/>
-      <li Class="AnimaTech.CompProperties_PsychicStorage">
-        <minimumFocusThreshold>1</minimumFocusThreshold>
-        <canBeTransmitted>true</canBeTransmitted>
-        <canAcceptTransmitted>true</canAcceptTransmitted>
-      </li>
       <li Class="AnimaTech.CompProperties_PsychicPylon">
         <pylonRadius>0</pylonRadius>
       </li>
@@ -333,14 +335,20 @@
   </ThingDef>
 
   <ThingDef ParentName="BenchBase">
-    <defName>AT_RunicSmelter</defName>
-    <label>runic smelter</label>
-    <description>Extracts usable metal from slag chunks and other mixed metal items. Consumes a lot of power.</description>
+    <defName>AT_RunicFurnace</defName>
+    <label>runic furnace</label>
+    <description>A psychically heated furnace, capable of extracting metal from scrap, as well as incinerate unwanted items. Dependent on network power.</description>
     <thingClass>AnimaTech.Building_PsychicWorkTable_HeatPush</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
-      <texPath>AnimaTech/Things/Building/Production/ElectricSmelter</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3.5,1.5)</drawSize>
+      <texPath>AnimaTech/Things/Buildings/Production/RunicFurnace</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawRotated>false</drawRotated>
+      <shadowData>
+        <volume>(2.6,0.5,2.6)</volume>
+      </shadowData>
       <damageData>
         <cornerTL>Damage/Corner</cornerTL>
         <cornerTR>Damage/Corner</cornerTR>
@@ -348,59 +356,55 @@
         <cornerBR>Damage/Corner</cornerBR>
       </damageData>
     </graphicData>
-    <castEdgeShadows>true</castEdgeShadows>
-    <staticSunShadowHeight>0.20</staticSunShadowHeight>
-    <constructEffect>ConstructMetal</constructEffect>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>150</costStuffCount>
     <costList>
-      <Steel>120</Steel>
+      <Steel>60</Steel>
       <AT_AnimaShard>5</AT_AnimaShard>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
-    <fillPercent>0.5</fillPercent>
+    <fillPercent>1</fillPercent>
     <useHitPoints>True</useHitPoints>
     <statBases>
       <WorkToBuild>3500</WorkToBuild>
       <MaxHitPoints>180</MaxHitPoints>
       <Flammability>1.0</Flammability>
     </statBases>
-    <size>(3,1)</size>
+    <size>(3,3)</size>
     <designationCategory>Production</designationCategory>
-    <uiOrder>2310</uiOrder>
-    <passability>PassThroughOnly</passability>
-    <pathCost>50</pathCost>
+    <passability>Impassable</passability>
     <hasInteractionCell>True</hasInteractionCell>
-    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <surfaceType>Item</surfaceType>
     <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
-    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
     <recipes>
       <li>ExtractMetalFromSlag</li>
       <li>SmeltWeapon</li>
       <li>SmeltApparel</li>
       <li>DestroyWeapon</li>
       <li>DestroyApparel</li>
+      <li>CremateCorpse</li>
+      <li>BurnApparel</li>
+      <li>BurnWeapon</li>
+      <li>BurnDrugs</li>
     </recipes>
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>
     <comps>
       <li Class="CompProperties_Flickable"/>
-      <li Class="AnimaTech.CompProperties_PsychicStorage">
-        <minimumFocusThreshold>1</minimumFocusThreshold>
-        <canBeTransmitted>true</canBeTransmitted>
-        <canAcceptTransmitted>true</canAcceptTransmitted>
-      </li>
       <li Class="AnimaTech.CompProperties_PsychicPylon">
         <pylonRadius>0</pylonRadius>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicGenerator">
         <canTransmitToNetwork>true</canTransmitToNetwork>
         <canToggleTransmission>true</canToggleTransmission>
-        <allowImbuement>true</allowImbuement>
-        <canToggleImbuement>true</canToggleImbuement>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicUser">
-        <baseFocusConsumption>1</baseFocusConsumption>
+        <baseFocusConsumption>150</baseFocusConsumption>
         <canUsePsychicPylon>true</canUsePsychicPylon>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicGlower">
@@ -408,14 +412,19 @@
         <glowColor>(217,112,33,0)</glowColor>
       </li>
       <li Class="CompProperties_HeatPusher">
-        <compClass>CompHeatPusherPowered</compClass>
-        <heatPerSecond>9</heatPerSecond>
+        <compClass>AnimaTech.CompHeatPusherPysychic</compClass>
+        <heatPerSecond>12</heatPerSecond>
       </li>
       <!--<li Class="CompProperties_Breakdownable"/>-->
     </comps>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
       <heatPerTickWhileWorking>0.32</heatPerTickWhileWorking>
+      <forceShowRoomStats>true</forceShowRoomStats>
+      <buildingTags>
+        <li>Production</li>
+      </buildingTags>
+      <paintable>true</paintable>
     </building>
     <designationHotKey>Misc10</designationHotKey>
     <placeWorkers>
@@ -425,12 +434,19 @@
     <researchPrerequisites>
       <li>AT_PsychicNetwork</li>
     </researchPrerequisites>
+    <modExtensions>
+      <li Class="AnimaTech.ModExtension_PsychicRune">
+        <overlayDrawSize>(4.5,0,4.5)</overlayDrawSize>
+        <staticRuneFirePath>AnimaTech/Things/Buildings/Production/RunicFurnaceRunes/RunicFurnaceRuneFire</staticRuneFirePath>
+        <staticRuneNetworkPath>AnimaTech/Things/Buildings/Production/RunicFurnaceRunes/RunicFurnaceRuneNetwork</staticRuneNetworkPath>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BenchBase">
     <defName>AT_TableCrystalShaper</defName>
     <label>crystal shaping table</label>
-    <description>A basic work table, equipped with the tools, containers and reagents, to shape anima shards into something more.</description>
+    <description>A basic work table, equipped with the tools, containers and reagents to shape anima shards into something more.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Production/TableCrystalShaper</texPath>
@@ -464,7 +480,6 @@
     </statBases>
     <size>(3,1)</size>
     <designationCategory>Production</designationCategory>
-    <uiOrder>2300</uiOrder>
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
     <hasInteractionCell>True</hasInteractionCell>

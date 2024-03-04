@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <MeditationFocusDef>
+    <defName>AT_Universal</defName>
+    <label>universal</label>
+  </MeditationFocusDef>
+</Defs>
