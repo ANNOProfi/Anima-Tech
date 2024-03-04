@@ -71,7 +71,7 @@ namespace AnimaTech
                 {
                     return false;
                 }
-                if(storageComp != null && storageComp.IsEmpty)
+                if(storageComp == null || (storageComp != null && storageComp.IsEmpty))
                 {
                     return false;
                 }
@@ -104,6 +104,14 @@ namespace AnimaTech
                     return false;
                 }
                 if (flickComp != null && !flickComp.SwitchIsOn)
+                {
+                    return false;
+                }
+                if(storageComp != null && (!storageComp.HasMinimumFocus || storageComp.IsEmpty ))
+                {
+                    return false;
+                }
+                if(pylonComp != null && pylonComp.Network.IsEmpty)
                 {
                     return false;
                 }
@@ -265,7 +273,7 @@ namespace AnimaTech
 
         protected void DrawRuneStorage()
         {
-            if (runeStorageMaterial != null)
+            if (!runeStorageMaterial.NullOrEmpty())
             {
 
                 Vector3 pos = DrawPos + extension.overlayDrawOffset;

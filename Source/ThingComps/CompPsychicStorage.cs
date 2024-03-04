@@ -90,7 +90,7 @@ namespace AnimaTech
             {
                 if (Props.canBeFilled && allowFill)
                 {
-                    return AmountToFill > 0;
+                    return !IsFull;
                 }
                 return false;
             }
@@ -102,7 +102,7 @@ namespace AnimaTech
             {
                 if (Props.canBeFilled && allowFill && AmountToAutoFill > 0)
                 {
-                    return focusStored <= FocusCapacity * autoFillThreshold;
+                    return focusStored <= (FocusCapacity * autoFillThreshold);
                 }
                 return false;
             }
@@ -112,7 +112,17 @@ namespace AnimaTech
 
         public int AmountToAutoFill => Mathf.CeilToInt(FocusCapacity * autoFillMaximum - focusStored);
 
-        public bool IsFull => focusStored < FocusCapacity;
+        public bool IsFull
+        {
+            get
+            {
+                if(FocusCapacity > 0f)
+            {
+                return focusStored == FocusCapacity;
+            }
+            return false;
+            }
+        }
 
         public bool AcceptsTransmittedFocus => Props.canAcceptTransmitted;
 
@@ -252,7 +262,7 @@ namespace AnimaTech
         {
             if(FocusCapacity > 0)
             {
-                return "AT_PsychicStorage".Translate(focusStored.ToString("F"), FocusCapacity.ToString("F"));
+                return "AT_PsychicStorage".Translate(focusStored.ToString("F1"), FocusCapacity.ToString("F1"));
             }
             return "";
         }

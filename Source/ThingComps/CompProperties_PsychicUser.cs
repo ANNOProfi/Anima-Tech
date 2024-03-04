@@ -35,7 +35,7 @@ namespace AnimaTech
             }
             if(baseFocusConsumption > 0)
             {
-                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicUserStat".Translate(), baseFocusConsumption.ToString("F"), "AT_PsychicUserConsumptionStatDesc".Translate(), 5000);
+                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicUserStat".Translate(), baseFocusConsumption.ToString("F1"), "AT_PsychicUserConsumptionStatDesc".Translate(), 5000);
             }
         }
     }

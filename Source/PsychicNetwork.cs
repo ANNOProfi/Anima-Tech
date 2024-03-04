@@ -192,7 +192,11 @@ namespace AnimaTech
 
         public bool IsFull()
         {
-            return focusTotal == focusCapacity;
+            if(focusCapacity > 0f)
+            {
+                return focusTotal == focusCapacity;
+            }
+            return false;
         }
 
         public bool IsEmpty => isEmpty;
@@ -269,13 +273,13 @@ namespace AnimaTech
                     if (float.IsNaN(item.focusStored))
                     {
                         item.focusStored = 0f;
-                        Log.Error("AT: NaN generated while attempting to store aether to capacitors");
+                        Log.Error("AT: NaN generated while attempting to store focus");
                     }
                     num -= num3;
                 }
                 if (num2 > 1000)
                 {
-                    Log.Warning("AT: Aborting aether capacitor storage attempt due to too many attempts");
+                    Log.Warning("AT: Aborting focus storage attempt due to too many attempts");
                     return num;
                 }
             }

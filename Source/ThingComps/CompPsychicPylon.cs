@@ -132,7 +132,7 @@ namespace AnimaTech
 
             if (networkRef != null)
             {
-                string text = "AT_PsychicNetworkStorage".Translate(networkRef.focusTotal.ToString("F"), networkRef.focusCapacity.ToString("F"), networkRef.generationTotal.ToString("F"), (0f - networkRef.consumptionTotal).ToString("F"));
+                string text = "AT_PsychicNetworkStorage".Translate(networkRef.focusTotal.ToString("F1"), networkRef.focusCapacity.ToString("F1"), networkRef.generationTotal.ToString("F1"), (0f - networkRef.consumptionTotal).ToString("F1"));
                 if (DebugSettings.godMode)
                 {
                     return text + $"\nDebug: Network ID #{((networkRef == null) ? (-1) : networkRef.networkId)}";

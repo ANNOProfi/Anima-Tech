@@ -12,13 +12,13 @@ namespace AnimaTech
             compClass = typeof(CompPsychicStorage);
         }
 
-        public float minimumFocusThreshold;
+        public float minimumFocusThreshold = 0f;
 
-        public float focusCapacity = 100f;
+        public float focusCapacity = 0f;
 
-        public bool canBeTransmitted;
+        public bool canBeTransmitted = true;
 
-        public bool canAcceptTransmitted;
+        public bool canAcceptTransmitted = true;
 
         public bool canBeEmptied;
 
@@ -40,7 +40,7 @@ namespace AnimaTech
             }
             if(focusCapacity > 0)
             {
-                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicStorageStat".Translate(), focusCapacity.ToString("F"), "AT_PsychicStorageStatDesc".Translate(), 5000);
+                yield return new StatDrawEntry(StatCategoryDefOf.Building, "AT_PsychicStorageStat".Translate(), focusCapacity.ToString("F1"), "AT_PsychicStorageStatDesc".Translate(), 5000);
             }
         }
 
