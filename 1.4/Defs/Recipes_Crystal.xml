@@ -60,13 +60,13 @@
         <workSpeedStat>PsychicSensitivity</workSpeedStat>
         <effectWorking>Smelt</effectWorking>
         <soundWorking>Recipe_Smelt</soundWorking>
-        <unfinishedThingDef>AT_UnfinishedLargeShard</unfinishedThingDef>
+        <unfinishedThingDef>AT_UnfinishedShard</unfinishedThingDef>
         <ingredients>
             <li>
                 <filter>
-                <thingDefs>
-                    <li>AT_AnimaShard</li>
-                </thingDefs>
+                    <thingDefs>
+                        <li>AT_AnimaShard</li>
+                    </thingDefs>
                 </filter>
                 <count>6</count>
             </li>

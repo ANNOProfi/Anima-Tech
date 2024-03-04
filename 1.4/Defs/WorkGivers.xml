@@ -31,4 +31,19 @@
     </requiredCapacities>
     <prioritizeSustains>true</prioritizeSustains>
   </WorkGiverDef>
+
+  <!--<MVCF.ModDef>
+		<defName>MVCF_EnableAll</defName>
+		<label>Enable all features</label>
+		<description>All features will be enabled if this def is included.</description>
+		<Features>
+			<Drawing>true</Drawing>
+			<ExtraEquipmentVerbs>true</ExtraEquipmentVerbs>
+			<IndependentFire>true</IndependentFire>
+			<IntegratedToggle>true</IntegratedToggle>
+			<RangedAnimals>true</RangedAnimals>
+			<HediffVerbs>true</HediffVerbs>
+			<ApparelVerbs>true</ApparelVerbs>
+		</Features>
+	</MVCF.ModDef>-->
 </Defs>
