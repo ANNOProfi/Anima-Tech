@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+    <ThingDef ParentName="DoorBase">
+        <defName>AT_RunicDoor</defName>
+        <label>runic door</label>
+        <thingClass>AnimaTech.Building_PsychicDoor</thingClass>
+        <description>Divides rooms. Powered operation allows people to move through the door without slowing down.</description>
+        <statBases>
+          <WorkToBuild>1100</WorkToBuild>
+        </statBases>
+        <graphicData>
+          <texPath>AnimaTech/Things/Buildings/Door/RunicDoor_Mover</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <shaderType>CutoutComplex</shaderType>
+          <damageData>
+          <!--  no damage marks because they don't move with the door
+            <rect>(0,0.12,1,0.76)</rect>-->
+            <enabled>false</enabled>
+          </damageData>
+        </graphicData>
+        <uiIconPath>AnimaTech/Things/Buildings/Door/RunicDoor_MenuIcon</uiIconPath>
+        <costList>
+          <Steel>40</Steel>
+          <AT_AnimaShard>2</AT_AnimaShard>
+        </costList>
+        <costStuffCount>25</costStuffCount>
+        <comps>
+            <li Class="CompProperties_Flickable"/>
+            <li Class="AnimaTech.CompProperties_PsychicPylon">
+                <pylonRadius>0</pylonRadius>
+            </li>
+            <li Class="AnimaTech.CompProperties_PsychicUser">
+                <baseFocusConsumption>20</baseFocusConsumption>
+                <canUsePsychicPylon>true</canUsePsychicPylon>
+            </li>
+        </comps>
+        <designationHotKey>Misc2</designationHotKey>
+        <researchPrerequisites>
+          <li>AT_AnimaShaping</li>
+        </researchPrerequisites>
+        <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+        <!--<modExtensions>
+            <li Class="AnimaTech.ModExtension_PsychicRune">
+                <overlayDrawSize>(1,0,1)</overlayDrawSize>
+                <staticRuneActivePath>AnimaTech/Things/Buildings/Door/RunicDoorRunes/RunicDoorRuneLock</staticRuneActivePath>
+                <staticRuneNetworkPath>AnimaTech/Things/Buildings/Door/RunicDoorRunes/RunicDoorRuneNetwork</staticRuneNetworkPath>
+            </li>
+        </modExtensions>-->
+    </ThingDef>
+</Defs>

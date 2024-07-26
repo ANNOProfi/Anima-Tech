@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<LanguageData>
+    <AnimaTech.Settings.InteractiveRunes>Toggle interactive runes</AnimaTech.Settings.InteractiveRunes>
+    <AnimaTech.Settings.InteractiveRunesDesc>Whether runes on certain buildings will be enabled or disabled, based on the function they represent.\nIf toggled off, all runes will always be drawn.</AnimaTech.Settings.InteractiveRunesDesc>
+</LanguageData>

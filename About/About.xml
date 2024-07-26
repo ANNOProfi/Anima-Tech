@@ -4,16 +4,16 @@
 	<name>Anima Tech</name>
 	<author>ANNOProfi</author>
 	<supportedVersions>
-		<li>1.4</li>
+		<li>1.5</li>
 	</supportedVersions>
 
 	<modDependencies>
-		<!-- <li>
+		<li>
 			<packageId>brrainz.harmony</packageId>
 			<displayName>Harmony</displayName>
 			<downloadUrl>https://steamcommunity.com/workshop/filedetails/?id=2009463077</downloadUrl>
 			<steamWorkshopUrl>https://steamcommunity.com/workshop/filedetails/?id=2009463077</steamWorkshopUrl>
-		</li> -->
+		</li>
 		<li>
 			<packageId>Ludeon.RimWorld.Royalty</packageId>
 			<displayName>Royalty</displayName>
@@ -27,7 +27,8 @@
 	<loadAfter>
 		<li>Ludeon.RimWorld</li>
 		<li>Ludeon.RimWorld.Royalty</li>
-	  </loadAfter>
+		<li>brrainz.harmony</li>
+	</loadAfter>
 
 	<description>Template</description>
 </ModMetaData>

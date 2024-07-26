@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <WorkGiverDef>
+    <defName>PsychicRefuel</defName>
+    <label>imbue psychic buildings</label>
+    <giverClass>AnimaTech.WorkGiver_PsychicImbue</giverClass>
+    <workType>Hauling</workType>
+    <verb>imbue</verb>
+    <gerund>imbuing</gerund>
+    <priorityInType>140</priorityInType>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsCrystals</defName>
+    <label>shape crystals</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>90</priorityInType>
+    <fixedBillGiverDefs>
+      <li>AT_TableCrystalShaper</li>
+    </fixedBillGiverDefs>
+    <verb>shape</verb>
+    <gerund>shaping crystals at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+</Defs>
