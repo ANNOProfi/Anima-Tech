@@ -10,5 +10,7 @@ namespace AnimaTech
         }
 
         public float minimumEfficiency = 1f;
+
+        public float originalEfficiency; //Same value as partEfficiency!
     }
 }

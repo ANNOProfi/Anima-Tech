@@ -2,6 +2,7 @@ using RimWorld;
 using Verse;
 using UnityEngine;
 using System;
+using UnityEngine.Animations;
 
 namespace AnimaTech
 {
@@ -15,7 +16,7 @@ namespace AnimaTech
             }
         }
 
-        private int ticksUntilNextCheck = 0;
+        private int ticksUntilNextCheck = 60;
 
         private float psychicSensitivityCached;
 
@@ -34,13 +35,9 @@ namespace AnimaTech
             }
         }
 
-        private float partEfficiencyCached;
-
         public override void CompPostPostAdd(DamageInfo? dinfo)
         {
-            partEfficiencyCached = this.Def.addedPartProps.partEfficiency;
-
-            this.Def.addedPartProps.partEfficiency = Math.Max(Props.minimumEfficiency, partEfficiencyCached * PsychicSensitivity);
+            this.Def.addedPartProps.partEfficiency = Math.Max(Props.minimumEfficiency, Props.originalEfficiency * PsychicSensitivity);
         }
 
         public override void CompPostTick(ref float severityAdjustment)
@@ -49,7 +46,7 @@ namespace AnimaTech
             {
                 if(psychicSensitivityCached != Pawn.GetStatValue(StatDefOf.PsychicSensitivity))
                 {
-                    this.Def.addedPartProps.partEfficiency = Math.Max(Props.minimumEfficiency, partEfficiencyCached * PsychicSensitivity);
+                    this.Def.addedPartProps.partEfficiency = Math.Max(Props.minimumEfficiency, Props.originalEfficiency * PsychicSensitivity);
                 }
                 ticksUntilNextCheck = 60;
             }
