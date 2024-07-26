@@ -11,6 +11,8 @@ namespace AnimaTech
 
         protected CompPsychicPylon pylonComp;
 
+        protected CompPsychicUser userComp;
+
         protected CompFlickable flickComp;
 
         protected CompPsychicGenerator generatorComp;
@@ -39,13 +41,29 @@ namespace AnimaTech
 
         protected Vector3 runeDrawSize;
 
-        protected Material runeFireMaterial;
+        protected Material runeActiveMaterial;
 
         protected Material runeNetworkMaterial;
 
         protected Material runeMeditationMaterial;
 
         protected Material[] runeStorageMaterial = new Material[5];
+
+        public new bool CanWorkWithoutPower
+        {
+            get
+            {
+                if(userComp == null)
+                {
+                    return true;
+                }
+                if (def.building.unpoweredWorkTableWorkSpeedFactor > 0f)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
 
         public bool IsConnected
         {
@@ -107,11 +125,7 @@ namespace AnimaTech
                 {
                     return false;
                 }
-                if(storageComp != null && (!storageComp.HasMinimumFocus || storageComp.IsEmpty ))
-                {
-                    return false;
-                }
-                if(pylonComp != null && pylonComp.Network.IsEmpty)
+                if(!userComp.IsPoweredOn)
                 {
                     return false;
                 }
@@ -127,6 +141,7 @@ namespace AnimaTech
             pawnComp = GetComp<CompAssignableToPawn_PsychicStorage>();
             flickComp = GetComp<CompFlickable>();
             generatorComp = GetComp<CompPsychicGenerator>();
+            userComp = GetComp<CompPsychicUser>();
             extension = def.GetModExtension<ModExtension_PsychicRune>() ?? new ModExtension_PsychicRune();
             InitializeOverlay();
             //projectionMaterial = UIAssets.GetTableProjectionMaterial(ref projectionIndex);
@@ -187,31 +202,38 @@ namespace AnimaTech
             }
         }
 
-        public override void Draw()
+        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            base.Draw();
-            if (IsOn)
+            base.DrawAt(drawLoc, flip);
+            if(AT_Utilities.Settings.useInteractiveRunes)
             {
-                DrawRuneFire();
-            }
-            if(HasFocusStored)
-            {
-                DrawRuneStorage();
-            }
-            if(IsMeditated)
-            {
-                DrawRuneMeditation();
-            }
-            if(IsConnected)
-            {
-                DrawRuneNetwork();
-            }
+                if (IsOn)
+                {
+                    DrawRuneActive();
+                }
+                if(HasFocusStored)
+                {
+                    DrawRuneStorage();
+                }
+                if(IsMeditated)
+                {
+                    DrawRuneMeditation();
+                }
+                if(IsConnected)
+                {
+                    DrawRuneNetwork();
+                }
+           }
+           else
+           {
+                DrawAllRunes();
+           }
         }
 
         public void InitializeOverlay()
         {
             //Log.Message("Initializing Overlay");
-            runeFireMaterial = extension.MaterialRuneFire(this);
+            runeActiveMaterial = extension.MaterialRuneActive(this);
             runeNetworkMaterial = extension.MaterialRuneNetwork(this);
             runeMeditationMaterial = extension.MaterialRuneMeditation(this);
             runeStorageMaterial = extension.MaterialRuneStorage(this);
@@ -223,19 +245,19 @@ namespace AnimaTech
             }
         }
 
-        protected void DrawRuneFire()
+        protected void DrawRuneActive()
         {
-            if (runeFireMaterial != null)
+            if (runeActiveMaterial != null)
             {
                 Vector3 pos = DrawPos + extension.overlayDrawOffset;
                 pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
                 Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
                 if(base.Rotation == Rot4.West)
                 {
-                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeFireMaterial, 0);
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeActiveMaterial, 0);
                     return;
                 }
-                Graphics.DrawMesh(MeshPool.plane10, matrix, runeFireMaterial, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeActiveMaterial, 0);
             }
         }
 
@@ -322,9 +344,53 @@ namespace AnimaTech
                     {
                         Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[4], 0);
                         return;
-                    } 
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[4], 0);                 
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[4], 0);
                 }
+            }
+        }
+
+        protected void DrawAllRunes()
+        {
+            Vector3 pos = DrawPos + extension.overlayDrawOffset;
+            pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
+            Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+
+            if (runeActiveMaterial != null)
+            {
+                if(base.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeActiveMaterial, 0);
+                    return;
+                }
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeActiveMaterial, 0);
+            }
+            if (runeMeditationMaterial != null)
+            {
+                if(base.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeMeditationMaterial, 0);
+                    return;
+                }
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeMeditationMaterial, 0);
+            }
+            if (runeNetworkMaterial != null)
+            {
+                if(base.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeNetworkMaterial, 0);
+                    return;
+                }
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeNetworkMaterial, 0);
+            }
+            if(!runeStorageMaterial.NullOrEmpty())
+            {
+                if(base.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[4], 0);
+                    return;
+                }
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[4], 0);
             }
         }
 

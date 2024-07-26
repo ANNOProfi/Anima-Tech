@@ -12,6 +12,8 @@ namespace AnimaTech
 
         protected CompPsychicUser userComp;
 
+        protected CompPsychicGenerator generatorComp;
+
         protected ModExtension_PsychicRune extension;
 
         protected int ticksActive;
@@ -26,13 +28,13 @@ namespace AnimaTech
 
         protected int projectionIndex = -1;
 
-        protected Material projectionMaterial;
+        protected Material[] runeStorageMaterial = new Material[5];
 
-        protected Material overlayMaterial;
+        protected Material[] runeGeneratorMaterial = new Material[5];
 
-        protected Vector3 overlayDrawSize;
+        protected Vector3 runeDrawSize;
 
-        public bool IsActive
+        public bool HasFocusStored
         {
             get
             {
@@ -40,7 +42,23 @@ namespace AnimaTech
                 {
                     return false;
                 }
-                if ((storageComp != null && !storageComp.HasMinimumFocus) || (pylonComp != null && pylonComp.Network != null && pylonComp.Network.IsEmpty))
+                if(storageComp == null || (storageComp != null && storageComp.IsEmpty))
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        public bool IsGenerating
+        {
+            get
+            {
+                if (!base.Spawned)
+                {
+                    return false;
+                }
+                if(generatorComp == null || (generatorComp != null && generatorComp.GenerationRate == 0f) || (generatorComp != null && generatorComp.reportedFocusGeneration == 0f))
                 {
                     return false;
                 }
@@ -53,49 +71,15 @@ namespace AnimaTech
             base.SpawnSetup(map, respawningAfterLoad);
             storageComp = GetComp<CompPsychicStorage>();
             pylonComp = GetComp<CompPsychicPylon>();
+            generatorComp = GetComp<CompPsychicGenerator>();
             extension = def.GetModExtension<ModExtension_PsychicRune>() ?? new ModExtension_PsychicRune();
             InitializeOverlay();
-            //projectionMaterial = UIAssets.GetTableProjectionMaterial(ref projectionIndex);
         }
-
-        /*public override void Tick()
-        {
-            base.Tick();
-            if ((isForcedOn || usedThisTick) && IsActive)
-            {
-                usedThisTick = false;
-                ticksActive++;
-                ticksUntilProjectionChange--;
-                if (!isInUse)
-                {
-                    isInUse = true;
-                    /*if (storageComp != null && storageComp.Props.idlePowerDraw != storageComp.Props.PowerConsumption)
-                    {
-                        storageComp.PowerOutput = 0f - storageComp.Props.PowerConsumption;
-                    }
-                    InitializeOverlay();
-                    //RandomizeProjection();
-                }
-                else if (ticksUntilProjectionChange < 1)
-                {
-                    //RandomizeProjection();
-                }
-            }
-            else if (isInUse)
-            {
-                isInUse = false;
-                ticksActive = 0;
-                /*if (storageComp != null && storageComp.Props.idlePowerDraw != storageComp.Props.PowerConsumption)
-                {
-                    storageComp.PowerOutput = 0f - storageComp.Props.idlePowerDraw;
-                }
-            }
-        }*/
 
         public override void ExposeData()
         {
             base.ExposeData();
-            if (Scribe.EnterNode("EccentricSmartTable"))
+            if (Scribe.EnterNode("AnimaTechBuildingPsychic"))
             {
                 try
                 {
@@ -113,54 +97,141 @@ namespace AnimaTech
             }
         }
 
-        public override void Draw()
+        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            base.Draw();
-            if (IsActive)
+            base.DrawAt(drawLoc, flip);
+            if (HasFocusStored)
             {
-                DrawOverlay();
-                //DrawProjection();
+                DrawRuneStorage();
+            }
+            if(IsGenerating)
+            {
+                DrawRuneGenerator();
             }
         }
 
         public void InitializeOverlay()
         {
-            Log.Message("Initializing Overlay");
-            overlayMaterial = extension.MaterialFor(this);
-            overlayDrawSize = extension.overlayDrawSize;
-            if (overlayDrawSize.x != overlayDrawSize.z && (base.Rotation == Rot4.East || base.Rotation == Rot4.West))
+            if(extension != null)
             {
-                overlayDrawSize.x = extension.overlayDrawSize.z;
-                overlayDrawSize.z = extension.overlayDrawSize.x;
+                runeStorageMaterial = extension.MaterialRuneStorage(this);
+                runeGeneratorMaterial = extension.MaterialRuneGenerator(this);
+                runeDrawSize = extension.overlayDrawSize;
+                if (runeDrawSize.x != runeDrawSize.z && (base.Rotation == Rot4.East || base.Rotation == Rot4.West))
+                {
+                    runeDrawSize.x = extension.overlayDrawSize.z;
+                    runeDrawSize.z = extension.overlayDrawSize.x;
+                }
             }
         }
 
-        protected void DrawOverlay()
+        protected void DrawRuneStorage()
         {
-            if (overlayMaterial != null)
+            if (!runeStorageMaterial.NullOrEmpty())
+            {
+
+                Vector3 pos = DrawPos + extension.overlayDrawOffset;
+                pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
+                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+
+                if(0<storageComp.focusStored && storageComp.focusStored<=(storageComp.FocusCapacity*0.25))
+                {
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[0], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[0], 0);
+                }
+                else if((storageComp.FocusCapacity*0.25)<storageComp.focusStored && storageComp.focusStored<=(storageComp.FocusCapacity*0.5))
+                {
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[1], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[1], 0);
+                }
+                else if((storageComp.FocusCapacity*0.5)<storageComp.focusStored && storageComp.focusStored<=(storageComp.FocusCapacity*0.75))
+                {
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[2], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[2], 0);
+                }
+                else if((storageComp.FocusCapacity*0.75)<storageComp.focusStored && storageComp.focusStored<(storageComp.FocusCapacity*0.995))
+                {
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[3], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[3], 0);
+                }
+                else
+                {  
+                    if(base.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[4], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[4], 0);
+                }
+            }
+        }
+
+        protected void DrawRuneGenerator()
+        {
+            if (!runeGeneratorMaterial.NullOrEmpty())
             {
                 Vector3 pos = DrawPos + extension.overlayDrawOffset;
                 pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
-                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, overlayDrawSize);
-                Graphics.DrawMesh(MeshPool.plane10, matrix, overlayMaterial, 0);
+                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+
+                if(0<generatorComp.reportedFocusGeneration && generatorComp.reportedFocusGeneration<=(generatorComp.GenerationRate*0.25))
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[0], 0);
+                }
+                else if((generatorComp.GenerationRate*0.25)<generatorComp.reportedFocusGeneration && generatorComp.reportedFocusGeneration<=(generatorComp.GenerationRate*0.5))
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[1], 0);
+                }
+                else if((generatorComp.GenerationRate*0.5)<generatorComp.reportedFocusGeneration && generatorComp.reportedFocusGeneration<=(generatorComp.GenerationRate*0.75))
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[2], 0);
+                }
+                else if((generatorComp.GenerationRate*0.75)<generatorComp.reportedFocusGeneration && generatorComp.reportedFocusGeneration<(generatorComp.GenerationRate*0.995))
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[3], 0);
+                }
+                else
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[4], 0);
+                }
             }
         }
 
-        /*protected void DrawProjection()
+        protected void DrawAllRunes()
         {
-            if (projectionMaterial != null)
+            Vector3 pos = DrawPos + extension.overlayDrawOffset;
+            pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
+            Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+
+            if(!runeStorageMaterial.NullOrEmpty())
             {
-                Vector3 pos = DrawPos + extension.projectionDrawOffset;
-                pos.y = AltitudeLayer.MoteOverheadLow.AltitudeFor();
-                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, extension.projectionDrawSize);
-                Graphics.DrawMesh(MeshPool.plane10, matrix, projectionMaterial, 0);
+                if(base.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[4], 0);
+                    return;
+                }
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[4], 0);
+            }
+            if(!runeGeneratorMaterial.NullOrEmpty())
+            {
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[4], 0);
             }
         }
-
-        public void RandomizeProjection()
-        {
-            //projectionMaterial = UIAssets.GetTableProjectionMaterial(ref projectionIndex, randomize: true);
-            ticksUntilProjectionChange = extension.projectionDuration.RandomInRange;
-        }*/
     }
 }

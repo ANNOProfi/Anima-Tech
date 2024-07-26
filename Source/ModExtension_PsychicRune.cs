@@ -20,20 +20,20 @@ namespace AnimaTech
         public string rotatedOverlayPath;
 
         [Unsaved(false)]
-        public Material staticRuneFire;
+        public Material staticRuneActive;
 
         [Unsaved(false)]
-        public Material rotatedRuneFireEast;
+        public Material rotatedRuneActiveEast;
 
         [Unsaved(false)]
-        public Material rotatedRuneFireSouth;
+        public Material rotatedRuneActiveSouth;
 
         [Unsaved(false)]
-        public Material rotatedRuneFireNorth;
+        public Material rotatedRuneActiveNorth;
 
-        public string staticRuneFirePath;
+        public string staticRuneActivePath;
 
-        public string rotatedRuneFirePath;
+        public string rotatedRuneActivePath;
 
         [Unsaved(false)]
         public Material staticRuneMeditation;
@@ -83,6 +83,11 @@ namespace AnimaTech
 
         public string rotatedRuneNetworkPath;
 
+        [Unsaved(false)]
+        public Material[] staticRuneGenerator = new Material[5];
+
+        public string staticRuneGeneratorPath;
+
         public Vector3 overlayDrawSize = new Vector3(2f, 0f, 2f);
 
         public Vector3 overlayDrawOffset = new Vector3(0f, 0f, 0f);
@@ -97,15 +102,15 @@ namespace AnimaTech
         {
             LongEventHandler.ExecuteWhenFinished(delegate
             {
-                if (!staticRuneFirePath.NullOrEmpty())
+                if (!staticRuneActivePath.NullOrEmpty())
                 {
-                    staticRuneFire = MaterialPool.MatFrom(staticRuneFirePath, ShaderDatabase.Transparent);
+                    staticRuneActive = MaterialPool.MatFrom(staticRuneActivePath, ShaderDatabase.Transparent);
                 }
-                if (!rotatedRuneFirePath.NullOrEmpty())
+                if (!rotatedRuneActivePath.NullOrEmpty())
                 {
-                    rotatedRuneFireNorth = MaterialPool.MatFrom(rotatedRuneFirePath + "_north", ShaderDatabase.Transparent);
-                    rotatedRuneFireEast = MaterialPool.MatFrom(rotatedRuneFirePath + "_east", ShaderDatabase.Transparent);
-                    rotatedRuneFireSouth = MaterialPool.MatFrom(rotatedRuneFirePath + "_south", ShaderDatabase.Transparent);
+                    rotatedRuneActiveNorth = MaterialPool.MatFrom(rotatedRuneActivePath + "_north", ShaderDatabase.Transparent);
+                    rotatedRuneActiveEast = MaterialPool.MatFrom(rotatedRuneActivePath + "_east", ShaderDatabase.Transparent);
+                    rotatedRuneActiveSouth = MaterialPool.MatFrom(rotatedRuneActivePath + "_south", ShaderDatabase.Transparent);
                 }
 
                 if (!staticRuneNetworkPath.NullOrEmpty())
@@ -134,7 +139,7 @@ namespace AnimaTech
                 {
                     for(int i=1; i<6; i++)
                     {
-                        staticRuneStorage[i-1] = MaterialPool.MatFrom(staticRuneStoragePath + $"{i}");
+                        staticRuneStorage[i-1] = MaterialPool.MatFrom(staticRuneStoragePath + $"{i}", ShaderDatabase.Transparent);
                     }
                 }
                 if (!rotatedRuneStoragePath.NullOrEmpty())
@@ -144,6 +149,14 @@ namespace AnimaTech
                         rotatedRuneStorageNorth[i-1] = MaterialPool.MatFrom(rotatedRuneStoragePath + $"{i}_north", ShaderDatabase.Transparent);
                         rotatedRuneStorageEast[i-1] = MaterialPool.MatFrom(rotatedRuneStoragePath + $"{i}_east", ShaderDatabase.Transparent);
                         rotatedRuneStorageSouth[i-1] = MaterialPool.MatFrom(rotatedRuneStoragePath + $"{i}_south", ShaderDatabase.Transparent);
+                    }
+                }
+
+                if(!staticRuneGeneratorPath.NullOrEmpty())
+                {
+                    for(int i=1; i<6; i++)
+                    {
+                        staticRuneGenerator[i-1] = MaterialPool.MatFrom(staticRuneGeneratorPath + $"{i}", ShaderDatabase.Transparent);
                     }
                 }
             });
@@ -162,21 +175,21 @@ namespace AnimaTech
             return staticOverlay;
         }
 
-        public Material MaterialRuneFire(Thing thing)
+        public Material MaterialRuneActive(Thing thing)
         {
-            if (rotatedRuneFirePath != null)
+            if (rotatedRuneActivePath != null)
             {
                 if (thing.Rotation == Rot4.East || thing.Rotation == Rot4.West)
                 {
-                    return rotatedRuneFireEast;
+                    return rotatedRuneActiveEast;
                 }
                 if(thing.Rotation == Rot4.North)
                 {
-                    return rotatedRuneFireNorth;
+                    return rotatedRuneActiveNorth;
                 }
-                return rotatedRuneFireSouth;
+                return rotatedRuneActiveSouth;
             }
-            return staticRuneFire;
+            return staticRuneActive;
         }
 
         public Material MaterialRuneNetwork(Thing thing)
@@ -228,6 +241,23 @@ namespace AnimaTech
                 return rotatedRuneStorageSouth;
             }
             return staticRuneStorage;
+        }
+
+        public Material[] MaterialRuneGenerator(Thing thing)
+        {
+            /*if (rotatedRuneGeneratorPath != null)
+            {
+                if (thing.Rotation == Rot4.East || thing.Rotation == Rot4.West)
+                {
+                    return rotatedRuneGeneratorEast;
+                }
+                if(thing.Rotation == Rot4.North)
+                {
+                    return rotatedRuneGeneratorNorth;
+                }
+                return rotatedRuneGeneratorSouth;
+            }*/
+            return staticRuneGenerator;
         }
     }
 }
