@@ -37,7 +37,7 @@ namespace AnimaTech
 
         public override void CompPostPostAdd(DamageInfo? dinfo)
         {
-            this.Def.addedPartProps.partEfficiency = Math.Max(Props.minimumEfficiency, Props.originalEfficiency * PsychicSensitivity);
+            parent.CurStage.partEfficiencyOffset = Math.Max(Props.minimumEfficiency, Props.originalEfficiency * PsychicSensitivity);
         }
 
         public override void CompPostTick(ref float severityAdjustment)
@@ -46,7 +46,7 @@ namespace AnimaTech
             {
                 if(psychicSensitivityCached != Pawn.GetStatValue(StatDefOf.PsychicSensitivity))
                 {
-                    this.Def.addedPartProps.partEfficiency = Math.Max(Props.minimumEfficiency, Props.originalEfficiency * PsychicSensitivity);
+                    parent.CurStage.partEfficiencyOffset = Math.Max(Props.minimumEfficiency, Props.originalEfficiency * PsychicSensitivity);
                 }
                 ticksUntilNextCheck = 60;
             }

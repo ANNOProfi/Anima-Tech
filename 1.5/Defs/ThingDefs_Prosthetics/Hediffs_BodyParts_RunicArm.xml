@@ -22,13 +22,17 @@
             </li>
             <li Class="AnimaTech.HediffCompProperties_PsychicScale">
                 <minimumEfficiency>0.25</minimumEfficiency>
-                <originalEfficiency>1</originalEfficiency> <!-- Same value as partEfficiency! -->
+                <originalEfficiency>1</originalEfficiency>
             </li>
         </comps>
+        <stages>
+            <li>
+                <partEfficiencyOffset>0</partEfficiencyOffset>
+            </li>
+        </stages>
         <spawnThingOnRemoved>AT_RunicArm</spawnThingOnRemoved>
         <addedPartProps>
             <solid>true</solid>
-            <partEfficiency>1</partEfficiency>
         </addedPartProps>
     </HediffDef>
 
@@ -60,6 +64,7 @@ A psychically handicapped user will get decreased function, up to the point, whe
             <HediffDef>AT_RunicArm</HediffDef>
         </descriptionHyperlinks>
         <jobString>Installing runic arm.</jobString>
+        <uiIconThing>AT_RunicArm</uiIconThing>
         <ingredients>
             <li>
                 <filter>
