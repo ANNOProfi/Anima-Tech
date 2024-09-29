@@ -3,6 +3,7 @@
 <Defs>
     <HediffDef ParentName="AddedBodyPartBase">
         <defName>AT_RunicArm</defName>
+        <hediffClass>AnimaTech.Hediff_PsychicAddedPart</hediffClass>
         <label>runic arm</label>
         <labelNoun>a runic arm</labelNoun>
         <description>An installed runic arm.</description>
@@ -25,14 +26,11 @@
                 <originalEfficiency>1</originalEfficiency>
             </li>
         </comps>
-        <stages>
-            <li>
-                <partEfficiencyOffset>0</partEfficiencyOffset>
-            </li>
-        </stages>
         <spawnThingOnRemoved>AT_RunicArm</spawnThingOnRemoved>
         <addedPartProps>
             <solid>true</solid>
+            <partEfficiency>1</partEfficiency>
+            <betterThanNatural>true</betterThanNatural>
         </addedPartProps>
     </HediffDef>
 

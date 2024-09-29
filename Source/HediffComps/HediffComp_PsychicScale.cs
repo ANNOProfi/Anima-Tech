@@ -1,8 +1,6 @@
 using RimWorld;
 using Verse;
 using UnityEngine;
-using System;
-using UnityEngine.Animations;
 
 namespace AnimaTech
 {
@@ -16,11 +14,11 @@ namespace AnimaTech
             }
         }
 
-        private int ticksUntilNextCheck = 60;
-
         private float psychicSensitivityCached;
 
 	    private int psychicSensitivityCachedTick = -1;
+
+        private float partEfficiencyCached = 1f;
 
         public float PsychicSensitivity
         {
@@ -35,22 +33,18 @@ namespace AnimaTech
             }
         }
 
-        public override void CompPostPostAdd(DamageInfo? dinfo)
+        public HediffStage GetStage(HediffStage stage, float psychicSensitivity)
         {
-            parent.CurStage.partEfficiencyOffset = Math.Max(Props.minimumEfficiency, Props.originalEfficiency * PsychicSensitivity);
-        }
+            partEfficiencyCached = Def.addedPartProps.partEfficiency;
 
-        public override void CompPostTick(ref float severityAdjustment)
-        {
-            if(ticksUntilNextCheck <= 0)
+            stage.partEfficiencyOffset = partEfficiencyCached * psychicSensitivity - 1f;
+
+            if(partEfficiencyCached * psychicSensitivity < Props.minimumEfficiency)
             {
-                if(psychicSensitivityCached != Pawn.GetStatValue(StatDefOf.PsychicSensitivity))
-                {
-                    parent.CurStage.partEfficiencyOffset = Math.Max(Props.minimumEfficiency, Props.originalEfficiency * PsychicSensitivity);
-                }
-                ticksUntilNextCheck = 60;
+                stage.partEfficiencyOffset = Props.minimumEfficiency - 1f;
             }
-            ticksUntilNextCheck--;
+
+            return stage;
         }
     }
 }
