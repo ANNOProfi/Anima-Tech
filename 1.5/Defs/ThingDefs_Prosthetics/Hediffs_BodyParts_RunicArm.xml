@@ -3,7 +3,7 @@
 <Defs>
     <HediffDef ParentName="AddedBodyPartBase">
         <defName>AT_RunicArm</defName>
-        <hediffClass>AnimaTech.Hediff_PsychicAddedPart</hediffClass>
+        <hediffClass>BrokenPlankFramework.Hediff_ScalingAddedPart</hediffClass>
         <label>runic arm</label>
         <labelNoun>a runic arm</labelNoun>
         <description>An installed runic arm.</description>
@@ -21,9 +21,9 @@
                     </li>
                 </tools>
             </li>
-            <li Class="AnimaTech.HediffCompProperties_PsychicScale">
+            <li Class="BrokenPlankFramework.HediffCompProperties_Scale">
                 <minimumEfficiency>0.25</minimumEfficiency>
-                <originalEfficiency>1</originalEfficiency>
+                <scaleStat>PsychicSensitivity</scaleStat>
             </li>
         </comps>
         <spawnThingOnRemoved>AT_RunicArm</spawnThingOnRemoved>
