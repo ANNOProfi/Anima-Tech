@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LanguageData>
+    <AT_MessageProductTeleportedToPawn>{0}: {1} skipped to {2}'s inventory.</AT_MessageProductTeleportedToPawn>
+    <AT_MessageProductFinished>{0}: Product finished.</AT_MessageProductFinished>
+</LanguageData>

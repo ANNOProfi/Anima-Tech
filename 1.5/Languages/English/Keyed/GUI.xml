@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LanguageData>
-    <AT_PsychicUserRatePerDay>Focus usage: {0} / d ({1})</AT_PsychicUserRatePerDay>
-    <AT_PsychicUserRatePerDayPylon>Focus usage: {0} / d</AT_PsychicUserRatePerDayPylon>
-    <AT_PsychicUserRatePerDayInactive>Focus usage: {0} / d (Inactive)</AT_PsychicUserRatePerDayInactive>
+    <AT_PsychicUserRatePerDay>Focus usage: {0} Ψ/d ({1})</AT_PsychicUserRatePerDay>
+    <AT_PsychicUserRatePerDayPylon>Focus usage: {0} Ψ/d</AT_PsychicUserRatePerDayPylon>
+    <AT_PsychicUserRatePerDayInactive>Focus usage: {0} Ψ/d (Inactive)</AT_PsychicUserRatePerDayInactive>
     <AT_PsychicUserAdjustRate>Strength</AT_PsychicUserAdjustRate>
     <AT_PsychicUserAdjustRateDesc>Adjust the rate at which this device consumes focus.</AT_PsychicUserAdjustRateDesc>
     <AT_PsychicUserAdjustRateLabel>Strength: {0}%</AT_PsychicUserAdjustRateLabel>
@@ -12,7 +12,7 @@
 
     <AT_PsychicGeneratorStat>Psyfocus generation</AT_PsychicGeneratorStat>
     <AT_PsychicGeneratorGenerationStatDesc>How much psyfocus is being generated inside, per day</AT_PsychicGeneratorGenerationStatDesc>
-    <AT_PsychicGeneratorGenerationRate>Focus generation: {0} / d</AT_PsychicGeneratorGenerationRate>
+    <AT_PsychicGeneratorGenerationRate>Focus generation: {0} &#x3A8;<!-- unicode for uppercase psi-->/d</AT_PsychicGeneratorGenerationRate>
 
     <AT_GeneratorToggleImbuement>Toggle Imbuement</AT_GeneratorToggleImbuement>
     <AT_GeneratorToggleImbuementDesc>Toggle, whether pawns can directly imbue the runes with their psyfocus.</AT_GeneratorToggleImbuementDesc>
@@ -46,8 +46,8 @@
     <AT_StorageDebugEmpty>Debug Empty</AT_StorageDebugEmpty>
     <AT_StorageDebugEmptyDesc>Empties this storage.</AT_StorageDebugEmptyDesc>
 
-    <AT_PsychicStorage>Focus storage: {0} / {1}</AT_PsychicStorage>
-    <AT_PsychicNetworkStorage>Psychic pylon network: {0} / {1} (+{2} / {3})</AT_PsychicNetworkStorage>
+    <AT_PsychicStorage>Focus storage: {0} / {1} Ψ</AT_PsychicStorage>
+    <AT_PsychicNetworkStorage>Psychic pylon network: {0} / {1} Ψ ({2})</AT_PsychicNetworkStorage>
     <AT_PsychicPylonDisconnected>No active pylons in range</AT_PsychicPylonDisconnected>
     <AT_PsychicPylonToggledOff>Not connected to pylon network</AT_PsychicPylonToggledOff>
     <AT_PsychicPylonEnabled>Pylon Enabled</AT_PsychicPylonEnabled>
@@ -59,4 +59,12 @@
 	<AnimaTech.GUI.MeditationActiveSwitch_Desc>Whether pawns will meditate to refuel this object.</AnimaTech.GUI.MeditationActiveSwitch_Desc>
     <AnimaTech.GUI.SetPsycastersToMeditation_Label>Set pawns to meditation</AnimaTech.GUI.SetPsycastersToMeditation_Label>
 	<AnimaTech.GUI.SetPsycastersToMeditation_Desc>Force meditating pawns to accumulate psyfocus in storage.</AnimaTech.GUI.SetPsycastersToMeditation_Desc>
+
+    <AT_AdjustProcessorCountMaxLabel>Current maximum: {0} * minimum = {1}</AT_AdjustProcessorCountMaxLabel>
+    <AT_AdjustProcessorCountMaxDesc>Adjust the maximum storage capacity realtive to the minimum up to 1000 items.</AT_AdjustProcessorCountMaxDesc>
+    <AT_AdjustProcessorCountMax>Adjust maximum</AT_AdjustProcessorCountMax>
+
+    <AT_AdjustProcessorCountMinLabel>Current minimum: {0} * recipe = {1}</AT_AdjustProcessorCountMinLabel>
+    <AT_AdjustProcessorCountMinDesc>Adjust the minimum threshold for restock relative to the recipe cost.</AT_AdjustProcessorCountMinDesc>
+    <AT_AdjustProcessorCountMin>Adjust minimum</AT_AdjustProcessorCountMin>
 </LanguageData>
