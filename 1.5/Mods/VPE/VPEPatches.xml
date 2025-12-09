@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <operations>
+            <li Class="PatchOperationSetName" MayRequire="VanillaExpanded.VPsycastsE">
+                <xpath>//products/AT_AnimaShard</xpath>
+                <name>VPE_Eltex</name>
+            </li>
+        
+            <li Class="PatchOperationSetName" MayRequire="VanillaExpanded.VPsycastsE">
+                <xpath>//costList/AT_AnimaShard</xpath>
+                <name>VPE_Eltex</name>
+            </li>
+        
+            <li Class="PatchOperationReplace" MayRequire="VanillaExpanded.VPsycastsE">
+                <xpath>//thingDefs/li[text()="AT_AnimaShard"]</xpath>
+                <value>
+                    <li>VPE_Eltex</li>
+                </value>
+            </li>
+        </operations>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+		<xpath>Defs/MeditationFocusDef[defName="AT_Universal"]/modExtensions</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/MeditationFocusDef[defName="AT_Universal"]</xpath>
+			<value>
+				<modExtensions>
+                    <li Class="VanillaPsycastsExpanded.MeditationFocusExtension">
+                        <icon>UI/PsyfocusIcons/PsyfocusArchotechnology</icon>
+                        <pointsOnly>false</pointsOnly>
+                    </li>
+                </modExtensions>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/MeditationFocusDef[defName="AT_Universal"]/modExtensions</xpath>
+			<value>
+				<li Class="VanillaPsycastsExpanded.MeditationFocusExtension">
+                    <icon>UI/PsyfocusIcons/PsyfocusArchotechnology</icon>
+                    <pointsOnly>false</pointsOnly>
+                </li>
+			</value>
+		</match>
+	</Operation>
+</Patch>
