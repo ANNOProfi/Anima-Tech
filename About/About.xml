@@ -18,6 +18,12 @@
 			<packageId>Ludeon.RimWorld.Royalty</packageId>
 			<displayName>Royalty</displayName>
 		</li>
+		<li>
+        	<packageId>ANNOProfi.BrokenPlankFramework</packageId>
+        	<displayName>Broken Plank Framework</displayName>
+			<downloadUrl>https://steamcommunity.com/workshop/filedetails/?id=3431778467</downloadUrl>
+			<steamWorkshopUrl>https://steamcommunity.com/workshop/filedetails/?id=3431778467</steamWorkshopUrl>
+    	</li>
 	</modDependencies>
 
 	<incompatibleWith>
@@ -28,6 +34,7 @@
 		<li>Ludeon.RimWorld</li>
 		<li>Ludeon.RimWorld.Royalty</li>
 		<li>brrainz.harmony</li>
+    	<li>ANNOProfi.BrokenPlankFramework</li>
 	</loadAfter>
 
 	<description>Template</description>
