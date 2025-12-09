@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <ThingDef ParentName="BenchBase">
+    <defName>AT_AutomaticRunicStove</defName>
+    <label>automatic runic stove</label>
+    <description>A stove with an attached countertop for preparing meals, equipped with heating runes, negating the need for burning precious fuel, as long as they can be kept active.</description>
+    <thingClass>AnimaTech.Building_PsychicWorkTable</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>AnimaTech/Things/Buildings/Production/RunicStove</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.5,1.5)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <constructEffect>ConstructMetal</constructEffect>
+    <costList>
+      <Steel>60</Steel>
+      <AT_AnimaShard>5</AT_AnimaShard>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <fillPercent>0.5</fillPercent>
+    <useHitPoints>True</useHitPoints>
+    <statBases>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <MeditationFocusStrength>0.01</MeditationFocusStrength>
+    </statBases>
+    <size>(3,1)</size>
+    <designationCategory>Production</designationCategory>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <inspectorTabs>
+      <li>ITab_Storage</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_MeditationFocus">
+				<statDef>MeditationFocusStrength</statDef>
+				<focusTypes>
+          <li>AT_Universal</li>
+        </focusTypes>
+			</li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="AnimaTech.CompProperties_PsychicPylon">
+        <pylonRadius>0</pylonRadius>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicUser">
+        <baseFocusConsumption>50</baseFocusConsumption>
+        <canUsePsychicPylon>true</canUsePsychicPylon>
+        <consumeOnlyWhenUsed>false</consumeOnlyWhenUsed>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>AnimaTech.CompHeatPusherPsychic</compClass>
+        <heatPerSecond>3</heatPerSecond>
+      </li>
+      <li Class="AnimaTech.CompProperties_WorkTableAutomatic">
+        <recipes>
+          <li>AT_AutomaticMealSimple</li>
+          <li>AT_AutomaticMealSimpleBulk</li>
+        </recipes>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>Smithing</li>
+      <li>AT_PsychicRunes</li>
+    </researchPrerequisites>
+    <building>
+      <isMealSource>true</isMealSource>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+      <heatPerTickWhileWorking>0.10</heatPerTickWhileWorking>
+      <fixedStorageSettings>
+        <filter>
+          <categories>
+            <li>FoodRaw</li>
+          </categories>
+          <specialFiltersToDisallow>
+            <li>AllowPlantFood</li>
+          </specialFiltersToDisallow>
+          <disallowedThingDefs>
+            <li>Hay</li>
+          </disallowedThingDefs>
+        </filter>
+      </fixedStorageSettings>
+    </building>
+    <tickerType>Normal</tickerType>
+    <modExtensions>
+      <li Class="AnimaTech.ModExtension_PsychicRune">
+        <overlayDrawSize>(3.5,0,1.5)</overlayDrawSize>
+        <!--<projectionDrawSize>(1.5,0,1.5)</projectionDrawSize>-->
+        <rotatedRuneActivePath>AnimaTech/Things/Buildings/Production/RunicStoveRunes/RunicStoveRuneFire</rotatedRuneActivePath>
+        <rotatedRuneNetworkPath>AnimaTech/Things/Buildings/Production/RunicStoveRunes/RunicStoveRuneNetwork</rotatedRuneNetworkPath>
+        <rotatedRuneMeditationPath>AnimaTech/Things/Buildings/Production/RunicStoveRunes/RunicStoveRuneMeditation</rotatedRuneMeditationPath>
+        <rotatedRuneStoragePath>AnimaTech/Things/Buildings/Production/RunicStoveRunes/RunicStoveRuneStorage</rotatedRuneStoragePath>
+      </li>
+    </modExtensions>
+  </ThingDef>
+</Defs>

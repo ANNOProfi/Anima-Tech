@@ -1,5 +1,6 @@
 using Verse;
 using RimWorld;
+using UnityEngine;
 
 namespace AnimaTech
 {
@@ -15,7 +16,7 @@ namespace AnimaTech
             //icon = UIAssets.ButtonStrength;
             action = delegate
             {
-                Dialog_Slider window = new Dialog_Slider((int x) => "AT_AdjustProcessorCountMaxLabel".Translate(x, user.MinimumCount*x), 1, 10, delegate(int value)
+                Dialog_Slider window = new Dialog_Slider((int x) => "AT_AdjustProcessorCountMaxLabel".Translate(x, Mathf.Clamp(user.MinimumCount*x, user.MinimumCount, 1000)), 1, 10, delegate(int value)
                 {
                     user.maximumModifier = value;
                 }, user.maximumModifier);

@@ -26,7 +26,7 @@ namespace AnimaTech
 
             CompWorkTableAutomatic compWorkTableAutomatic = t.TryGetComp<CompWorkTableAutomatic>();
 
-            if(compWorkTableAutomatic == null)
+            if(compWorkTableAutomatic == null || !compWorkTableAutomatic.NeedsRestock)
             {
                 return false;
             }
@@ -41,12 +41,14 @@ namespace AnimaTech
         public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
             CompWorkTableAutomatic compWorkTableAutomatic = t.TryGetComp<CompWorkTableAutomatic>();
-            if (compWorkTableAutomatic == null || compWorkTableAutomatic.IsFull)
+
+            if (compWorkTableAutomatic == null || !compWorkTableAutomatic.NeedsRestock)
             {
                 return null;
             }
 
             ThingCount thingCount = FindIngredients(pawn, compWorkTableAutomatic);
+            
             if (thingCount.Thing != null)
             {
                 Job job = HaulAIUtility.HaulToContainerJob(pawn, thingCount.Thing, t);
@@ -64,11 +66,11 @@ namespace AnimaTech
                 return default(ThingCount);
             }
 
-            return new ThingCount(thing, Mathf.Clamp(Mathf.Min(thing.stackCount, comp.CountToFull), comp.MinimumCount, comp.MaximumCount));
+            return new ThingCount(thing, Mathf.Clamp(Mathf.Min(thing.stackCount, comp.CountToFull), 1, comp.MaximumCount));
 
             bool Validator(Thing x)
             {
-                if (x.IsForbidden(pawn) || !pawn.CanReserve(x) || comp.selectedRecipe == null || !comp.NeedsRestock)
+                if (x.IsForbidden(pawn) || !pawn.CanReserve(x))
                 {
                     return false;
                 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <RecipeDef ParentName="CookMealBase">
+    <defName>AT_AutomaticMealSimple</defName>
+    <label>cook simple meal</label>
+    <description>Cook a straightforward meal from one ingredient.</description>
+    <jobString>Cooking simple meal.</jobString>
+    <requiredGiverWorkType>Hauling</requiredGiverWorkType>
+    <workAmount>1</workAmount>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>IngredientValueGetter_Nutrition</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>FoodRaw</li>
+          </categories>
+        </filter>
+        <count>0.5</count>
+      </li>
+    </ingredients>
+    <products>
+      <MealSimple>1</MealSimple>
+    </products>
+    <displayPriority>100</displayPriority>
+    <formingTicks>1250</formingTicks>
+    <modExtensions>
+      <li Class="AnimaTech.WorkTableAutonomousTeleportExtension">
+        <teleportToInventory>true</teleportToInventory>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+
+  <RecipeDef ParentName="CookMealBase">
+    <defName>AT_AutomaticMealSimpleBulk</defName>
+    <label>cook simple meal x4</label>
+    <description>Cook a straightforward meal from one ingredient.</description>
+    <jobString>Cooking simple meal.</jobString>
+    <requiredGiverWorkType>Cooking</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>IngredientValueGetter_Nutrition</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>FoodRaw</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <MealSimple>4</MealSimple>
+    </products>
+    <displayPriority>110</displayPriority>
+    <formingTicks>5000</formingTicks>
+    <modExtensions>
+      <li Class="AnimaTech.WorkTableAutonomousTeleportExtension">
+        <teleportToInventory>true</teleportToInventory>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+</Defs>

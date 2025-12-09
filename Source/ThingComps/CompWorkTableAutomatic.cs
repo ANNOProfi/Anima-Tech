@@ -34,15 +34,29 @@ namespace AnimaTech
         {
             get
             {
-                return (innerContainer.TotalStackCount + ingredientContainer.TotalStackCount) >= MaximumCount;
+                return innerContainer.TotalStackCount >= MaximumCount;
             }
         }
+
+        private bool restock = true;
 
         public bool NeedsRestock
         {
             get
             {
-                return (innerContainer.TotalStackCount + ingredientContainer.TotalStackCount) < MinimumCount;
+                if(restock && IsFull)
+                {
+                    restock = false;
+                    return false;
+                }
+
+                if(!restock && (innerContainer.TotalStackCount < MinimumCount))
+                {
+                    restock = true;
+                    return true;
+                }
+
+                return restock;
             }
         }
 
@@ -50,7 +64,7 @@ namespace AnimaTech
         {
             get
             {
-                return MaximumCount - (innerContainer.TotalStackCount + ingredientContainer.TotalStackCount);
+                return MaximumCount - innerContainer.TotalStackCount;
             }
         }
 
@@ -100,6 +114,8 @@ namespace AnimaTech
 
 	    private Sustainer workingSound;
 
+        public int targetCount = 1;
+
         public CompWorkTableAutomatic()
         {
             innerContainer = new ThingOwner<Thing>(this);
@@ -118,7 +134,7 @@ namespace AnimaTech
             base.CompTick();
             if(Active)
             {
-                if(ticksToCompletion == -1 && selectedRecipe != null && !innerContainer.NullOrEmpty())
+                if(ticksToCompletion == -1 && selectedRecipe != null && !innerContainer.NullOrEmpty() && selectedRecipe.WorkerCounter.CountProducts((Bill_Production)selectedRecipe.MakeNewBill()) < targetCount)
                 {
                     BeginForming();
                 }
@@ -221,8 +237,8 @@ namespace AnimaTech
                     }
                 }
             }
-            //Log.Message("AT Message: Forming completed");
-            //Log.Message("AT Message: ThingOwner contains "+innerContainer.ContentsString);
+            //ModLog.Log(" Forming completed");
+            //ModLog.Log(" ThingOwner contains "+innerContainer.ContentsString);
             EjectContents();
 
             //inUse = false;
@@ -513,6 +529,8 @@ namespace AnimaTech
             yield return new Command_AutoProcessorAdjustMinCount(this);
 
             yield return new Command_AutoProcessorAdjustMaxCount(this);
+
+            yield return new Command_AutoProcessorSetTargetCount(this);
         }
 
         public override void PostExposeData()
@@ -525,6 +543,7 @@ namespace AnimaTech
             Scribe_Defs.Look(ref storeMode, "storeMode");
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
             Scribe_Deep.Look(ref ingredientContainer, "ingredientContainer", this);
+            Scribe_Values.Look(ref targetCount, "targetCount", 1);
 
             if (storageSettings == null)
             {
