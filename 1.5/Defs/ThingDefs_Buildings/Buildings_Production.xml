@@ -399,10 +399,6 @@
       <li Class="AnimaTech.CompProperties_PsychicPylon">
         <pylonRadius>0</pylonRadius>
       </li>
-      <li Class="AnimaTech.CompProperties_PsychicGenerator">
-        <canTransmitToNetwork>true</canTransmitToNetwork>
-        <canToggleTransmission>true</canToggleTransmission>
-      </li>
       <li Class="AnimaTech.CompProperties_PsychicUser">
         <baseFocusConsumption>150</baseFocusConsumption>
         <canUsePsychicPylon>true</canUsePsychicPylon>
@@ -434,9 +430,10 @@
     <researchPrerequisites>
       <li>AT_PsychicNetwork</li>
     </researchPrerequisites>
+    <tickerType>Normal</tickerType>
     <modExtensions>
       <li Class="AnimaTech.ModExtension_PsychicRune">
-        <overlayDrawSize>(4.5,0,4.5)</overlayDrawSize>
+        <overlayDrawSize>(4,0,4)</overlayDrawSize>
         <staticRuneActivePath>AnimaTech/Things/Buildings/Production/RunicFurnaceRunes/RunicFurnaceRuneFire</staticRuneActivePath>
         <staticRuneNetworkPath>AnimaTech/Things/Buildings/Production/RunicFurnaceRunes/RunicFurnaceRuneNetwork</staticRuneNetworkPath>
       </li>

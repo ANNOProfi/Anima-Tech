@@ -49,13 +49,16 @@
         </value>
     </Operation>
 
-    <!--<Operation Class="PatchOperationInsert">
+    <Operation Class="PatchOperationConditional">
         <xpath>//recipeUsers/li[text()="ElectricSmelter"]</xpath>
-        <order>Append</order>
-        <value>
-            <li>AT_RunicFurnace</li>
-        </value>
-    </Operation>-->
+        <match Class="PatchOperationInsert">
+            <xpath>//recipeUsers/li[text()="ElectricSmelter"]</xpath>
+            <order>Append</order>
+            <value>
+                <li>AT_RunicFurnace</li>
+            </value>
+        </match>
+    </Operation>
 
     <Operation Class="PatchOperationInsert">
         <xpath>//fixedBillGiverDefs/li[text()="ElectricSmelter"]</xpath>
@@ -65,13 +68,16 @@
         </value>
     </Operation>
 
-    <!--<Operation Class="PatchOperationInsert">
+    <Operation Class="PatchOperationConditional">
         <xpath>//recipeUsers/li[text()="ElectricCrematorium"]</xpath>
-        <order>Append</order>
-        <value>
-            <li>AT_RunicFurnace</li>
-        </value>
-    </Operation>-->
+        <match Class="PatchOperationInsert">
+            <xpath>//recipeUsers/li[text()="ElectricCrematorium"]</xpath>
+            <order>Append</order>
+            <value>
+                <li>AT_RunicFurnace</li>
+            </value>
+        </match>
+    </Operation>
 
     <Operation Class="PatchOperationInsert">
         <xpath>//fixedBillGiverDefs/li[text()="ElectricCrematorium"]</xpath>
