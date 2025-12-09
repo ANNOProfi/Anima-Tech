@@ -92,7 +92,7 @@ namespace AnimaTech
             }
             if (!CanUseCommsNow)
             {
-                Log.Error(string.Concat(myPawn, " could not use comm console for unknown reason."));
+                ModLog.Error(string.Concat(myPawn, " could not use comm console for unknown reason."));
                 return new FloatMenuOption("Cannot use now", null);
             }
             return null;

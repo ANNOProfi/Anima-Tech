@@ -7,7 +7,7 @@ namespace AnimaTech
     {
         static Start()
         {
-            Log.Message("Anima Tech loaded successfully!");
+            ModLog.Log("Anima Tech loaded successfully!");
         }
     }
 
