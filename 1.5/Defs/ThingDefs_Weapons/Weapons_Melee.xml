@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="MeleeWeaponUltratech">
+    <defName>AT_RunicSword</defName>
+    <label>runic sword</label>
+    <description>An anima infused sword, with runes that bend reality around its edges, sharpening it to be able to cut at a molecular level.</description>
+    <soundInteract>Interact_MonoSword</soundInteract>
+    <meleeHitSound>MeleeHit_MonoSword</meleeHitSound>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <equippedDistanceOffset>60</equippedDistanceOffset>
+    <relicChance>3</relicChance>
+    <smeltable>false</smeltable>
+    <weaponClasses>
+      <li>MeleePiercer</li>
+    </weaponClasses>
+    <equippedStatOffsets>
+      <PsychicEntropyMax>2</PsychicEntropyMax>
+      <MeditationFocusGain>20</MeditationFocusGain>
+    </equippedStatOffsets>
+    <graphicData>
+      <texPath>AnimaTech/Things/Item/Equipment/WeaponMelee/RunicSword</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tools>
+      <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>1.6</cooldownTime>
+      </li>
+      <li>
+        <label>point</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>25</power>
+        <cooldownTime>2</cooldownTime>
+        <armorPenetration>0.9</armorPenetration>
+      </li>
+      <li>
+        <label>edge</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>25</power>
+        <cooldownTime>2</cooldownTime>
+        <armorPenetration>0.9</armorPenetration>
+      </li>
+    </tools>
+  </ThingDef>
+</Defs>
