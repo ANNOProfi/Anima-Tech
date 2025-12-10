@@ -34,6 +34,8 @@ namespace AnimaTech
             }
         }
 
+        public float techFactor = 1f;
+
         public bool allowImbuement = false;
 
         public bool canToggleImbuement;
@@ -47,6 +49,10 @@ namespace AnimaTech
         public bool isDayTimeGenerator = false;
 
         public bool isNightTimeGenerator = false;
+
+        public bool powerTrader = false;
+
+        public float maximumGenerationRate;
 
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
         {

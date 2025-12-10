@@ -16,6 +16,14 @@ namespace AnimaTech
 
         protected virtual float DesiredFocusGeneration => Props.baseGenerationRate;
 
+        public float GenerationRate
+        {
+            get
+            {
+                return Props.baseGenerationRate;
+            }
+        }
+
         public float reportedFocusGeneration;
 
         public bool allowTransmission = true;
@@ -112,7 +120,7 @@ namespace AnimaTech
             MapComponent.RegisterGenerator(this.parent);
         }
 
-        public override void PostDeSpawn(Map map)
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
             base.PostDeSpawn(map);
             MapComponent.DeregisterGenerator(this.parent);
@@ -128,12 +136,12 @@ namespace AnimaTech
 
         public override string CompInspectStringExtra()
         {
-            if (DebugSettings.godMode && reportedFocusGeneration > 0f)
+            if (DebugSettings.godMode && (reportedFocusGeneration > 0f || Props.powerTrader || Props.isMeditatable))
             {
-                return "AT_PsychicGeneratorGenerationRate".Translate(reportedFocusGeneration.ToString("F1")) + $", Meditation efficiency: {Props.FocusMultiplierCurrentDifficulty.ToString("P")}";
+                return "AT_PsychicGeneratorGenerationRate".Translate(reportedFocusGeneration.ToString("F1")) + $", Meditation efficiency: {(Props.FocusMultiplierCurrentDifficulty*Props.techFactor).ToString("P")}";
             }
 
-            if(reportedFocusGeneration > 0f)
+            if(reportedFocusGeneration > 0f || Props.powerTrader)
             {
                 return "AT_PsychicGeneratorGenerationRate".Translate(reportedFocusGeneration.ToString("F1"));
             }
@@ -142,7 +150,7 @@ namespace AnimaTech
 
         public virtual void UpdateGenerationRate()
         {
-            if(flickComp != null &&!flickComp.SwitchIsOn)
+            if(flickComp != null && !flickComp.SwitchIsOn)
             {
                 reportedFocusGeneration = 0f;
             }
@@ -154,16 +162,16 @@ namespace AnimaTech
 
         public override void CompTick()
         {
-            UpdateGenerationRate();
-
-            if (reportedFocusGeneration == 0f)
-            {
-                return;
-            }
-
             if(ticksUntilNextGeneration < 1)
             {
-                float num = reportedFocusGeneration / 1000f;
+                UpdateGenerationRate();
+
+                if (reportedFocusGeneration == 0f && !Props.powerTrader)
+                {
+                    return;
+                }
+
+                float num = reportedFocusGeneration / (60000f/AT_Utilities.Settings.tickInterval);
 
                 if (num > 0f)
                 {
@@ -178,7 +186,7 @@ namespace AnimaTech
                     }
                 }
 
-                ticksUntilNextGeneration = 60;
+                ticksUntilNextGeneration = AT_Utilities.Settings.tickInterval;
             }
             else
             {
@@ -303,7 +311,7 @@ namespace AnimaTech
                 return false;
             }
 
-            float num = Props.FocusMultiplierCurrentDifficulty * amount * 100;
+            float num = Props.FocusMultiplierCurrentDifficulty * amount * 100 * Props.techFactor;
             if (num > 0f)
             {
                 float num2 = num;

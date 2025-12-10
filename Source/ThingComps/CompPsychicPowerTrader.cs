@@ -36,7 +36,7 @@ namespace AnimaTech
 
         private float focusMaximumCached = 0f;
 
-        public float conversionFactor = 0.5f; //Conversion Focus to Power
+        public float conversionFactor = AT_Utilities.Settings.conversionFactor; //Conversion Power to Focus
 
         public bool automaticMode = false;
 
@@ -60,14 +60,14 @@ namespace AnimaTech
 
                 focusMaximumCached = pylonComp.Network.focusCapacity;
 
+                energyGainRateCached = powerTrader.PowerNet.CurrentEnergyGainRate()/1.6666667E-05f;
+                
+                networkBalanceCached = pylonComp.Network.FocusBalance;
+
                 if(automaticMode)
                 {
                     if(powerTrader.PowerNet != null && pylonComp.Network != null)
                     {
-                        energyGainRateCached = powerTrader.PowerNet.CurrentEnergyGainRate()/1.6666667E-05f;
-                        
-                        networkBalanceCached = pylonComp.Network.FocusBalance;
-                        
                         CalculateFocusPowerTrade(energyGainRateCached, networkBalanceCached);
                     }
                 }
@@ -170,7 +170,14 @@ namespace AnimaTech
 
                 if(neutralizedFocusExcess > 0f)
                 {
-                    consumptionRate = userComp.Props.baseFocusConsumption;
+                    if(neutralizedFocusExcess <= userComp.Props.baseFocusConsumption)
+                    {
+                        consumptionRate = neutralizedFocusExcess-1f;
+                    }
+                    else
+                    {
+                        consumptionRate = userComp.Props.baseFocusConsumption;
+                    }
                 }
                 else
                 {
@@ -185,7 +192,14 @@ namespace AnimaTech
 
                 if(neutralizedGainRate > 0f)
                 {
-                    generationRate = Props.baseGenerationRate;
+                    if(neutralizedGainRate <= Props.baseGenerationRate*conversionFactor)
+                    {
+                        generationRate = (neutralizedGainRate*conversionFactor)-1f;
+                    }
+                    else
+                    {
+                        generationRate = Props.baseGenerationRate;
+                    }
                 }
                 else
                 {
@@ -208,21 +222,23 @@ namespace AnimaTech
             string automatic = base.CompInspectStringExtra();
             if(automaticMode)
             {
-                automatic = automatic + " automatic, ";
+                automatic = automatic + " automatic";
             }
             else
             {
-                automatic = automatic + " not automatic, ";
+                automatic = automatic + " not automatic";
+
+                if(focusToPower)
+                {
+                    automatic = automatic + ", Current Mode: Focus to Power";
+                }
+                else
+                {
+                    automatic = automatic + ", Current Mode: Power to Focus";
+                }
             }
 
-            if(focusToPower)
-            {
-                return automatic + "Current Mode: Focus to Power";
-            }
-            else
-            {
-                return automatic + "Current Mode: Power to Focus";
-            }
+            return automatic;
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()

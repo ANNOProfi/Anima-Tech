@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -9,9 +10,9 @@ namespace AnimaTech
     {
         public CompProperties_PsychicPylon Props => (CompProperties_PsychicPylon)props;
 
-        public PsychicMapComponent mapComponentRef;
+        private PsychicMapComponent mapComponentRef;
 
-        public PsychicNetwork networkRef;
+        private PsychicNetwork networkRef;
 
         public bool isToggledOn = true;
 
@@ -35,12 +36,17 @@ namespace AnimaTech
         {
             get
             {
-                if (networkRef == null)
+                if (isToggledOn && networkRef == null)
                 {
-                    Log.Warning("AT: Manual regen triggered from inside CompPsychicPylon, this shouldn't happen.");
+                    ModLog.Warn("Manual regen triggered from inside CompPsychicPylon, this shouldn't happen.");
                     MapComponent.RegenGrid();
                 }
                 return networkRef;
+            }
+
+            set
+            {
+                networkRef = value;
             }
         }
 
@@ -99,14 +105,14 @@ namespace AnimaTech
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            if (!respawningAfterLoad && Props.disableIfNotInRangeOfNetworkOnSpawn && !MapComponent.NetworkPresentAt(parent.Position))
+            if (!respawningAfterLoad && Props.disableIfNotInRangeOfNetworkOnSpawn && !MapComponent.NetworkPresentAt(parent.Position) && Props.canBeToggled)
             {
                 isToggledOn = false;
             }
             MapComponent.RegisterPylon(this);
         }
 
-        public override void PostDeSpawn(Map map)
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
             base.PostDeSpawn(map);
             MapComponent.DeregisterPylon(this);
@@ -132,7 +138,16 @@ namespace AnimaTech
 
             if (networkRef != null)
             {
-                string text = "AT_PsychicNetworkStorage".Translate(networkRef.focusTotal.ToString("F1"), networkRef.focusCapacity.ToString("F1"), networkRef.generationTotal.ToString("F1"), (0f - networkRef.consumptionTotal).ToString("F1"));
+                string text;
+                if(networkRef.FocusBalance > 0f)
+                {
+                    text = "AT_PsychicNetworkStorage".Translate(networkRef.focusTotal.ToString("F1"), networkRef.focusCapacity.ToString("F1"), $"+"+networkRef.FocusBalance.ToString("F1"));
+                }
+                else
+                {
+                    text = "AT_PsychicNetworkStorage".Translate(networkRef.focusTotal.ToString("F1"), networkRef.focusCapacity.ToString("F1"), networkRef.FocusBalance.ToString("F1"));
+                }
+                
                 if (DebugSettings.godMode)
                 {
                     return text + $"\nDebug: Network ID #{((networkRef == null) ? (-1) : networkRef.networkId)}";
@@ -198,7 +213,7 @@ namespace AnimaTech
             }*/
             if (PylonRadius > 0)
             {
-                GenDraw.DrawRadiusRing(parent.Position, PylonRadius, new Color(0.51f, 0.61f, 0.55f));
+                GenDraw.DrawFieldEdges(Network.cells.ToList(), new Color(0.51f, 0.61f, 0.55f));
             }
         }
     }

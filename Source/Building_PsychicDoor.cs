@@ -24,7 +24,7 @@ namespace AnimaTech
             {
                 if(userComp != null)
                 {
-                    return userComp.IsPoweredOn;
+                    return userComp.IsActive;
                 }
 
                 return false;

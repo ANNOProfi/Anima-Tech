@@ -5,15 +5,13 @@ namespace AnimaTech
 {
     public class CompHeatPusherPsychic : CompHeatPusher
     {
-        protected CompPsychicPylon pylonComp;
+        protected CompPsychicUser userComp;
 
-        protected CompPsychicStorage storageComp;
-
-        protected override bool ShouldPushHeatNow
+        public override bool ShouldPushHeatNow
         {
             get
             {
-                if(!base.ShouldPushHeatNow || !FlickUtility.WantsToBeOn(parent) || (pylonComp != null && pylonComp.Network.IsEmpty) || (storageComp != null && storageComp.IsEmpty))
+                if(!base.ShouldPushHeatNow || !FlickUtility.WantsToBeOn(parent) || (userComp != null && !userComp.IsActive))
                 {
                     return false;
                 }
@@ -25,8 +23,7 @@ namespace AnimaTech
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            pylonComp = parent.GetComp<CompPsychicPylon>();
-            storageComp = parent.GetComp<CompPsychicStorage>();
+            userComp = parent.GetComp<CompPsychicUser>();
         }
     }
 }

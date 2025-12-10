@@ -44,6 +44,14 @@ namespace AnimaTech
 
         private bool isEmpty = true;
 
+        public float FocusBalance
+        {
+            get
+            {
+                return generationTotal - consumptionTotal;
+            }
+        }
+
         public void Clear()
         {
             networkedThings.Clear();
@@ -62,14 +70,14 @@ namespace AnimaTech
                 if (allComp is CompPsychicPylon compPsychicPylon)
                 {
                     pylons.Add(compPsychicPylon);
-                    compPsychicPylon.networkRef = this;
+                    compPsychicPylon.Network = this;
                     result = PopulateAffectedCells(compPsychicPylon);
                 }
                 else if (allComp is CompPsychicGenerator item)
                 {
                     generators.Add(item);
                 }
-                else if (allComp is CompPsychicStorage compPsychicStorage && compPsychicStorage.Props.canBeTransmitted)
+                else if (allComp is CompPsychicStorage compPsychicStorage && (compPsychicStorage.Props.canBeTransmitted || compPsychicStorage.Props.canAcceptTransmitted))
                 {
                     storages.Add(compPsychicStorage);
                 }
@@ -124,7 +132,7 @@ namespace AnimaTech
                 focusTotal = 0f;
                 generationTotal = 0f;
                 consumptionTotal = 0f;
-                foreach (CompPsychicStorage capacitor in storages)
+                foreach (CompPsychicStorage capacitor in storages.Where((CompPsychicStorage capacitor) => capacitor.Props.canBeTransmitted))
                 {
                     focusCapacity += capacitor.FocusCapacity;
                     focusTotal += capacitor.focusStored;
@@ -152,9 +160,12 @@ namespace AnimaTech
                 }
                 foreach (CompPsychicUser user in users)
                 {
-                    consumptionTotal += user.FocusConsumptionPerDay;
+                    if(user.IsUsingNetworkPower)
+                    {
+                        consumptionTotal += user.FocusConsumptionForReading;
+                    }
                 }
-                ticksUntilNextReport = 60;
+                ticksUntilNextReport = AT_Utilities.Settings.tickInterval;
             }
             else
             {
@@ -168,11 +179,11 @@ namespace AnimaTech
         {
             if (networkedThings.Contains(thing))
             {
-                Log.Error($"AT: Attempted to add {thing.def.LabelCap} at {thing.Position} to network {networkId}, but it was already there.");
+                ModLog.Error($"AT: Attempted to add {thing.def.LabelCap} at {thing.Position} to network {networkId}, but it was already there.");
                 return null;
             }
             networkedThings.Add(thing);
-            thing.Map.mapDrawer.MapMeshDirty(thing.PositionHeld, MapMeshFlag.Buildings, regenAdjacentCells: true, regenAdjacentSections: true);
+            thing.Map.mapDrawer.MapMeshDirty(thing.PositionHeld, MapMeshFlagDefOf.Buildings, regenAdjacentCells: true, regenAdjacentSections: true);
             return InitThing(thing);
         }
 
@@ -181,12 +192,12 @@ namespace AnimaTech
             if (networkedThings.Contains(thing))
             {
                 networkedThings.Remove(thing);
-                thing.GetComp<CompPsychicPylon>().networkRef = null;
+                thing.GetComp<CompPsychicPylon>().Network = null;
                 mapComponent.dirty = true;
             }
             else
             {
-                Log.Error($"AT: Attempted to remove {thing.def.LabelCap} at {thing.Position} from network {networkId}, but it wasn't there to begin with.");
+                ModLog.Error($"AT: Attempted to remove {thing.def.LabelCap} at {thing.Position} from network {networkId}, but it wasn't there to begin with.");
             }
         }
 
@@ -225,14 +236,14 @@ namespace AnimaTech
             shuffledStorages.Clear();
             shuffledStorages.AddRange(storages);
             shuffledStorages.Shuffle();
-            foreach (CompPsychicStorage shuffledCapacitor in shuffledStorages)
+            foreach (CompPsychicStorage shuffledCapacitor in shuffledStorages.Where((CompPsychicStorage capacitor) => capacitor.Props.canBeTransmitted))
             {
                 float num2 = Math.Min(shuffledCapacitor.focusStored, num);
                 shuffledCapacitor.DrainFocus(num2);
                 if (float.IsNaN(shuffledCapacitor.focusStored))
                 {
                     shuffledCapacitor.focusStored = 0f;
-                    Log.Error("AT: NAN generated when attempting to draw aether from capacitor");
+                    ModLog.Error(" NAN generated when attempting to draw aether from capacitor");
                 }
                 num -= num2;
                 if (num <= 0f)
@@ -273,13 +284,13 @@ namespace AnimaTech
                     if (float.IsNaN(item.focusStored))
                     {
                         item.focusStored = 0f;
-                        Log.Error("AT: NaN generated while attempting to store focus");
+                        ModLog.Error(" NaN generated while attempting to store focus");
                     }
                     num -= num3;
                 }
                 if (num2 > 1000)
                 {
-                    Log.Warning("AT: Aborting focus storage attempt due to too many attempts");
+                    ModLog.Warn("Aborting focus storage attempt due to too many attempts");
                     return num;
                 }
             }

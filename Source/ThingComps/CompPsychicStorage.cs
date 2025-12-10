@@ -130,7 +130,7 @@ namespace AnimaTech
         {
             get
             {
-                if (pylonComp != null)
+                if (pylonComp != null && pylonComp.isToggledOn)
                 {
                     return !pylonComp.ShouldFormLinks;
                 }
@@ -168,7 +168,7 @@ namespace AnimaTech
             {
                 if (HasFuelOptions)
                 {
-                    if (pylonComp != null)
+                    if (pylonComp != null && pylonComp.isToggledOn)
                     {
                         return !pylonComp.ShouldFormLinks;
                     }
@@ -239,7 +239,7 @@ namespace AnimaTech
             MapComponent.RegisterStorage(this);
         }
 
-        public override void PostDeSpawn(Map map)
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
             base.PostDeSpawn(map);
             MapComponent.DeregisterStorage(this);

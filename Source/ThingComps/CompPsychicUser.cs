@@ -16,9 +16,11 @@ namespace AnimaTech
 
         protected CompPsychicStorage storageComp;
 
+        protected CompPsychicPowerTrader powerTraderComp;
+
         protected int ticksUntilNextCheck;
 
-        protected bool isConsumingPower;
+        protected bool isConsumingStoredPower;
 
         protected bool isConsumingNetworkPower;
 
@@ -26,13 +28,46 @@ namespace AnimaTech
 
         protected bool usedThisTick;
 
-        public virtual float FocusConsumptionPerDay => Props.baseFocusConsumption * consumptionRateFactor;
+        private float focusConsumption = 0f;
 
-        public virtual float FocusConsumptionPerCheck => (float)Props.useTickPeriod * FocusConsumptionPerDay / 60000f;
+        public float FocusConsumption
+        {
+            get
+            {
+                if(!Props.powerTrader)
+                {
+                    return Props.baseFocusConsumption * FocusConsumptionRate;
+                }
 
-        public virtual bool IsPoweredOn => isConsumingPower;
+                return focusConsumption * FocusConsumptionRate;
+            }
 
-        public virtual bool IsUsingNetWorkPower => isConsumingNetworkPower;
+            set
+            {
+                focusConsumption = value;
+            }
+        }
+
+        public float FocusConsumptionForReading
+        {
+            get
+            {
+                if(IsActive)
+                {
+                    return FocusConsumption;
+                }
+                
+                return 0f;
+            }
+        }
+
+        public virtual float FocusConsumptionPerCheck => AT_Utilities.Settings.tickInterval * FocusConsumption / 60000f;
+
+        public virtual bool IsUsingStoredPower => isConsumingStoredPower;
+
+        public virtual bool IsUsingNetworkPower => isConsumingNetworkPower;
+
+        public virtual bool IsActive => (IsUsingStoredPower || IsUsingNetworkPower) && ((Props.consumeOnlyWhenUsed && UsedThisTick) || !Props.consumeOnlyWhenUsed);
 
         public virtual float FocusConsumptionRate => consumptionRateFactor;
 
@@ -49,20 +84,22 @@ namespace AnimaTech
             pylonComp = parent.GetComp<CompPsychicPylon>();
             storageComp = parent.GetComp<CompPsychicStorage>();
             flickableComp = parent.GetComp<CompFlickable>();
+            powerTraderComp = parent.GetComp<CompPsychicPowerTrader>();
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref ticksUntilNextCheck, "ticksUntilNextCheck", 0);
-            Scribe_Values.Look(ref isConsumingPower, "isConsumingPower", defaultValue: false);
+            Scribe_Values.Look(ref isConsumingStoredPower, "isConsumingStoredPower", defaultValue: false);
             Scribe_Values.Look(ref isConsumingNetworkPower, "isConsumingNetworkPower", defaultValue: false);
             Scribe_Values.Look(ref consumptionRateFactor, "consumptionRateFactor", 1f);
+            Scribe_Values.Look(ref usedThisTick, "usedThisTick", defaultValue: false);
         }
 
         public override void CompTick()
         {
-            if(Props.consumeOnlyWhenUsed && !usedThisTick || !flickableComp.SwitchIsOn || Props.baseFocusConsumption == 0f)
+            if((Props.consumeOnlyWhenUsed && !usedThisTick) || (flickableComp != null && !flickableComp.SwitchIsOn) || (FocusConsumption == 0f && !Props.powerTrader))
             {
                 return;
             }
@@ -94,22 +131,22 @@ namespace AnimaTech
             }
             if (num > 0f)
             {
-                if (isConsumingPower)
+                if (isConsumingStoredPower)
                 {
-                    isConsumingPower = false;
+                    isConsumingStoredPower = false;
                     parent.BroadcastCompSignal("AT.PsychicDeviceDectivated");
                 }
-                ticksUntilNextCheck = Props.resetTickPeriod;
+                ticksUntilNextCheck = AT_Utilities.Settings.tickInterval;
                 usedThisTick = false;
             }
-            else
+            if(num <= 0f)
             {
-                if (!isConsumingPower)
+                if (!isConsumingStoredPower)
                 {
-                    isConsumingPower = true;
+                    isConsumingStoredPower = true;
                     parent.BroadcastCompSignal("AT.PsychicDeviceActivated");
                 }
-                ticksUntilNextCheck = Props.useTickPeriod;
+                ticksUntilNextCheck = AT_Utilities.Settings.tickInterval;
                 usedThisTick = false;
             }
         }
@@ -121,12 +158,25 @@ namespace AnimaTech
 
         public override string CompInspectStringExtra()
         {
-            if (IsPoweredOn)
+            if (IsActive)
             {
-                int numTicks = (int)(storageComp.focusStored/FocusConsumptionPerDay*60000);
-                return "AT_PsychicUserRatePerDay".Translate(FocusConsumptionPerDay.ToString("F"), numTicks.ToStringTicksToPeriod());
+                int numTicks;
+                if(storageComp != null && pylonComp == null)
+                {
+                    numTicks = (int)(storageComp.focusStored/FocusConsumption*60000);
+                    return "AT_PsychicUserRatePerDay".Translate(FocusConsumptionForReading.ToString("F1"), numTicks.ToStringTicksToPeriod());
+                }
+                else if(pylonComp == null)
+                {
+                    return "AT_PsychicUser error, no storage or pylon Comp";
+                }
+                return "AT_PsychicUserRatePerDayPylon".Translate(FocusConsumptionForReading.ToString("F1"));
             }
-            return "AT_PsychicUserRatePerDayInactive".Translate(FocusConsumptionPerDay.ToString("F"));
+            if(Props.powerTrader)
+            {
+                return "";
+            }
+            return "AT_PsychicUserRatePerDayInactive".Translate(FocusConsumptionForReading.ToString("F1"));
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()

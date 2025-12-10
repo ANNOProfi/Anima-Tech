@@ -17,15 +17,17 @@ namespace AnimaTech
 
         public float maximumConsumptionRate = 1f;
 
-        public bool canUsePsychicPylon;
+        public bool canUsePsychicPylon = true;
 
         public bool canAdjustConsumptionRate;
 
-        public int useTickPeriod = 60; // = 1sec
+        //public int useTickPeriod = 60; // = 1sec
 
-        public int resetTickPeriod = 120; // = 2sec
+        //public int resetTickPeriod = 120; // = 2sec
 
-        public bool consumeOnlyWhenUsed;
+        public bool consumeOnlyWhenUsed = false;
+
+        public bool powerTrader = false;
 
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
         {

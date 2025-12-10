@@ -125,7 +125,7 @@ namespace AnimaTech
                 {
                     return false;
                 }
-                if(!userComp.IsPoweredOn)
+                if(userComp != null && !userComp.IsActive)
                 {
                     return false;
                 }
@@ -230,6 +230,10 @@ namespace AnimaTech
            }
         }
 
+        Vector3 pos;
+        
+        Matrix4x4 matrix;
+
         public void InitializeOverlay()
         {
             //Log.Message("Initializing Overlay");
@@ -243,15 +247,17 @@ namespace AnimaTech
                 runeDrawSize.x = extension.overlayDrawSize.z;
                 runeDrawSize.z = extension.overlayDrawSize.x;
             }
+
+            pos = DrawPos + extension.overlayDrawOffset;
+            pos.y = AltitudeLayer.Building.AltitudeFor();
+
+            matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
         }
 
         protected void DrawRuneActive()
         {
             if (runeActiveMaterial != null)
             {
-                Vector3 pos = DrawPos + extension.overlayDrawOffset;
-                pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
-                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
                 if(base.Rotation == Rot4.West)
                 {
                     Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeActiveMaterial, 0);
@@ -265,9 +271,6 @@ namespace AnimaTech
         {
             if (runeMeditationMaterial != null)
             {
-                Vector3 pos = DrawPos + extension.overlayDrawOffset;
-                pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
-                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
                 if(base.Rotation == Rot4.West)
                 {
                     Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeMeditationMaterial, 0);
@@ -281,9 +284,6 @@ namespace AnimaTech
         {
             if (runeNetworkMaterial != null)
             {
-                Vector3 pos = DrawPos + extension.overlayDrawOffset;
-                pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
-                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
                 if(base.Rotation == Rot4.West)
                 {
                     Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeNetworkMaterial, 0);
@@ -297,11 +297,6 @@ namespace AnimaTech
         {
             if (!runeStorageMaterial.NullOrEmpty())
             {
-
-                Vector3 pos = DrawPos + extension.overlayDrawOffset;
-                pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
-                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
-
                 if(0<storageComp.focusStored && storageComp.focusStored<=(storageComp.FocusCapacity*0.25))
                 {
                     if(base.Rotation == Rot4.West)
@@ -352,10 +347,6 @@ namespace AnimaTech
 
         protected void DrawAllRunes()
         {
-            Vector3 pos = DrawPos + extension.overlayDrawOffset;
-            pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
-            Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
-
             if (runeActiveMaterial != null)
             {
                 if(base.Rotation == Rot4.West)

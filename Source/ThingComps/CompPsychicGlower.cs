@@ -27,7 +27,7 @@ namespace AnimaTech
                 {
                     return false;
                 }
-                if (PsychicProps.conditionalOnFocusUse && userComp != null && !userComp.IsPoweredOn)
+                if (PsychicProps.conditionalOnFocusUse && userComp != null && !userComp.IsActive)
                 {
                     return false;
                 }
@@ -35,7 +35,7 @@ namespace AnimaTech
                 {
                     return false;
                 }
-                if (PsychicProps.conditionalOnNonEmptyStorage && ((storageComp != null && !storageComp.IsEmpty) || (pylonComp != null && pylonComp.networkRef.IsEmpty)))
+                if (PsychicProps.conditionalOnNonEmptyStorage && ((storageComp != null && !storageComp.IsEmpty) || (pylonComp != null && pylonComp.Network.IsEmpty)))
                 {
                     return false;
                 }
@@ -57,7 +57,7 @@ namespace AnimaTech
             switch (signal)
             {
             case "AT.PsychicNetworkEmpty":
-            case "AT:PsychicNetworkNotEmpty":
+            case "AT.PsychicNetworkNotEmpty":
             case "AT.PsychicDeviceActivated":
             case "AT.PsychicDeviceDeactivated":
             case "AT.PsychicPylonActivated":
