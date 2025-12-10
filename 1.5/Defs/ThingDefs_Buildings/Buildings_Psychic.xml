@@ -155,6 +155,7 @@
         <canTransmitToNetwork>true</canTransmitToNetwork>
         <allowImbuement>true</allowImbuement>
         <canToggleImbuement>true</canToggleImbuement>
+        <techFactor>1.5</techFactor>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicGlower">
         <glowRadius>2.9</glowRadius>
@@ -243,6 +244,7 @@
         <canTransmitToNetwork>true</canTransmitToNetwork>
         <allowImbuement>true</allowImbuement>
         <canToggleImbuement>true</canToggleImbuement>
+        <techFactor>2</techFactor>
       </li>
       <li Class="AnimaTech.CompProperties_PsychicGlower">
         <glowRadius>1.9</glowRadius>
@@ -388,7 +390,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>AT_AstralEngine</defName>
     <label>astral engine</label>
-    <description>The larger cousin of the Solar Engine, works in it's literal shadow, gathering the psychic energy of far away stars.</description>
+    <description>The smaller cousin of the Solar Engine, works in it's literal shadow, gathering the psychic energy of far away stars.</description>
     <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(2,2)</size>
     <graphicData>
@@ -504,5 +506,191 @@
         <staticRuneGeneratorPath>AnimaTech/Things/Buildings/Psychic/CelestialEngineRunes/CelestialEngineRuneGenerator</staticRuneGeneratorPath>
       </li>
     </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>AT_ElectropsychicConverter</defName>
+    <label>electropsychic converter</label>
+    <description>Converts psychic energies into electric currents. Will only convert when one network has a positive and the other a negative balance.</description>
+    <thingClass>AnimaTech.Building_Psychic</thingClass>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>AnimaTech/Things/Buildings/Psychic/CelestialEngine</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(4,6)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <rotatable>false</rotatable>
+    <designationCategory>AT_Psychic</designationCategory>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.1</Flammability>
+    </statBases>
+    <costList>
+      <Steel>300</Steel>
+      <Gold>90</Gold>
+      <Plasteel>40</Plasteel>
+      <AT_LargeAnimaShard>10</AT_LargeAnimaShard>
+    </costList>
+    <researchPrerequisites>
+      <li>AT_AdvancedPsychicGenerators</li>
+      <li>AT_AdvancedShaping</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <surfaceType>None</surfaceType>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="AnimaTech.CompProperties_PsychicPylon">
+        <pylonRadius>0</pylonRadius>
+        <canBeToggled>false</canBeToggled>
+      </li>
+      <li Class="CompProperties_Power">
+        <transmitsPower>true</transmitsPower>
+        <compClass>CompPowerTrader</compClass>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicUser">
+        <baseFocusConsumption>100</baseFocusConsumption>
+        <canUsePsychicPylon>true</canUsePsychicPylon>
+        <powerTrader>true</powerTrader>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicGenerator">
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <baseGenerationRate>100</baseGenerationRate>
+        <powerTrader>true</powerTrader>
+        <compClass>AnimaTech.CompPsychicPowerTrader</compClass>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <modExtensions>
+      <li Class="AnimaTech.ModExtension_PsychicRune">
+        <overlayDrawSize>(4,0,6)</overlayDrawSize>
+        <staticRuneGeneratorPath>AnimaTech/Things/Buildings/Psychic/CelestialEngineRunes/CelestialEngineRuneGenerator</staticRuneGeneratorPath>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>AT_PsychicScope</defName>
+    <label>psychic scope</label>
+    <description>The ultimate device to gather the energy of stellar objects, the celestial engine combines the aspects of both of its predecessors.</description>
+    <thingClass>AnimaTech.Building_PsychicCommsConsole</thingClass>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>AnimaTech/Things/Buildings/Psychic/CelestialEngine</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(4,6)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <rotatable>false</rotatable>
+    <designationCategory>AT_Psychic</designationCategory>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.1</Flammability>
+    </statBases>
+    <costList>
+      <Steel>300</Steel>
+      <Gold>90</Gold>
+      <Plasteel>40</Plasteel>
+      <AT_LargeAnimaShard>10</AT_LargeAnimaShard>
+    </costList>
+    <researchPrerequisites>
+      <li>AT_ElectropsychicResonance</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <surfaceType>None</surfaceType>
+    <comps>
+      <li Class="AnimaTech.CompProperties_PsychicPylon">
+        <pylonRadius>0</pylonRadius>
+        <canBeToggled>false</canBeToggled>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicUser">
+        <baseFocusConsumption>100</baseFocusConsumption>
+        <canUsePsychicPylon>true</canUsePsychicPylon>
+      </li>
+      <li Class="CompProperties_AffectedByFacilities">
+        <compClass>AnimaTech.CompNotWithoutFacilities</compClass>
+        <linkableFacilities>
+          <li>MultiAnalyzer</li>
+        </linkableFacilities>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>AT_PsychicTeleporter</defName>
+    <label>psychic teleporter</label>
+    <description>The ultimate device to gather the energy of stellar objects, the celestial engine combines the aspects of both of it's predecessors.</description>
+    <thingClass>AnimaTech.Building_Psychic</thingClass>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>AnimaTech/Things/Buildings/Psychic/CelestialEngine</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(4,6)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <rotatable>false</rotatable>
+    <designationCategory>AT_Psychic</designationCategory>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.1</Flammability>
+    </statBases>
+    <costList>
+      <Steel>300</Steel>
+      <Gold>90</Gold>
+      <Plasteel>40</Plasteel>
+      <AT_LargeAnimaShard>10</AT_LargeAnimaShard>
+    </costList>
+    <researchPrerequisites>
+      <li>AT_ElectropsychicResonance</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <surfaceType>None</surfaceType>
+    <comps>
+      <li Class="AnimaTech.CompProperties_PsychicPylon">
+        <pylonRadius>0</pylonRadius>
+        <canBeToggled>false</canBeToggled>
+      </li>
+      <li Class="AnimaTech.CompProperties_PsychicStorage">
+        <focusCapacity>400</focusCapacity>
+        <canBeTransmitted>false</canBeTransmitted>
+        <canAcceptTransmitted>true</canAcceptTransmitted>
+        <minimumFocusThreshold>400</minimumFocusThreshold>
+      </li>
+      <li Class="AnimaTech.CompProperties_Teleporter">
+        <radius>10</radius>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>AnimaTech.PlaceWorker_ShowPsychicPylons</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
   </ThingDef>
 </Defs>

@@ -27,7 +27,7 @@ namespace AnimaTech
                 {
                     return true;
                 }
-                if((bool)compPsychicPylon?.Network.IsFull() && !compPsychicStorage.CanBeFilled)
+                if(compPsychicPylon != null && compPsychicPylon.isToggledOn && compPsychicPylon.Network.IsFull() && !compPsychicStorage.CanBeFilled)
                 {
                     return true;
                 }

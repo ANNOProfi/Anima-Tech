@@ -19,7 +19,7 @@ namespace AnimaTech
 
             PsychicMapComponent mapComp = pawn.Map.PsychicComp();
 
-            if(mapComp.meditationCache.NullOrEmpty())
+            if(mapComp.meditationCache.NullOrEmpty() || !pawn.HasPsylink)
             {
                 return;
             }
@@ -30,7 +30,7 @@ namespace AnimaTech
                 {
                     continue;
                 }
-                if (item.GetAssignedPawn() != null && item.GetAssignedPawn() != pawn)
+                if (item.GetAssignedPawn() == null || item.GetAssignedPawn() != pawn)
                 {
                     continue;
                 }
@@ -60,7 +60,7 @@ namespace AnimaTech
                         num2 = storageComp.focusStored;
                     }
 
-                    CompPsychicPylon pylonComp = item.TryGetComp<CompPsychicPylon>();
+                    CompPsychicPylon pylonComp = thing.TryGetComp<CompPsychicPylon>();
 
                     if(pylonComp != null && pylonComp.Network != null && num2 > pylonComp.Network.focusTotal)
                     {
@@ -69,7 +69,7 @@ namespace AnimaTech
 
                     if(num2 < num)
                     {
-                        focus = item;
+                        focus = thing;
                         num = num2;
                     }
                 }
@@ -110,9 +110,12 @@ namespace AnimaTech
                 }
             }
 
+            if(focus != __result.focus)
+            {
+                __result.spot = focus.Thing.OccupiedRect().ExpandedBy(2).Where((IntVec3 cell) => !cell.IsForbidden(pawn) && pawn.CanReserveAndReach(cell, PathEndMode.OnCell, pawn.NormalMaxDanger()) && cell.Standable(pawn.Map) && cell != focus.Thing.InteractionCell).RandomElementWithFallback(IntVec3.Invalid);
+            }
+
             __result.focus = focus;
-            
-            __result.spot = focus.Thing.OccupiedRect().ExpandedBy(2).Where((IntVec3 cell) => !cell.IsForbidden(pawn) && pawn.CanReserveAndReach(cell, PathEndMode.OnCell, pawn.NormalMaxDanger()) && cell.Standable(pawn.Map) && cell != focus.Thing.InteractionCell).RandomElementWithFallback(IntVec3.Invalid);
         }
     }
 }

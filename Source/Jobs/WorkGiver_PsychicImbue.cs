@@ -31,7 +31,7 @@ namespace AnimaTech
             {
                 return false;
             }
-            if((pylonComp != null && pylonComp.Network.IsFull()) || (storageComp != null && storageComp.IsFull))
+            if((pylonComp != null && pylonComp.isToggledOn && pylonComp.Network.IsFull()) || (storageComp != null && storageComp.IsFull))
             {
                 return false;
             }

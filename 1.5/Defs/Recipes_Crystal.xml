@@ -28,7 +28,7 @@
 
     <RecipeDef>
         <defName>AT_CrystalizeAnimaShard</defName>
-        <label>crystalize anima shard</label>
+        <label>crystalize anima shard x3</label>
         <description>Concentrate the local psychic forces to crystallize into a shard.</description>
         <jobString>Crystalizing anima shard.</jobString>
         <workAmount>5000</workAmount>
@@ -90,6 +90,7 @@
         <workSkill>Intellectual</workSkill>
         <skillRequirements>
             <Intellectual>10</Intellectual>
+            <Crafting>10</Crafting>
         </skillRequirements>
         <recipeUsers>
             <li>AT_TableCrystalShaper</li>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -22,6 +23,10 @@ namespace AnimaTech
         public List<ThingWithComps> imbuementCache = new List<ThingWithComps>();
 
         public List<ThingWithComps> meditationCache = new List<ThingWithComps>();
+
+        public List<ThingWithComps> facilityEnablerCache = new List<ThingWithComps>();
+
+        public List<ThingWithComps> facilityUserCache = new List<ThingWithComps>();
 
         public Dictionary<IntVec3, CompPsychicPylon> pylonsByLocation = new Dictionary<IntVec3, CompPsychicPylon>();
 
@@ -115,23 +120,23 @@ namespace AnimaTech
             dirty = false;
         }
 
-        private void InitLink(CompPsychicPylon link, bool onlyEnable = false)
+        private void InitLink(CompPsychicPylon pylon, bool onlyEnable = false)
         {
-            ThingWithComps parent = link.parent;
+            ThingWithComps parent = pylon.parent;
             if (pylonsByLocation.ContainsKey(parent.Position))
             {
                 if (!onlyEnable)
                 {
-                    Log.Error($"Link overlap detected at {parent.Position}.");
+                    ModLog.Error($"Pylon overlap detected at {parent.Position}.");
                     return;
                 }
             }
             else
             {
-                pylonsByLocation[parent.Position] = link;
+                pylonsByLocation[parent.Position] = pylon;
             }
-            //link.edges.Clear();
-            if (!link.ShouldFormLinks)
+            //pylon.edges.Clear();
+            if (!pylon.ShouldFormLinks)
             {
                 return;
             }
@@ -162,7 +167,7 @@ namespace AnimaTech
                 psychicNetwork = CreateNewNetwork();
                 enumerable = psychicNetwork.AddThing(parent);
             }
-            JoinToLinksInRange(link, psychicNetwork, enumerable);
+            JoinToLinksInRange(pylon, psychicNetwork, enumerable);
             if (enumerable != null)
             {
                 UpdateCellsFromNetwork(psychicNetwork, enumerable);
@@ -170,34 +175,34 @@ namespace AnimaTech
             //edges.UnionWith(psychicNetwork.edges);
         }
 
-        protected void JoinToLinksInRange(CompPsychicPylon link, PsychicNetwork parentNetwork = null, IEnumerable<IntVec3> affectedCells = null)
+        protected void JoinToLinksInRange(CompPsychicPylon pylon, PsychicNetwork parentNetwork = null, IEnumerable<IntVec3> affectedCells = null)
         {
             if (parentNetwork == null)
             {
-                if (link.networkRef == null)
+                if (pylon.Network == null)
                 {
                     return;
                 }
-                parentNetwork = link.networkRef;
+                parentNetwork = pylon.Network;
             }
             if (affectedCells == null)
             {
-                affectedCells = link.GetAffectedCells();
+                affectedCells = pylon.GetAffectedCells();
             }
             foreach (IntVec3 affectedCell in affectedCells)
             {
-                if (pylonsByLocation.TryGetValue(affectedCell, out var value) && value != link && value.ShouldFormLinks && !parentNetwork.Equals(value.networkRef))
+                if (pylonsByLocation.TryGetValue(affectedCell, out var value) && value != pylon && value.ShouldFormLinks && !parentNetwork.Equals(value.Network))
                 {
-                    MergeNetworks(parentNetwork, value.networkRef);
+                    MergeNetworks(parentNetwork, value.Network);
                 }
             }
         }
 
-        private void RemoveLink(CompPsychicPylon link, bool onlyDisable = false)
+        private void RemoveLink(CompPsychicPylon pylon, bool onlyDisable = false)
         {
-            ThingWithComps parent = link.parent;
-            link.networkRef?.RemoveThing(parent);
-            if (!onlyDisable && pylonsByLocation[parent.Position] == link)
+            ThingWithComps parent = pylon.parent;
+            pylon.Network?.RemoveThing(parent);
+            if (!onlyDisable && pylonsByLocation[parent.Position] == pylon)
             {
                 pylonsByLocation.Remove(parent.Position);
             }
@@ -233,7 +238,7 @@ namespace AnimaTech
                     HashSet<PsychicNetwork> hashSet = networkGrid[num];
                     if (hashSet == null)
                     {
-                        hashSet = (networkGrid[num] = new HashSet<PsychicNetwork>());
+                        hashSet = networkGrid[num] = new HashSet<PsychicNetwork>();
                     }
                     hashSet.Add(network);
                 }
@@ -245,7 +250,7 @@ namespace AnimaTech
         {
             if (pylonCache.Contains(pylon) && !onlyEnable)
             {
-                Log.Error($"AT: Attempted to register a new psychic pylon at {pylon.parent.Position}, but it was already in the cache.");
+                ModLog.Error($"AT: Attempted to register a new psychic pylon at {pylon.parent.Position}, but it was already in the cache.");
                 return;
             }
             if (!pylonCache.Contains(pylon))
@@ -259,7 +264,7 @@ namespace AnimaTech
         {
             if (!pylonCache.Contains(pylon))
             {
-                Log.Error($"AT: Attempted to deregister a psychic pylon at {pylon.parent.Position}, but it wasn't in the cache.");
+                ModLog.Error($"AT: Attempted to deregister a psychic pylon at {pylon.parent.Position}, but it wasn't in the cache.");
                 return;
             }
             RemoveLink(pylon, onlyDisable);
@@ -273,7 +278,7 @@ namespace AnimaTech
         {
             if (storageCache.Contains(storage))
             {
-                Log.Error($"AT: Attempted to register a new psychic storage at {storage.parent.Position}, but it was already in the cache.");
+                ModLog.Error($"AT: Attempted to register a new psychic storage at {storage.parent.Position}, but it was already in the cache.");
             }
             else
             {
@@ -289,7 +294,7 @@ namespace AnimaTech
             }
             else
             {
-                Log.Error($"AT: Attempted to deregister a psychic storage at {storage.parent.Position}, but it wasn't in the cache.");
+                ModLog.Error($"AT: Attempted to deregister a psychic storage at {storage.parent.Position}, but it wasn't in the cache.");
             }
         }
 
@@ -297,7 +302,7 @@ namespace AnimaTech
         {
             if(imbuementCache.Contains(generator) || meditationCache.Contains(generator))
             {
-                Log.Error($"AT: Attempted to register a new psychic generator at {generator.Position}, but it was already in the cache.");
+                ModLog.Error($"AT: Attempted to register a new psychic generator at {generator.Position}, but it was already in the cache.");
             }
             else
             {
@@ -323,7 +328,7 @@ namespace AnimaTech
                 }
                 else
                 {
-                    Log.Error($"AT: Attempted to deregister a psychic imbuement generator at {generator.Position}, but it wasn't in the cache.");
+                    ModLog.Error($"AT: Attempted to deregister a psychic imbuement generator at {generator.Position}, but it wasn't in the cache.");
                 }
             }
 
@@ -335,7 +340,7 @@ namespace AnimaTech
                 }
                 else
                 {
-                    Log.Error($"AT: Attempted to deregister a psychic meditation generator at {generator.Position}, but it wasn't in the cache.");
+                    ModLog.Error($"AT: Attempted to deregister a psychic meditation generator at {generator.Position}, but it wasn't in the cache.");
                 }
             }
         }

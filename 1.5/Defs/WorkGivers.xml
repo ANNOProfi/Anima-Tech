@@ -31,4 +31,18 @@
     </requiredCapacities>
     <prioritizeSustains>true</prioritizeSustains>
   </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>AT_HaulToAutomaticProcessor</defName>
+    <label>haul to automatic processor</label>
+    <giverClass>AnimaTech.WorkGiver_HaulToAutomaticProcessor</giverClass>
+    <workType>Hauling</workType>
+    <verb>haul</verb>
+    <gerund>hauling to</gerund>
+    <priorityInType>140</priorityInType>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
 </Defs>
