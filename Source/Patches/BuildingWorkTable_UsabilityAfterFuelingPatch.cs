@@ -9,16 +9,15 @@ namespace AnimaTech
     [HarmonyPatch("UsableForBillsAfterFueling")]
     public class BuildingWorkTable_UsabilityAfterFuelingPatch
     {
-        private static bool Postfix(bool result, ref Building_WorkTable __instance)
+        private static void Postfix(ref Building_WorkTable __instance, ref bool __result)
         {
             CompPsychicStorage compPsychicStorage = __instance.GetComp<CompPsychicStorage>();
-            CompPsychicUser compPsychicUser = __instance.GetComp<CompPsychicUser>();
+            CompPsychicPylon compPsychicPylon = __instance.GetComp<CompPsychicPylon>();
 
-            if ((!(compPsychicStorage == null) && (!compPsychicStorage.HasMinimumFocus)) || (!(compPsychicUser == null) && (!compPsychicUser.IsUsingNetWorkPower)))
+            if ((!(compPsychicStorage == null) && (!compPsychicStorage.HasMinimumFocus) && !(compPsychicPylon == null) && (!compPsychicPylon.isToggledOn)) || compPsychicPylon.Network.IsEmpty || !compPsychicPylon.Network.HasFocus(compPsychicStorage.Props.minimumFocusThreshold))
             {
-                return false;
+                __result = false;
             }
-            return result;
         }
     }
 }
