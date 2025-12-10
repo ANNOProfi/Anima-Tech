@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <loadFolders>
-    <v1.5>
-		<li>/</li>
-		<li>1.5</li>
+    <v1.6>
+		<li>Common</li>
+		<li>1.6</li>
 	
-		<li IfModActive="VanillaExpanded.VPsycastsE">1.5/Mods/VPE</li>	
-	</v1.5>
+		<li IfModActive="VanillaExpanded.VPsycastsE">Compatibility\VPE\1.6</li>	
+	</v1.6>
 </loadFolders>
