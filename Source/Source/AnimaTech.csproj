@@ -7,7 +7,7 @@
 		<!-- Modify [RootNamespace], [AssemblyName], [OutputPath], [VersionPrefix] -->
 		<RootNamespace>AnimaTech</RootNamespace>
 		<AssemblyName>AnimaTech</AssemblyName>
-		<OutputPath>../../1.5/Assemblies</OutputPath>
+		<OutputPath>../../1.6/Assemblies</OutputPath>
 		<VersionPrefix>1.0.0.0</VersionPrefix>
 
 		<!-- do not generate pdb file -->
@@ -27,8 +27,7 @@
 			<Private>False</Private>
 		</Reference>
 
-		<Reference Include="BrokenPlankFramework">
-			<HintPath>..\..\..\..\..\..\workshop\content\294100\3431778467\1.5\Assemblies\BrokenPlankFramework.dll</HintPath>
+		<Reference Include="..\..\..\..\..\..\workshop\content\294100\3431778467\1.5\Assemblies\BrokenPlankFramework.dll">
 			<Private>False</Private>
 		</Reference>
 
@@ -38,8 +37,8 @@
 		</Reference>
 
 		<!-- Other Files -->
-		<None Include="../../1.5/Defs/**" LinkBase="Defs" />
-		<None Include="../../1.5/Assemblies/**" LinkBase="Assemblies" />
+		<None Include="../../1.6/Defs/**" LinkBase="Defs" />
+		<None Include="../../1.6/Assemblies/**" LinkBase="Assemblies" />
 		<None Include="../../Textures/**" LinkBase="Textures" />
 	</ItemGroup>
 </Project>
