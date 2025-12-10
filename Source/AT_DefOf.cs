@@ -15,6 +15,16 @@ namespace AnimaTech
 
         public static JobDef PsychicImbuement;
 
+        //public static ThingCategoryDef FoodRaw;
+
         //public static WorkGiverDef PsychicRefuel;
+
+        public static ThingDef AT_ActiveTeleporter;
+
+        public static SoundDef PsycastCastLoop;
+
+        public static PawnsArrivalModeDef AT_CenterTeleport;
+
+        public static PawnsArrivalModeDef AT_EdgeTeleport;
     }
 }

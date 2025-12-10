@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>AT_ActiveTeleporter</defName>
+    <label>active teleporter</label>
+    <thingClass>AnimaTech.ThingActiveTeleporter</thingClass>
+    <tickerType>Normal</tickerType>
+  </ThingDef>
+</Defs>
