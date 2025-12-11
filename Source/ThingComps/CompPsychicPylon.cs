@@ -20,6 +20,12 @@ namespace AnimaTech
 
         public int PylonRadius => Props.pylonRadius;
 
+        protected ModExtension_PsychicRune extension;
+
+        protected Material runeNetworkMaterial;
+
+        protected Vector3 runeDrawSize;
+
         public PsychicMapComponent MapComponent
         {
             get
@@ -102,9 +108,40 @@ namespace AnimaTech
             isToggledOn = Props.defaultToggleState;
         }
 
+        public override void DrawAt(Vector3 drawLoc, bool flip = false)
+        {
+            if (runeNetworkMaterial != null && isToggledOn)
+            {
+                Vector3 pos = parent.DrawPos + extension.overlayDrawOffset;
+                pos += Vector3.up * 0.01f;
+                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+
+                if(parent.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeNetworkMaterial, 0);
+                    return;
+                }
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeNetworkMaterial, 0);
+            }
+        }
+
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
+            
+            extension = parent.def.GetModExtension<ModExtension_PsychicRune>() ?? new ModExtension_PsychicRune();
+
+            if(extension != null)
+            {
+                runeNetworkMaterial = extension.MaterialRuneNetwork(parent);
+                runeDrawSize = extension.overlayDrawSize;
+                if (runeDrawSize.x != runeDrawSize.z && (parent.Rotation == Rot4.East || parent.Rotation == Rot4.West))
+                {
+                    runeDrawSize.x = extension.overlayDrawSize.z;
+                    runeDrawSize.z = extension.overlayDrawSize.x;
+                }
+            }
+
             if (!respawningAfterLoad && Props.disableIfNotInRangeOfNetworkOnSpawn && !MapComponent.NetworkPresentAt(parent.Position) && Props.canBeToggled)
             {
                 isToggledOn = false;

@@ -34,6 +34,14 @@ namespace AnimaTech
 
         public CompProperties_PsychicGenerator Props => (CompProperties_PsychicGenerator)props;
 
+        protected ModExtension_PsychicRune extension;
+
+        protected Vector3 runeDrawSize;
+
+        protected Material[] runeGeneratorMaterial = new Material[5];
+
+        protected Material runeMeditationMaterial;
+
         public bool CanTransmit
         {
             get
@@ -109,6 +117,47 @@ namespace AnimaTech
                 return mapComponentRef;
             }
         }
+        
+        public override void DrawAt(Vector3 drawLoc, bool flip = false)
+        {
+            Vector3 pos = parent.DrawPos + extension.overlayDrawOffset;
+            pos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
+            Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+
+            if (!runeGeneratorMaterial.NullOrEmpty() && reportedFocusGeneration > 0f)
+            {
+                if(0f<reportedFocusGeneration && reportedFocusGeneration<=(GenerationRate*0.25f))
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[0], 0);
+                }
+                else if((GenerationRate*0.25f)<reportedFocusGeneration && reportedFocusGeneration<=(GenerationRate*0.5f))
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[1], 0);
+                }
+                else if((GenerationRate*0.5f)<reportedFocusGeneration && reportedFocusGeneration<=(GenerationRate*0.75f))
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[2], 0);
+                }
+                else if((GenerationRate*0.75f)<reportedFocusGeneration && reportedFocusGeneration<(GenerationRate*0.995f))
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[3], 0);
+                }
+                else
+                {
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeGeneratorMaterial[4], 0);
+                }
+            }
+
+            if (runeMeditationMaterial != null && canMeditate)
+            {
+                if(parent.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeMeditationMaterial, 0);
+                    return;
+                }
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeMeditationMaterial, 0);
+            }
+        }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -116,6 +165,22 @@ namespace AnimaTech
             pylonComp = parent.GetComp<CompPsychicPylon>();
             storageComp = parent.GetComp<CompPsychicStorage>();
             flickComp = parent.GetComp<CompFlickable>();
+
+            extension = parent.def.GetModExtension<ModExtension_PsychicRune>() ?? new ModExtension_PsychicRune();
+
+            if(extension != null)
+            {
+                runeGeneratorMaterial = extension.MaterialRuneGenerator(parent);
+
+                runeMeditationMaterial = extension.MaterialRuneMeditation(parent);
+                
+                runeDrawSize = extension.overlayDrawSize;
+                if (runeDrawSize.x != runeDrawSize.z && (parent.Rotation == Rot4.East || parent.Rotation == Rot4.West))
+                {
+                    runeDrawSize.x = extension.overlayDrawSize.z;
+                    runeDrawSize.z = extension.overlayDrawSize.x;
+                }
+            }
 
             MapComponent.RegisterGenerator(this.parent);
         }

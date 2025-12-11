@@ -5,7 +5,7 @@
     <defName>AT_RunicSmithy</defName>
     <label>runic smithy</label>
     <description>A station for smithing non-mechanical weapons and tools, equipped with heating runes, negating the need for burning precious fuel, as long as they can be kept active.</description>
-    <thingClass>AnimaTech.Building_PsychicWorkTable_HeatPush</thingClass>
+    <thingClass>Building_WorkTable_HeatPush</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Production/RunicSmithy</texPath>
@@ -122,7 +122,7 @@
     <defName>AT_RunicStove</defName>
     <label>runic stove</label>
     <description>A stove with an attached countertop for preparing meals, equipped with heating runes, negating the need for burning precious fuel, as long as they can be kept active.</description>
-    <thingClass>AnimaTech.Building_PsychicWorkTable_HeatPush</thingClass>
+    <thingClass>Building_WorkTable_HeatPush</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Production/RunicStove</texPath>

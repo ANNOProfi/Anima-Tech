@@ -5,7 +5,6 @@
     <defName>AT_SmallPsychicPylon</defName>
     <label>small psychic pylon</label>
     <description>A basic pylon, utilising raw anima shards. It is capable of connecting different psychic machines together, if they are equipped with the right runes, allowing them to share their power.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(1,1)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/SmallPylon</texPath>
@@ -91,7 +90,6 @@
     <defName>AT_MediumPsychicPylon</defName>
     <label>psychic pylon</label>
     <description>An enhanced pylon, possessing longer range and even minor storage capabilities.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(1,1)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/MediumPylon</texPath>
@@ -179,7 +177,6 @@
     <defName>AT_LargePsychicPylon</defName>
     <label>large psychic pylon</label>
     <description>The ultimate pylon, with enormous range and higher storage space.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(2,2)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/LargePylon</texPath>
@@ -268,7 +265,6 @@
     <defName>AT_StorageCrystal</defName>
     <label>storage crystal</label>
     <description>A crystaline structure, uniquely tuned to the storing of psyfocus from a network and distributing it back when needed.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(1,1)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/StorageCrystal</texPath>
@@ -332,7 +328,6 @@
     <defName>AT_SolarEngine</defName>
     <label>solar engine</label>
     <description>Harvest the psychic emanations created by the sun.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(3,3)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/SolarEngine</texPath>
@@ -391,7 +386,6 @@
     <defName>AT_AstralEngine</defName>
     <label>astral engine</label>
     <description>The smaller cousin of the Solar Engine, works in it's literal shadow, gathering the psychic energy of far away stars.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(2,2)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/AstralEngine</texPath>
@@ -450,7 +444,6 @@
     <defName>AT_CelestialEngine</defName>
     <label>celestial engine</label>
     <description>The ultimate device to gather the energy of stellar objects, the celestial engine combines the aspects of both of it's predecessors.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(3,3)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/CelestialEngine</texPath>
@@ -512,7 +505,6 @@
     <defName>AT_ElectropsychicConverter</defName>
     <label>electropsychic converter</label>
     <description>Converts psychic energies into electric currents. Will only convert when one network has a positive and the other a negative balance.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(3,3)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/CelestialEngine</texPath>
@@ -641,7 +633,6 @@
     <defName>AT_PsychicTeleporter</defName>
     <label>psychic teleporter</label>
     <description>The ultimate device to gather the energy of stellar objects, the celestial engine combines the aspects of both of it's predecessors.</description>
-    <thingClass>AnimaTech.Building_Psychic</thingClass>
     <size>(3,3)</size>
     <graphicData>
       <texPath>AnimaTech/Things/Buildings/Psychic/CelestialEngine</texPath>

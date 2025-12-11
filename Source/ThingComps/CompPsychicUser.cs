@@ -28,6 +28,12 @@ namespace AnimaTech
 
         protected bool usedThisTick;
 
+        protected ModExtension_PsychicRune extension;
+        
+        protected Vector3 runeDrawSize;
+
+        protected Material runeActiveMaterial;
+
         private float focusConsumption = 0f;
 
         public float FocusConsumption
@@ -78,6 +84,23 @@ namespace AnimaTech
             consumptionRateFactor = Mathf.Clamp(level, Props.minimumConsumptionRate, Props.maximumConsumptionRate);
         }
 
+        public override void DrawAt(Vector3 drawLoc, bool flip = false)
+        {
+             if (runeActiveMaterial != null && IsActive)
+            {
+                Vector3 pos = parent.DrawPos + extension.overlayDrawOffset;
+                pos += Vector3.up * 0.01f;
+                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+
+                if(parent.Rotation == Rot4.West)
+                {
+                    Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeActiveMaterial, 0);
+                    return;
+                }
+                Graphics.DrawMesh(MeshPool.plane10, matrix, runeActiveMaterial, 0);
+            }
+        }
+
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
@@ -85,6 +108,19 @@ namespace AnimaTech
             storageComp = parent.GetComp<CompPsychicStorage>();
             flickableComp = parent.GetComp<CompFlickable>();
             powerTraderComp = parent.GetComp<CompPsychicPowerTrader>();
+
+            extension = parent.def.GetModExtension<ModExtension_PsychicRune>() ?? new ModExtension_PsychicRune();
+
+            if(extension != null)
+            {
+                runeActiveMaterial = extension.MaterialRuneNetwork(parent);
+                runeDrawSize = extension.overlayDrawSize;
+                if (runeDrawSize.x != runeDrawSize.z && (parent.Rotation == Rot4.East || parent.Rotation == Rot4.West))
+                {
+                    runeDrawSize.x = extension.overlayDrawSize.z;
+                    runeDrawSize.z = extension.overlayDrawSize.x;
+                }
+            }
         }
 
         public override void PostExposeData()

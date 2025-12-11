@@ -38,6 +38,12 @@ namespace AnimaTech
 
         public int selectedFuelIndex;
 
+        protected ModExtension_PsychicRune extension;
+
+        protected Vector3 runeDrawSize;
+
+        protected Material[] runeStorageMaterial = new Material[5];
+
         public PsychicMapComponent MapComponent
         {
             get
@@ -214,6 +220,67 @@ namespace AnimaTech
             return result;
         }
 
+        public override void DrawAt(Vector3 drawLoc, bool flip = false)
+        {
+            if (!runeStorageMaterial.NullOrEmpty() && !IsEmpty)
+            {
+                Vector3 pos = parent.DrawPos + extension.overlayDrawOffset;
+                pos += Vector3.up * 0.01f;
+                Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, runeDrawSize);
+
+                if(0f<focusStored && focusStored<=(FocusCapacity*0.25f))
+                {
+                    if(parent.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[0], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[0], 0);
+                    return;
+                }
+                else if(focusStored<=(FocusCapacity*0.5f))
+                {
+                    if(parent.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[1], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[1], 0);
+                    return;
+                }
+                else if(focusStored<=(FocusCapacity*0.75f))
+                {
+                    if(parent.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[2], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[2], 0);
+                    return;
+                }
+                else if(focusStored<(FocusCapacity*0.995f))
+                {
+                    if(parent.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[3], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[3], 0);
+                    return;
+                }
+                else
+                {  
+                    if(parent.Rotation == Rot4.West)
+                    {
+                        Graphics.DrawMesh(MeshPool.plane10Flip, matrix, runeStorageMaterial[4], 0);
+                        return;
+                    }
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, runeStorageMaterial[4], 0);
+                    return;
+                }
+            }
+        }
+
         public float DrainFocus(float amount)
         {
             float num = Mathf.Min(focusStored, amount);
@@ -230,6 +297,20 @@ namespace AnimaTech
         {
             base.PostSpawnSetup(respawningAfterLoad);
             pylonComp = parent.GetComp<CompPsychicPylon>();
+
+            extension = parent.def.GetModExtension<ModExtension_PsychicRune>() ?? new ModExtension_PsychicRune();
+
+            if(extension != null)
+            {
+                runeStorageMaterial = extension.MaterialRuneStorage(parent);
+                runeDrawSize = extension.overlayDrawSize;
+                if (runeDrawSize.x != runeDrawSize.z && (parent.Rotation == Rot4.East || parent.Rotation == Rot4.West))
+                {
+                    runeDrawSize.x = extension.overlayDrawSize.z;
+                    runeDrawSize.z = extension.overlayDrawSize.x;
+                }
+            }
+            
             //generatorComp = parent.GetComp<CompPsychicGenerator>();
             if (!respawningAfterLoad && (!Props.disableInteractionIfPylonAvailableOnSpawn || !MapComponent.NetworkPresentAt(parent.Position)))
             {

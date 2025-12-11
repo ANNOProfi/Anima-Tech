@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using System.Linq;
 
 namespace AnimaTech
 {
@@ -18,6 +19,8 @@ namespace AnimaTech
         protected HashSet<PsychicNetwork> linkableNetworks = new HashSet<PsychicNetwork>();
 
         protected int cellIndex;
+
+        protected List<IntVec3> cells = new List<IntVec3>();
 
         protected void FindDirectLinks(CompProperties_PsychicPylon props, ThingDef def, IntVec3 center, Rot4 rot)
         {
@@ -48,17 +51,15 @@ namespace AnimaTech
 
         protected void FindNetworkLinks()
         {
+            cells.Clear();
             foreach (PsychicNetwork linkableNetwork in linkableNetworks)
             {
                 //networkEdges.UnionWith(linkableNetwork.edges);
-                foreach (CompPsychicPylon pylon in linkableNetwork.pylons)
-                {
-                    if (pylon.PylonRadius > 0)
-                    {
-                        GenDraw.DrawRadiusRing(pylon.parent.Position, pylon.PylonRadius);
-                    }
-                }
+
+                cells.AddRange(linkableNetwork.cells);
             }
+
+            GenDraw.DrawFieldEdges(cells.ToList(), new Color(0.51f, 0.61f, 0.55f));
         }
 
         /*protected void drawEdges()
@@ -93,7 +94,8 @@ namespace AnimaTech
                 //drawEdges();
                 if (compProperties.pylonRadius > 0)
                 {
-                    GenDraw.DrawRadiusRing(center, compProperties.pylonRadius, new Color(0.67f, 0.80f, 0.70f));
+                    cells.AddRange(GenRadial.RadialCellsAround(center, compProperties.pylonRadius, useCenter: true));
+                    GenDraw.DrawFieldEdges(cells, new Color(0.67f, 0.80f, 0.70f));
                 }
             }
         }
